@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import ProductCard from '../../../components/products/ProductCard.astro';
+import { getCategories, getProducts } from '../../../services/api/publicApi';
+import { useTranslations } from '../../../i18n/utils';
+
+const locale = 'en';
+const t = useTranslations(locale);
+
+const searchUrl = Astro.url.searchParams.get('search') || '';
+const categoryUrl = Astro.url.searchParams.get('category') || '';
+
+const categories = await getCategories(locale);
+const { products } = await getProducts({
+  locale,
+  search: searchUrl,
+  categorySlug: categoryUrl,
+  type: 'local',
+});
+
+const breadcrumbs = [
+  { name: t('nav.home'), url: '/en/' },
+  { name: t('nav.menu'), url: '/en/menu' },
+];
+---
+
+<BaseLayout
+  title="Full Bakery & Pastry Menu"
+  description="Explore our full menu of fresh Ecuadorian bread, allullas, tres leches cakes, cheese empanadas, and artisanal snacks in Orange, NJ."
+  locale={locale}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+
+    <div class="mb-8 space-y-3 text-center sm:text-left">
+      <h1 class="font-serif text-3xl sm:text-5xl font-extrabold text-brand-brown">
+        {t('menu.title')}
+      </h1>
+      <p class="text-brand-brown/80 text-base sm:text-lg max-w-3xl">
+        {t('menu.subtitle')}
+      </p>
+    </div>
+
+    <!-- Search & Filters Toolbar -->
+    <div class="bg-brand-cream-dark/60 p-6 rounded-2xl border border-brand-gold/30 mb-10 space-y-4">
+      <form method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
+        
+        <!-- Search Input -->
+        <div class="sm:col-span-6 relative">
+          <input
+            type="text"
+            name="search"
+            value={searchUrl}
+            placeholder={t('menu.searchPlaceholder')}
+            class="w-full pl-10 pr-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream text-brand-brown focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm"
+          />
+          <span class="absolute left-3.5 top-3.5 text-brand-brown/50">🔍</span>
+        </div>
+
+        <!-- Category Select -->
+        <div class="sm:col-span-4">
+          <select
+            name="category"
+            class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream text-brand-brown focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm"
+            onchange="this.form.submit()"
+          >
+            <option value="">{t('menu.allCategories')}</option>
+            {
+              categories.map((cat) => (
+                <option value={cat.slug[locale]} selected={categoryUrl === cat.slug[locale]}>
+                  {cat.name[locale]}
+                </option>
+              ))
+            }
+          </select>
+        </div>
+
+        <!-- Filter Submit Button -->
+        <div class="sm:col-span-2 flex space-x-2">
+          <button
+            type="submit"
+            class="w-full py-3 px-4 rounded-xl bg-brand-brown text-brand-gold font-bold text-xs hover:bg-brand-brown-dark transition-all text-center"
+          >
+            Filter
+          </button>
+          {
+            (searchUrl || categoryUrl) && (
+              <a
+                href="/en/menu"
+                class="py-3 px-3 rounded-xl bg-brand-gold/20 text-brand-brown font-bold text-xs hover:bg-brand-gold/40 transition-all flex items-center justify-center"
+                title={t('menu.clearFilters')}
+              >
+                ✕
+              </a>
+            )
+          }
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Product Grid or Empty State -->
+    {
+      products.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((product) => (
+            <ProductCard product={product} locale={locale} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-brand-cream-dark/30 rounded-3xl border border-dashed border-brand-brown/30 space-y-4">
+          <div class="text-5xl">🥖</div>
+          <h3 class="font-serif text-2xl font-bold text-brand-brown">{t('menu.noResultsTitle')}</h3>
+          <p class="text-sm text-brand-brown/75 max-w-md mx-auto">{t('menu.noResultsText')}</p>
+          <a
+            href="/en/menu"
+            class="inline-block px-6 py-2.5 rounded-full bg-brand-gold text-brand-brown font-bold text-xs hover:bg-brand-gold-secondary transition-all"
+          >
+            {t('menu.clearFilters')}
+          </a>
+        </div>
+      )
+    }
+
+  </div>
+</BaseLayout>

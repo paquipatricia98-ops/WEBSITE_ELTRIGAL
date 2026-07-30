@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import HeroSection from '../../components/home/HeroSection.astro';
+import FeaturedProducts from '../../components/home/FeaturedProducts.astro';
+import CategoriesGrid from '../../components/home/CategoriesGrid.astro';
+import EcuadorianBreadBlock from '../../components/home/EcuadorianBreadBlock.astro';
+import CustomCakesTeaser from '../../components/home/CustomCakesTeaser.astro';
+import HistoryTeaser from '../../components/home/HistoryTeaser.astro';
+import CakeProcessSteps from '../../components/home/CakeProcessSteps.astro';
+import TestimonialsSection from '../../components/home/TestimonialsSection.astro';
+import FaqSection from '../../components/home/FaqSection.astro';
+import LocationSection from '../../components/home/LocationSection.astro';
+import GalleryTeaser from '../../components/home/GalleryTeaser.astro';
+import FinalCta from '../../components/home/FinalCta.astro';
+import { getBakeryJsonLd } from '../../utils/jsonld';
+
+const locale = 'en';
+const jsonLd = getBakeryJsonLd(locale);
+---
+
+<BaseLayout
+  title="Fresh Ecuadorian Bread & Custom Cakes"
+  description="El Trigal Bakery in Orange, NJ: Authentic flavors of Ecuador, fresh Ambato bread, allullas, cheese empanadas, and custom wedding & birthday cakes."
+  locale={locale}
+  jsonLd={jsonLd}
+>
+  <HeroSection locale={locale} />
+  <FeaturedProducts locale={locale} />
+  <CategoriesGrid locale={locale} />
+  <EcuadorianBreadBlock locale={locale} />
+  <CustomCakesTeaser locale={locale} />
+  <HistoryTeaser locale={locale} />
+  <CakeProcessSteps locale={locale} />
+  <TestimonialsSection locale={locale} />
+  <FaqSection locale={locale} />
+  <LocationSection locale={locale} />
+  <GalleryTeaser locale={locale} />
+  <FinalCta locale={locale} />
+</BaseLayout>

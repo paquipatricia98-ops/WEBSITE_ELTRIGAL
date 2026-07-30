@@ -1,0 +1,37 @@
+---
+import { SITE_CONFIG } from '../../config/site';
+import { useTranslations } from '../../i18n/utils';
+import DoorDashButton from '../ui/DoorDashButton.astro';
+import UberEatsButton from '../ui/UberEatsButton.astro';
+import type { Locale } from '../../types/api';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="py-16 lg:py-24 bg-gradient-to-r from-brand-brown via-brand-brown-dark to-brand-brown text-brand-cream border-t-4 border-brand-gold relative">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-gold leading-tight">
+      {t('home.finalCtaTitle')}
+    </h2>
+    <p class="text-base sm:text-xl text-brand-cream/85 max-w-2xl mx-auto">
+      {t('home.finalCtaText')}
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 pt-4 w-full mx-auto">
+      <a
+        href={SITE_CONFIG.phone.tel}
+        class="px-6 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm sm:text-base hover:bg-brand-gold-secondary shadow-lg transition-all text-center inline-flex items-center space-x-2 shrink-0 min-h-[48px]"
+      >
+        <span>📞</span>
+        <span>{t('nav.callUs')}: {SITE_CONFIG.phone.display}</span>
+      </a>
+      <DoorDashButton size="lg" />
+      <UberEatsButton size="lg" />
+    </div>
+  </div>
+</section>

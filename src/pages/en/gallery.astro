@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import CloudinaryImage from '../../components/ui/CloudinaryImage.astro';
+import { getGallery } from '../../services/api/publicApi';
+
+const locale = 'en';
+const galleryItems = await getGallery(1, 24);
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Gallery', url: '/en/gallery' },
+];
+---
+
+<BaseLayout
+  title="Photo Gallery of Breads & Cakes"
+  description="Explore photos of our artisanal creations: wedding cakes, tres leches, fresh Ecuadorian bread, and party pastries in Orange, NJ."
+  locale={locale}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+
+    <div class="mb-12 space-y-4 text-center sm:text-left">
+      <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+        📸 Visual Gallery
+      </span>
+      <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
+        Our Photo Gallery
+      </h1>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {
+        galleryItems.map((item) => (
+          <div class="group relative rounded-2xl overflow-hidden shadow-warm border border-brand-gold/30 aspect-square bg-brand-brown">
+            <CloudinaryImage
+              src={item.secureUrl}
+              alt={item.altText[locale]}
+              width={600}
+              height={600}
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+              <span class="font-serif font-bold text-brand-gold text-base">
+                {item.title[locale]}
+              </span>
+              <span class="text-xs text-brand-cream/80">
+                {item.altText[locale]}
+              </span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

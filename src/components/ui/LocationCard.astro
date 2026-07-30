@@ -1,0 +1,137 @@
+---
+import { SITE_CONFIG } from '../../config/site';
+import { useTranslations } from '../../i18n/utils';
+import SocialLinks from './SocialLinks.astro';
+import type { Locale } from '../../types/api';
+
+interface Props {
+  locale: Locale;
+  class?: string;
+}
+
+const { locale, class: className = '' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<div class={`w-full bg-brand-brown text-brand-cream p-6 sm:p-8 lg:p-10 rounded-3xl border-2 border-brand-gold/60 shadow-2xl ${className}`}>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 divide-y md:divide-y-0 md:divide-x divide-brand-gold/20">
+    
+    <!-- Column 1: Address & Phone -->
+    <div class="space-y-4 pt-2 md:pt-0 md:pr-4 lg:pr-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-brand-gold/20 border border-brand-gold/40 text-brand-gold flex items-center justify-center font-bold text-lg shrink-0">
+          📍
+        </div>
+        <h3 class="font-serif font-bold text-lg sm:text-xl text-brand-gold leading-snug">
+          {locale === 'es' ? 'Dirección y Contacto' : 'Address & Contact'}
+        </h3>
+      </div>
+      <div class="space-y-3 text-brand-cream/90 text-sm leading-relaxed">
+        <p class="font-medium">
+          {SITE_CONFIG.address.fullFormatted}
+        </p>
+        
+        <div class="space-y-1.5 pt-1">
+          <!-- WhatsApp Phone -->
+          <div>
+            <a
+              href={SITE_CONFIG.phone.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center space-x-2 font-bold text-emerald-400 hover:text-emerald-300 transition-colors text-sm"
+            >
+              <span>💬</span>
+              <span>WhatsApp: {SITE_CONFIG.phone.whatsappDisplay}</span>
+            </a>
+          </div>
+
+          <!-- Business Phone -->
+          <div>
+            <a
+              href={SITE_CONFIG.phone.businessTel}
+              class="inline-flex items-center space-x-2 font-extrabold text-brand-gold hover:text-brand-cream transition-colors text-sm"
+            >
+              <span>📞</span>
+              <span>Llamadas: {SITE_CONFIG.phone.businessDisplay}</span>
+            </a>
+          </div>
+
+          <!-- Email -->
+          <div class="truncate pt-0.5">
+            <a
+              href={`mailto:${SITE_CONFIG.email}`}
+              class="inline-flex items-center space-x-2 font-medium text-brand-cream/80 hover:text-brand-gold text-xs transition-colors truncate"
+            >
+              <span>✉️</span>
+              <span class="truncate">{SITE_CONFIG.email}</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <a
+            href={SITE_CONFIG.address.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center px-4 py-2.5 rounded-xl bg-brand-gold text-brand-brown font-bold text-xs hover:bg-brand-gold-secondary transition-all shadow-md active:scale-95 space-x-1.5"
+          >
+            <span>{locale === 'es' ? 'Abrir en Google Maps' : 'Open in Google Maps'}</span>
+            <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 2: Opening Hours -->
+    <div class="space-y-4 pt-6 md:pt-0 md:px-4 lg:px-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-brand-gold/20 border border-brand-gold/40 text-brand-gold flex items-center justify-center font-bold text-lg shrink-0">
+          🕒
+        </div>
+        <h3 class="font-serif font-bold text-lg sm:text-xl text-brand-gold leading-snug">
+          {t('footer.hoursTitle')}
+        </h3>
+      </div>
+      <div class="space-y-2.5 text-xs sm:text-sm">
+        {SITE_CONFIG.hours.map((h) => (
+          <div class="flex items-center justify-between border-b border-brand-gold/15 pb-2">
+            <span class="font-bold text-brand-gold/90">{h.days[locale]}:</span>
+            <span class="text-brand-cream/95 font-semibold">{h.hours}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Column 3: Service Areas & Social Media -->
+    <div class="space-y-4 pt-6 md:pt-0 md:pl-4 lg:pl-6">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-brand-gold/20 border border-brand-gold/40 text-brand-gold flex items-center justify-center font-bold text-lg shrink-0">
+          🚚
+        </div>
+        <h3 class="font-serif font-bold text-lg sm:text-xl text-brand-gold leading-snug">
+          {locale === 'es' ? 'Áreas Atendidas' : 'Service Areas'}
+        </h3>
+      </div>
+      
+      <!-- Service area pills -->
+      <div class="flex flex-wrap gap-1.5 mb-4">
+        {SITE_CONFIG.serviceAreas.map((area) => (
+          <span class="text-[11px] font-bold bg-brand-gold/15 text-brand-gold border border-brand-gold/30 px-2.5 py-1 rounded-md">
+            {area}
+          </span>
+        ))}
+      </div>
+
+      <!-- Social Links -->
+      <div class="pt-3 border-t border-brand-gold/20">
+        <h4 class="text-[11px] font-bold uppercase tracking-wider text-brand-gold/90 mb-2.5">
+          {locale === 'es' ? 'Síguenos en Redes' : 'Follow Us'}
+        </h4>
+        <SocialLinks size="md" />
+      </div>
+    </div>
+
+  </div>
+</div>

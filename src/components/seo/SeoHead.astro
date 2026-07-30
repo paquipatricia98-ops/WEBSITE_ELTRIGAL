@@ -1,0 +1,88 @@
+---
+import { SITE_CONFIG } from '../../config/site';
+import { getEquivalentRoute } from '../../i18n/utils';
+import type { Locale } from '../../types/api';
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale: Locale;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale,
+  ogImage = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=630&auto=format&fit=crop&q=80',
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+const siteTitle = title
+  ? `${title} | ${SITE_CONFIG.name}`
+  : `${SITE_CONFIG.name} | Pan de Ambato y Pasteles en Orange, NJ`;
+
+const metaDescription = description || SITE_CONFIG.description[locale];
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+
+const currentPath = Astro.url.pathname;
+const esUrl = new URL(getEquivalentRoute(currentPath, 'es'), Astro.site).href;
+const enUrl = new URL(getEquivalentRoute(currentPath, 'en'), Astro.site).href;
+---
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Primary Meta Tags -->
+  <title>{siteTitle}</title>
+  <meta name="title" content={siteTitle} />
+  <meta name="description" content={metaDescription} />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+  <!-- Canonical & Hreflang -->
+  <link rel="canonical" href={canonicalUrl.href} />
+  <link rel="alternate" hreflang="es" href={esUrl} />
+  <link rel="alternate" hreflang="en" href={enUrl} />
+  <link rel="alternate" hreflang="x-default" href={esUrl} />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalUrl.href} />
+  <meta property="og:title" content={siteTitle} />
+  <meta property="og:description" content={metaDescription} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:locale" content={locale === 'es' ? 'es_US' : 'en_US'} />
+  <meta property="og:site_name" content={SITE_CONFIG.name} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={canonicalUrl.href} />
+  <meta property="twitter:title" content={siteTitle} />
+  <meta property="twitter:description" content={metaDescription} />
+  <meta property="twitter:image" content={ogImage} />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Structured Data JSON-LD -->
+  {
+    jsonLd && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(jsonLd)}
+      />
+    )
+  }
+</head>

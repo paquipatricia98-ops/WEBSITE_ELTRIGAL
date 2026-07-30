@@ -1,0 +1,29 @@
+{
+  "name": "website-trigal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.5",
+    "astro": "^5.2.3",
+    "tailwindcss": "^3.4.17",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.4"
+  }
+}

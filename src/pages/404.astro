@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+
+const locale = 'es';
+---
+
+<BaseLayout
+  title="Página No Encontrada (404)"
+  description="La página solicitada no existe en Panadería El Trigal."
+  locale={locale}
+  noindex={true}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center space-y-6">
+    <div class="text-7xl">🥐</div>
+    <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
+      404 - Página No Encontrada
+    </h1>
+    <p class="text-brand-brown/80 text-base sm:text-lg max-w-md mx-auto">
+      Parece que esta página no existe o ha sido movida. ¡Regresa al menú para encontrar tu pan recién horneado favorito!
+    </p>
+    <div class="pt-4 flex justify-center space-x-4">
+      <a
+        href="/es/"
+        class="px-8 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow transition-all"
+      >
+        Ir al Inicio
+      </a>
+      <a
+        href="/es/menu"
+        class="px-8 py-3.5 rounded-full bg-brand-brown text-brand-cream font-bold text-sm hover:bg-brand-brown-dark transition-all border border-brand-gold"
+      >
+        Ver Menú
+      </a>
+    </div>
+  </div>
+</BaseLayout>

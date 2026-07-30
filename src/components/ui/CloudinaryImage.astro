@@ -1,0 +1,39 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  class?: string;
+  aspectRatio?: string;
+  priority?: boolean;
+}
+
+const { src, alt, width = 800, height = 600, class: className = '', aspectRatio, priority = false } = Astro.props;
+
+// Build Cloudinary auto format and auto quality transformation if URL is Cloudinary
+function getCloudinaryUrl(url: string, targetWidth: number): string {
+  if (url.includes('res.cloudinary.com')) {
+    return url.replace('/upload/', `/upload/f_auto,q_auto,w_${targetWidth}/`);
+  }
+  return url;
+}
+
+const srcSmall = getCloudinaryUrl(src, 400);
+const srcMedium = getCloudinaryUrl(src, 800);
+const srcLarge = getCloudinaryUrl(src, 1200);
+const srcSet = `${srcSmall} 400w, ${srcMedium} 800w, ${srcLarge} 1200w`;
+---
+
+<img
+  src={srcMedium}
+  srcset={srcSet}
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+  alt={alt}
+  width={width}
+  height={height}
+  loading={priority ? 'eager' : 'lazy'}
+  decoding={priority ? 'sync' : 'async'}
+  class={`object-cover ${className}`}
+  style={aspectRatio ? `aspect-ratio: ${aspectRatio};` : undefined}
+/>

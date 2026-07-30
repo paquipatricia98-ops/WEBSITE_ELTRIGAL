@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+
+const locale = 'en';
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Privacy Policy', url: '/en/privacy' },
+];
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="Privacy Policy for Panadería y Pastelería El Trigal LLC."
+  locale={locale}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown mb-6">
+      Privacy Policy
+    </h1>
+    <div class="prose prose-brand text-brand-brown/85 space-y-4 text-sm leading-relaxed">
+      <p>At Panadería y Pastelería El Trigal LLC, we respect and protect customer privacy.</p>
+      <p>Personal details collected via contact and custom cake quote forms (name, phone, email) are strictly used to coordinate orders and fulfill inquiries.</p>
+      <p>We do not sell or share personal data with unauthorized third parties.</p>
+    </div>
+  </div>
+</BaseLayout>

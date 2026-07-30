@@ -1,0 +1,39 @@
+---
+import type { Locale } from '../../types/api';
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+  locale: Locale;
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="py-3 px-4 bg-brand-cream-dark/50 rounded-lg mb-6 border border-brand-gold/20 text-xs sm:text-sm">
+  <ol class="flex flex-wrap items-center space-x-2 text-brand-brown/80">
+    {
+      items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        return (
+          <li class="flex items-center space-x-2">
+            {index > 0 && <span class="text-brand-gold font-bold select-none">/</span>}
+            {isLast ? (
+              <span class="font-bold text-brand-brown truncate max-w-[200px] sm:max-w-xs" aria-current="page">
+                {item.name}
+              </span>
+            ) : (
+              <a href={item.url} class="hover:text-brand-gold transition-colors font-medium">
+                {item.name}
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>

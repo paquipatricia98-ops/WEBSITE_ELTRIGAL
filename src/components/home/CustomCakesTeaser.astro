@@ -1,0 +1,92 @@
+---
+import { useTranslations } from '../../i18n/utils';
+import CloudinaryImage from '../ui/CloudinaryImage.astro';
+import type { Locale } from '../../types/api';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="py-16 lg:py-24 bg-brand-cream border-t border-brand-gold/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <div class="lg:col-span-6 order-2 lg:order-1">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-4">
+            <div class="rounded-2xl overflow-hidden shadow-warm border-2 border-brand-gold">
+              <CloudinaryImage
+                src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=600&auto=format&fit=crop&q=80"
+                alt="Pastel personalizado de boda El Trigal"
+                width={400}
+                height={500}
+                class="w-full h-56 object-cover"
+              />
+            </div>
+            <div class="bg-brand-gold/10 p-5 rounded-2xl border border-brand-gold/30 text-center">
+              <div class="font-serif font-bold text-3xl text-brand-brown">100%</div>
+              <div class="text-xs font-semibold text-brand-brown/80 uppercase">{locale === 'es' ? 'Diseño a Medida' : 'Custom Tailored'}</div>
+            </div>
+          </div>
+
+          <div class="space-y-4 pt-6">
+            <div class="bg-brand-brown text-brand-gold p-5 rounded-2xl border border-brand-gold text-center">
+              <div class="font-serif font-bold text-3xl">Tres Leches</div>
+              <div class="text-xs text-brand-cream/80">{locale === 'es' ? 'Receta Estrella' : 'Signature Recipe'}</div>
+            </div>
+            <div class="rounded-2xl overflow-hidden shadow-warm border-2 border-brand-gold">
+              <CloudinaryImage
+                src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&fit=crop&q=80"
+                alt="Pastel personalizado de cumpleaños El Trigal"
+                width={400}
+                height={500}
+                class="w-full h-56 object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 order-1 lg:order-2 space-y-6">
+        <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+          🎂 {locale === 'es' ? 'Pastelería Fina Artesanal' : 'Fine Artisanal Cake Design'}
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-brown leading-tight">
+          {t('home.customCakesTitle')}
+        </h2>
+        <p class="text-base sm:text-lg text-brand-brown/80 leading-relaxed">
+          {t('home.customCakesText')}
+        </p>
+
+        <ul class="space-y-3 text-sm text-brand-brown font-semibold">
+          <li class="flex items-center space-x-3">
+            <span class="w-6 h-6 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xs font-bold">✓</span>
+            <span>{locale === 'es' ? 'Bizcochos de tres leches, maracuyá, chocolate y vainilla fina.' : 'Tres leches, passion fruit, chocolate, and vanilla cake bases.'}</span>
+          </li>
+          <li class="flex items-center space-x-3">
+            <span class="w-6 h-6 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xs font-bold">✓</span>
+            <span>{locale === 'es' ? 'Rellenos gourmet: manjar/dulce de leche, frutos rojos, crema diplomática.' : 'Gourmet fillings: dulce de leche, berries, diplomat cream.'}</span>
+          </li>
+          <li class="flex items-center space-x-3">
+            <span class="w-6 h-6 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xs font-bold">✓</span>
+            <span>{locale === 'es' ? 'Decoración personalizada con fondant o merengue italiano.' : 'Custom decoration in fondant or Italian meringue.'}</span>
+          </li>
+        </ul>
+
+        <div class="pt-2">
+          <a
+            href={locale === 'es' ? '/es/pasteles-personalizados' : '/en/custom-cakes'}
+            class="inline-block px-8 py-4 rounded-full bg-brand-brown text-brand-cream font-bold text-base hover:bg-brand-brown-dark border-2 border-brand-gold shadow-lg transition-all"
+          >
+            {t('home.customCakesCta')} →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

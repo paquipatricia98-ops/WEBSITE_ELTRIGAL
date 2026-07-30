@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import ContactForm from '../../components/forms/ContactForm.astro';
+import LocationCard from '../../components/ui/LocationCard.astro';
+import { SITE_CONFIG } from '../../config/site';
+
+const locale = 'en';
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Contact', url: '/en/contact' },
+];
+---
+
+<BaseLayout
+  title="Contact Us & Store Location in Orange, NJ"
+  description="Get in touch with El Trigal Bakery in Orange, NJ. Address, phone (347) 842-9351, operating hours, and message form."
+  locale={locale}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+
+    <!-- PAGE HEADER (Centered above grid) -->
+    <div class="text-center max-w-3xl mx-auto space-y-3">
+      <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+        ✉️ We Are Here to Help
+      </span>
+      <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
+        Contact Us
+      </h1>
+      <p class="text-brand-brown/85 text-base sm:text-lg leading-relaxed">
+        Have questions about our baked goods, custom orders, or allergens? Send us a message or visit our bakery in Orange, NJ.
+      </p>
+    </div>
+
+    <!-- TOP ROW: Form (Left) & Map + Directions (Right) ALIGNED SIDE-BY-SIDE -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+      
+      <!-- Left Column: Contact Form Card -->
+      <div class="w-full h-full">
+        <ContactForm locale={locale} />
+      </div>
+
+      <!-- Right Column: Interactive Google Maps Embed + Direct Directions Button -->
+      <div class="w-full flex flex-col justify-between space-y-4 h-full">
+        <div class="w-full bg-brand-cream rounded-3xl border-2 border-brand-gold/40 shadow-2xl overflow-hidden flex-grow min-h-[400px] relative">
+          <iframe
+            title="El Trigal Bakery Location in Orange NJ"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.7339174092496!2d-74.2351239234241!3d40.77531773419016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3a3287063c467%3A0xb366b26d843818e9!2s23%20S%20Essex%20Ave%2C%20Orange%2C%20NJ%2007050!5e0!3m2!1ses!2sus!4v1700000000000!5m2!1ses!2sus"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="w-full h-full min-h-[400px]"
+          ></iframe>
+        </div>
+
+        <!-- Direct Directions Button opening Google Maps -->
+        <a
+          href={SITE_CONFIG.address.googleMapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full py-3.5 px-6 rounded-2xl bg-brand-gold text-brand-brown font-extrabold text-sm sm:text-base hover:bg-brand-gold-secondary transition-all shadow-lg hover:shadow-xl active:scale-98 flex items-center justify-center space-x-2 border border-brand-gold-secondary/30 shrink-0"
+          aria-label="Get directions on Google Maps"
+        >
+          <svg class="w-5 h-5 fill-current shrink-0 text-brand-brown" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <span>📍 Get Directions (Google Maps)</span>
+          <svg class="w-4 h-4 shrink-0 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM ROW: 3-Column Info Card (Address, Hours, Service Areas & Social) -->
+    <div class="pt-4">
+      <LocationCard locale={locale} />
+    </div>
+
+  </div>
+</BaseLayout>

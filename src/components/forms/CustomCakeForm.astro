@@ -1,0 +1,339 @@
+---
+import { useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../types/api';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const today = new Date().toISOString().split('T')[0];
+const maxDate = new Date();
+maxDate.setDate(maxDate.getDate() + 730);
+const maxDateStr = maxDate.toISOString().split('T')[0];
+---
+
+<div id="cotizar" class="bg-brand-cream p-6 sm:p-10 rounded-3xl border-2 border-brand-gold/30 shadow-2xl">
+  <div class="mb-8 text-center sm:text-left space-y-2">
+    <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+      🎂 {locale === 'es' ? 'Cotización en Línea' : 'Online Quote'}
+    </span>
+    <h2 class="font-serif text-3xl font-bold text-brand-brown">
+      {t('cakeForm.title')}
+    </h2>
+    <p class="text-xs sm:text-sm text-brand-brown/80">
+      {locale === 'es'
+        ? 'Completa los detalles de tu evento y te contactaremos en menos de 24 horas con la cotización exacta.'
+        : 'Fill in your event details and we will get back to you within 24 hours with an exact quote.'}
+    </p>
+  </div>
+
+  <!-- Global Alert Banner -->
+  <div id="cake-alert" class="hidden mb-6 p-4 rounded-xl text-sm font-semibold" role="alert"></div>
+
+  <form id="cake-form" class="space-y-6" novalidate>
+    <input type="hidden" name="locale" value={locale} />
+    
+    <!-- Honeypot -->
+    <div class="hidden" aria-hidden="true">
+      <label for="cake-website">Leave this field blank</label>
+      <input type="text" id="cake-website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <!-- Contact Info Section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div>
+        <label for="cake-customerName" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.customerName')}
+        </label>
+        <input
+          type="text"
+          id="cake-customerName"
+          name="customerName"
+          required
+          minlength="2"
+          maxlength="80"
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+          placeholder="Ej: Carlos Villacís"
+        />
+        <span id="cake-error-customerName" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+
+      <div>
+        <label for="cake-email" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.email')}
+        </label>
+        <input
+          type="email"
+          id="cake-email"
+          name="email"
+          required
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+          placeholder="ejemplo@correo.com"
+        />
+        <span id="cake-error-email" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+    </div>
+
+    <!-- Phone & Event Date -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div>
+        <label for="cake-phone" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.phone')}
+        </label>
+        <input
+          type="tel"
+          id="cake-phone"
+          name="phone"
+          required
+          inputmode="tel"
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+          placeholder="(347) 842-9351"
+        />
+        <span id="cake-error-phone" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+
+      <div>
+        <label for="cake-eventDate" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.eventDate')}
+        </label>
+        <input
+          type="date"
+          id="cake-eventDate"
+          name="eventDate"
+          required
+          min={today}
+          max={maxDateStr}
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+        />
+        <span id="cake-error-eventDate" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+    </div>
+
+    <!-- Event Type & Servings -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div>
+        <label for="cake-eventType" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.eventType')}
+        </label>
+        <select
+          id="cake-eventType"
+          name="eventType"
+          required
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+        >
+          <option value="birthday">{t('eventType.birthday')}</option>
+          <option value="baptism">{t('eventType.baptism')}</option>
+          <option value="communion">{t('eventType.communion')}</option>
+          <option value="confirmation">{t('eventType.confirmation')}</option>
+          <option value="wedding">{t('eventType.wedding')}</option>
+          <option value="graduation">{t('eventType.graduation')}</option>
+          <option value="corporate">{t('eventType.corporate')}</option>
+          <option value="other">{t('eventType.other')}</option>
+        </select>
+        <span id="cake-error-eventType" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+
+      <div>
+        <label for="cake-servings" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.servings')}
+        </label>
+        <input
+          type="number"
+          id="cake-servings"
+          name="servings"
+          required
+          min="1"
+          max="500"
+          step="1"
+          inputmode="numeric"
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+          placeholder="Ej: 25"
+        />
+        <span id="cake-error-servings" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+    </div>
+
+    <!-- Flavor & Filling -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div>
+        <label for="cake-flavor" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.flavor')}
+        </label>
+        <input
+          type="text"
+          id="cake-flavor"
+          name="flavor"
+          maxlength="80"
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+          placeholder="Ej: Tres Leches, Vainilla, Chocolate"
+        />
+        <span id="cake-error-flavor" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+
+      <div>
+        <label for="cake-filling" class="block text-sm font-bold text-brand-brown mb-1">
+          {t('cakeForm.filling')}
+        </label>
+        <input
+          type="text"
+          id="cake-filling"
+          name="filling"
+          maxlength="80"
+          class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+          placeholder="Ej: Manjar, Frutos rojos, Maracuyá"
+        />
+        <span id="cake-error-filling" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+      </div>
+    </div>
+
+    <!-- Theme & Details -->
+    <div>
+      <label for="cake-theme" class="block text-sm font-bold text-brand-brown mb-1">
+        {t('cakeForm.theme')}
+      </label>
+      <input
+        type="text"
+        id="cake-theme"
+        name="theme"
+        maxlength="120"
+        class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+        placeholder="Ej: Temática flores doradas, bautizo blanco y oro"
+      />
+      <span id="cake-error-theme" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+    </div>
+
+    <div>
+      <label for="cake-message" class="block text-sm font-bold text-brand-brown mb-1">
+        {t('cakeForm.message')}
+      </label>
+      <textarea
+        id="cake-message"
+        name="message"
+        rows="3"
+        maxlength="2000"
+        class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream-dark/50 text-brand-brown focus:ring-2 focus:ring-brand-gold focus:border-brand-gold focus:outline-none transition-all text-base"
+        placeholder="Especificaciones adicionales de diseño, pisos, alérgenos..."
+      ></textarea>
+      <span id="cake-error-message" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+    </div>
+
+    <!-- Consent Checkbox -->
+    <div class="flex items-start space-x-3 pt-2">
+      <input
+        type="checkbox"
+        id="cake-consent"
+        name="consent"
+        required
+        class="mt-1 w-5 h-5 text-brand-gold border-brand-brown/30 rounded focus:ring-brand-gold"
+      />
+      <label for="cake-consent" class="text-xs sm:text-sm text-brand-brown font-semibold leading-snug cursor-pointer">
+        {t('cakeForm.consent')}
+      </label>
+    </div>
+    <span id="cake-error-consent" class="text-xs text-red-600 font-semibold mt-1 block hidden"></span>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      id="cake-submit"
+      class="w-full py-4 rounded-xl bg-brand-gold text-brand-brown font-bold text-base hover:bg-brand-gold-secondary shadow-lg transition-all flex items-center justify-center space-x-2"
+    >
+      <span>{t('cakeForm.submit')}</span>
+    </button>
+
+  </form>
+</div>
+
+<script>
+  import { submitCustomCakeRequest } from '../../services/api/publicApi';
+  import { CustomCakeFormSchema } from '../../schemas/forms';
+
+  const form = document.getElementById('cake-form') as HTMLFormElement | null;
+  const alert = document.getElementById('cake-alert');
+  const submitBtn = document.getElementById('cake-submit') as HTMLButtonElement | null;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Clear errors
+      document.querySelectorAll('[id^="cake-error-"]').forEach((el) => {
+        el.classList.add('hidden');
+        el.textContent = '';
+      });
+      if (alert) {
+        alert.classList.add('hidden');
+        alert.className = 'hidden mb-6 p-4 rounded-xl text-sm font-semibold';
+      }
+
+      const formData = new FormData(form);
+      const rawData = {
+        customerName: formData.get('customerName')?.toString() || '',
+        email: formData.get('email')?.toString() || '',
+        phone: formData.get('phone')?.toString() || '',
+        eventDate: formData.get('eventDate')?.toString() || '',
+        eventType: formData.get('eventType')?.toString() || 'birthday',
+        servings: formData.get('servings') ? Number(formData.get('servings')) : NaN,
+        flavor: formData.get('flavor')?.toString() || undefined,
+        filling: formData.get('filling')?.toString() || undefined,
+        theme: formData.get('theme')?.toString() || undefined,
+        message: formData.get('message')?.toString() || undefined,
+        consent: formData.get('consent') === 'on' ? true : false,
+        locale: formData.get('locale')?.toString() || 'es',
+        website: formData.get('website')?.toString() || undefined,
+      };
+
+      const parsed = CustomCakeFormSchema.safeParse(rawData);
+
+      if (!parsed.success) {
+        parsed.error.errors.forEach((err) => {
+          const fieldName = err.path[0];
+          const errEl = document.getElementById(`cake-error-${fieldName}`);
+          if (errEl) {
+            errEl.textContent = err.message;
+            errEl.classList.remove('hidden');
+          }
+        });
+        if (alert) {
+          alert.textContent = 'Por favor verifica los datos ingresados en el formulario.';
+          alert.classList.remove('hidden');
+          alert.classList.add('bg-red-100', 'text-red-800', 'border', 'border-red-300');
+        }
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Enviando solicitud...';
+      }
+
+      try {
+        const res = await submitCustomCakeRequest(parsed.data);
+        if (res.success) {
+          if (alert) {
+            alert.textContent = '¡Solicitud recibida con éxito! Nuestro maestro pastelero te contactará muy pronto.';
+            alert.classList.remove('hidden');
+            alert.classList.add('bg-green-100', 'text-green-800', 'border', 'border-green-300');
+          }
+          form.reset();
+        } else {
+          throw new Error(res.error.message);
+        }
+      } catch {
+        if (alert) {
+          alert.textContent = 'No se pudo enviar la solicitud. Por favor llámanos directamente al (347) 842-9351.';
+          alert.classList.remove('hidden');
+          alert.classList.add('bg-red-100', 'text-red-800', 'border', 'border-red-300');
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar Solicitud de Cotización';
+        }
+      }
+    });
+  }
+</script>

@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import FaqSection from '../../components/home/FaqSection.astro';
+import { getFaqs } from '../../services/api/publicApi';
+import { getFaqJsonLd } from '../../utils/jsonld';
+
+const locale = 'es';
+const faqs = await getFaqs(locale);
+const faqSchema = getFaqJsonLd(faqs, locale);
+
+const breadcrumbs = [
+  { name: 'Inicio', url: '/es/' },
+  { name: 'Preguntas Frecuentes', url: '/es/preguntas-frecuentes' },
+];
+---
+
+<BaseLayout
+  title="Preguntas Frecuentes sobre Pedidos y Pasteles"
+  description="Encuentra respuestas sobre horarios de pan caliente, pedidos por teléfono, entregas por DoorDash y tiempos de anticipación para pasteles en Orange, NJ."
+  locale={locale}
+  jsonLd={faqSchema}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+    <FaqSection locale={locale} />
+  </div>
+</BaseLayout>

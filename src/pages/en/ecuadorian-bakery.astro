@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import ProductCard from '../../components/products/ProductCard.astro';
+import { getLocalProducts } from '../../services/api/publicApi';
+
+const locale = 'en';
+const { products } = await getLocalProducts(locale, 100);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Ecuadorian Bakery', url: '/en/ecuadorian-bakery' },
+];
+---
+
+<BaseLayout
+  title="Fresh Ecuadorian Bread in Orange, NJ"
+  description="Authentic Ambato Ecuadorian bakery in Orange, NJ. Fresh allullas, pan de agua, quesadillas, cheese wind empanadas, and roseros."
+  locale={locale}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+
+    <div class="mb-12 space-y-4 text-center sm:text-left">
+      <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+        🇪🇨 Ambato Tradition in New Jersey
+      </span>
+      <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
+        Artisanal Ecuadorian Bakery
+      </h1>
+      <p class="text-brand-brown/85 text-base sm:text-lg max-w-3xl leading-relaxed">
+        Every morning at 6:00 AM, our ovens start baking to serve authentic Ambato bread. Made with traditional sourdough, fine ingredients, and master baking heritage.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {products.map((p) => (
+        <ProductCard product={p} locale={locale} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

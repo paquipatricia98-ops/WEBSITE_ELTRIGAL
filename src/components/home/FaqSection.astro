@@ -1,0 +1,54 @@
+---
+import { getFaqs } from '../../services/api/publicApi';
+import { useTranslations } from '../../i18n/utils';
+import type { Locale } from '../../types/api';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const faqs = await getFaqs(locale);
+---
+
+<section class="py-16 lg:py-24 bg-brand-cream border-t border-brand-gold/20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+      <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+        ❓ {locale === 'es' ? 'Respuestas Rápidas' : 'Quick Answers'}
+      </span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">
+        {t('home.faqTitle')}
+      </h2>
+    </div>
+
+    <div class="space-y-4">
+      {
+        faqs.map((faq) => (
+          <details class="group bg-brand-cream-dark/60 rounded-xl border border-brand-gold/30 p-6 transition-all [&_summary::-webkit-details-marker]:hidden">
+            <summary class="flex items-center justify-between cursor-pointer focus:outline-none">
+              <h3 class="font-serif font-bold text-lg text-brand-brown group-open:text-brand-gold-secondary">
+                {faq.question[locale]}
+              </h3>
+              <span class="ml-4 shrink-0 transition-transform duration-300 group-open:-rotate-180 text-brand-gold font-bold">
+                ▼
+              </span>
+            </summary>
+            <div class="mt-4 text-sm text-brand-brown/85 leading-relaxed pt-3 border-t border-brand-brown/10">
+              {faq.answer[locale]}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <div class="mt-8 text-center text-xs sm:text-sm text-brand-brown/70">
+      {locale === 'es' ? '¿Tienes otra duda?' : 'Have another question?'}
+      <a href={locale === 'es' ? '/es/contacto' : '/en/contact'} class="font-bold text-brand-brown hover:underline ml-1">
+        {locale === 'es' ? 'Contáctanos directamente' : 'Contact us directly'} →
+      </a>
+    </div>
+  </div>
+</section>

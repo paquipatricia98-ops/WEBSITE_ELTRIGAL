@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../components/layout/BaseLayout.astro';
+
+const locale = 'es';
+---
+
+<BaseLayout
+  title="Error del Servidor (500)"
+  description="Ocurrió un error inesperado."
+  locale={locale}
+  noindex={true}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center space-y-6">
+    <div class="text-7xl">⚠️</div>
+    <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
+      500 - Error Temporal del Servidor
+    </h1>
+    <p class="text-brand-brown/80 text-base sm:text-lg max-w-md mx-auto">
+      Estamos experimentando un inconveniente técnico. Por favor intenta recargar la página o contáctanos por teléfono.
+    </p>
+    <div class="pt-4 flex justify-center space-x-4">
+      <a
+        href="/es/"
+        class="px-8 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow transition-all"
+      >
+        Volver al Inicio
+      </a>
+      <a
+        href="tel:+13478429351"
+        class="px-8 py-3.5 rounded-full bg-brand-brown text-brand-cream font-bold text-sm hover:bg-brand-brown-dark transition-all border border-brand-gold"
+      >
+        Llamar al (347) 842-9351
+      </a>
+    </div>
+  </div>
+</BaseLayout>

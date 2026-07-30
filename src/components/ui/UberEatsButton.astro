@@ -1,0 +1,39 @@
+---
+import { SITE_CONFIG } from '../../config/site';
+
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+  showText?: boolean;
+}
+
+const { size = 'md', class: className = '', showText = true } = Astro.props;
+
+const paddingClasses = {
+  sm: 'px-3 py-1.5 text-xs',
+  md: 'px-4 py-2 text-xs sm:text-sm',
+  lg: 'px-6 py-3.5 text-sm sm:text-base min-h-[48px]',
+}[size];
+
+const iconSizes = {
+  sm: 'w-4 h-4',
+  md: 'w-5 h-5',
+  lg: 'w-6 h-6',
+}[size];
+---
+
+<a
+  href={SITE_CONFIG.ordering.ubereatsUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class={`inline-flex items-center justify-center space-x-1.5 font-black rounded-full bg-[#06C167] text-white hover:bg-[#05a357] transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#06C167] whitespace-nowrap shrink-0 ${paddingClasses} ${className}`}
+  aria-label="Ordenar en Uber Eats de El Trigal"
+  title="Ordenar en Uber Eats"
+>
+  <!-- Official Uber Eats Utensils SVG Icon -->
+  <svg class={`${iconSizes} fill-current shrink-0`} viewBox="0 0 24 24">
+    <path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.46 3.9 3.43 4.38l-.71 7.62h2.56l-.7-7.62C9.54 12.9 11 11.12 11 9zm7-7h-2v18h2V9h2V2h-2zm0 5h-2V4h2v3z"/>
+  </svg>
+  
+  {showText && <span class="whitespace-nowrap tracking-wide font-extrabold uppercase text-[11px] sm:text-xs">UBER EATS</span>}
+</a>

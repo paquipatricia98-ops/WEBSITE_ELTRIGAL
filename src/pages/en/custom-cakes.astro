@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import CustomCakeForm from '../../components/forms/CustomCakeForm.astro';
+import CakeProcessSteps from '../../components/home/CakeProcessSteps.astro';
+import CloudinaryImage from '../../components/ui/CloudinaryImage.astro';
+
+const locale = 'en';
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Custom Cakes', url: '/en/custom-cakes' },
+];
+---
+
+<BaseLayout
+  title="Custom Wedding & Birthday Cakes in Orange, NJ"
+  description="Request a custom cake quote in Orange, NJ. Tres leches cakes, fondant, Italian meringue for baptisms, weddings, and birthdays."
+  locale={locale}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
+      <div class="lg:col-span-6 space-y-6">
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-gold-secondary">
+          🎂 Fine Artisanal Cake Design
+        </span>
+        <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown leading-tight">
+          Bespoke Cakes Crafted Exclusively for Your Celebration
+        </h1>
+        <p class="text-brand-brown/85 text-base sm:text-lg leading-relaxed">
+          At El Trigal, we transform your ideas into edible art. We bake moist tres leches, passion fruit, chocolate, or vanilla cakes with your favorite gourmet fillings and custom styling.
+        </p>
+        <div class="flex flex-wrap gap-3 text-xs font-bold text-brand-brown">
+          <span class="px-3 py-1.5 rounded-lg bg-brand-gold/20 border border-brand-gold/40">✨ Weddings & Quinceañeras</span>
+          <span class="px-3 py-1.5 rounded-lg bg-brand-gold/20 border border-brand-gold/40">✨ Baptisms & First Communions</span>
+          <span class="px-3 py-1.5 rounded-lg bg-brand-gold/20 border border-brand-gold/40">✨ Birthday Parties</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
+          <CloudinaryImage
+            src="https://images.unsplash.com/photo-1535141192574-5d4897c13136?w=900&auto=format&fit=crop&q=80"
+            alt="Artisanal custom cake El Trigal"
+            width={800}
+            height={600}
+            class="w-full h-[400px] object-cover"
+          />
+        </div>
+      </div>
+    </div>
+
+    <CakeProcessSteps locale={locale} />
+
+    <div class="mt-16">
+      <CustomCakeForm locale={locale} />
+    </div>
+  </div>
+</BaseLayout>

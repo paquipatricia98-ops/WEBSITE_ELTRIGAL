@@ -1,0 +1,231 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import ProductCard from '../../components/products/ProductCard.astro';
+import { getImportedProducts } from '../../services/api/publicApi';
+
+const locale = 'en';
+const { products } = await getImportedProducts(locale, 100);
+
+// Map categories from the products returned by the API
+const uniqueCatIds = Array.from(new Set(products.map(p => p.primaryCategory?.id))).filter(Boolean);
+
+const dynamicCategories = [
+  { id: 'todas', label: 'All Categories', icon: '✨' },
+  ...uniqueCatIds.map(catId => {
+    const prod = products.find(p => p.primaryCategory?.id === catId);
+    return {
+      id: prod?.primaryCategory?.slug?.[locale] || catId,
+      label: prod?.primaryCategory?.name?.[locale] || 'Category',
+      icon: '🛒'
+    };
+  })
+];
+
+const categorizedProducts = products.map((p) => ({
+  ...p,
+  catKey: p.primaryCategory?.slug?.[locale] || 'todas',
+}));
+
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Products 🇪🇨', url: '/en/ecuadorian-products' },
+];
+---
+
+<BaseLayout
+  title="Authentic Ecuadorian Products in Orange, NJ | El Trigal"
+  description="Find authentic Ecuadorian products in Orange, NJ: dairy, fresh cheese, manjar, Manabí chocolates, Loja coffee, and plantain chips."
+  locale={locale}
+>
+  <div class="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1700px] 3xl:max-w-[92vw] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+
+    <!-- PAGE HEADER -->
+    <div class="space-y-4 text-center sm:text-left">
+      <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+        🇪🇨 The Best of Our Homeland
+      </span>
+      <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-brown">
+        Imported Products 🇪🇨
+      </h1>
+      <p class="text-brand-brown/85 text-base sm:text-lg max-w-3xl leading-relaxed">
+        Find your favorite Ecuadorian specialties: fresh dairy products (yogurt, Manaba cheese), traditional sweets (manjar, chocolates), Ambato bakery items, gourmet coffee, and crunchy plantain chips.
+      </p>
+    </div>
+
+    <!-- SEARCH & CATEGORY FILTER CONTROL BAR -->
+    <div class="w-full bg-brand-cream p-4 sm:p-6 rounded-3xl border-2 border-brand-gold/40 shadow-xl space-y-5">
+      
+      <!-- Real-Time Search Bar (Centered with oval pill borders) -->
+      <div class="relative w-full max-w-xl mx-auto">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-gold-secondary">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+        </div>
+        <input
+          type="text"
+          id="product-search-input"
+          class="w-full pl-12 pr-10 py-3.5 rounded-full bg-brand-cream-dark/60 border border-brand-gold/40 text-brand-brown font-semibold placeholder:text-brand-brown/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-brand-gold transition-all text-sm sm:text-base shadow-inner"
+          placeholder="Search yogurt, cheese, manjar, chocolates, coffee, allullas, chifles..."
+        />
+        <button
+          type="button"
+          id="clear-search-btn"
+          class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-brand-brown/60 hover:text-brand-brown"
+          aria-label="Clear search"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Category Filter Pills (Centered) -->
+      <div class="flex flex-wrap items-center justify-center gap-2 pt-2 border-t border-brand-gold/20" id="category-pills-container">
+        {dynamicCategories.map((c) => (
+          <button
+            type="button"
+            data-category={c.id}
+            class={`category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm flex items-center space-x-1.5 cursor-pointer ${
+              c.id === 'todas'
+                ? 'bg-brand-brown text-brand-gold border-brand-gold shadow-md active-pill'
+                : 'bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20'
+            }`}
+          >
+            <span>{c.icon}</span>
+            <span>{c.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <!-- PRODUCT COUNT & FILTER STATUS -->
+    <div class="flex items-center justify-between text-xs sm:text-sm font-bold text-brand-brown/80 px-1">
+      <span id="product-count-label">Showing {categorizedProducts.length} Ecuadorian products</span>
+    </div>
+
+    <!-- PRODUCT CARDS GRID (Centered) -->
+    <div class="flex flex-wrap justify-center gap-6 xl:gap-8" id="products-grid">
+      {categorizedProducts.map((p) => (
+        <div
+          class="product-item-wrapper w-full sm:w-[280px] md:w-[300px] xl:w-[320px] flex-shrink-0"
+          data-category={p.catKey}
+          data-search={`${p.name[locale]} ${p.shortDescription?.[locale] || ''} ${p.tags.join(' ')}`.toLowerCase()}
+        >
+          <ProductCard product={p} locale={locale} />
+        </div>
+      ))}
+    </div>
+
+    <!-- NO RESULTS EMPTY STATE -->
+    <div id="no-results-state" class="hidden text-center py-16 bg-brand-cream rounded-3xl border-2 border-dashed border-brand-gold/40 p-8 space-y-4">
+      <div class="text-4xl">🔍</div>
+      <h3 class="font-serif text-xl font-bold text-brand-brown">No products matched your search</h3>
+      <p class="text-xs sm:text-sm text-brand-brown/70 max-w-md mx-auto">
+        Try searching for another term or click "All Categories" to view the complete catalog.
+      </p>
+      <button
+        type="button"
+        id="reset-filter-btn"
+        class="px-5 py-2.5 rounded-xl bg-brand-gold text-brand-brown font-extrabold text-xs shadow-md hover:bg-brand-gold-secondary transition-all"
+      >
+        View All Products 🇪🇨
+      </button>
+    </div>
+  </div>
+
+  <!-- Real-Time Client-Side Filtering Script -->
+  <script>
+    const searchInput = document.getElementById('product-search-input') as HTMLInputElement | null;
+    const clearBtn = document.getElementById('clear-search-btn');
+    const resetBtn = document.getElementById('reset-filter-btn');
+    const pills = document.querySelectorAll<HTMLButtonElement>('.category-pill');
+    const items = document.querySelectorAll<HTMLElement>('.product-item-wrapper');
+    const countLabel = document.getElementById('product-count-label');
+    const noResults = document.getElementById('no-results-state');
+
+    let activeCategory = 'todas';
+
+    const filterProducts = () => {
+      const query = (searchInput?.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', query.length === 0);
+      }
+
+      items.forEach((item) => {
+        const itemCat = item.getAttribute('data-category') || '';
+        const itemSearchText = item.getAttribute('data-search') || '';
+
+        const matchesCat = activeCategory === 'todas' || itemCat === activeCategory;
+        const matchesQuery = query === '' || itemSearchText.includes(query);
+
+        if (matchesCat && matchesQuery) {
+          item.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      if (countLabel) {
+        countLabel.textContent = `Showing ${visibleCount} of ${items.length} Ecuadorian products`;
+      }
+
+      if (noResults) {
+        noResults.classList.toggle('hidden', visibleCount > 0);
+      }
+    };
+
+    // Category Pill Click Handler
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const cat = pill.getAttribute('data-category') || 'todas';
+        activeCategory = cat;
+
+        pills.forEach((p) => {
+          if (p.getAttribute('data-category') === cat) {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+          } else {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+          }
+        });
+
+        filterProducts();
+      });
+    });
+
+    // Search Input Event
+    if (searchInput) {
+      searchInput.addEventListener('input', filterProducts);
+    }
+
+    // Clear Search Event
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        if (searchInput) {
+          searchInput.value = '';
+          filterProducts();
+        }
+      });
+    }
+
+    // Reset Filters Event
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        activeCategory = 'todas';
+        pills.forEach((p) => {
+          const cat = p.getAttribute('data-category');
+          if (cat === 'todas') {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+          } else {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+          }
+        });
+        filterProducts();
+      });
+    }
+  </script>
+</BaseLayout>

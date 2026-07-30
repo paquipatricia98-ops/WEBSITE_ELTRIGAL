@@ -1,0 +1,118 @@
+---
+import { getEquivalentRoute, useTranslations } from '../../i18n/utils';
+import Logo from '../ui/Logo.astro';
+import SocialLinks from '../ui/SocialLinks.astro';
+import DoorDashButton from '../ui/DoorDashButton.astro';
+import UberEatsButton from '../ui/UberEatsButton.astro';
+import type { Locale } from '../../types/api';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { label: t('nav.home'), href: `/${locale}/` },
+  { label: t('nav.menu'), href: `/${locale}/menu` },
+  { label: t('nav.ecuadorianProducts'), href: locale === 'es' ? '/es/productos-ecuatorianos' : '/en/ecuadorian-products' },
+  { label: t('nav.catering'), href: locale === 'es' ? '/es/catering-eventos' : '/en/catering-events' },
+  { label: t('nav.ourStory'), href: locale === 'es' ? '/es/nuestra-historia' : '/en/our-story' },
+  { label: t('nav.contact'), href: locale === 'es' ? '/es/contacto' : '/en/contact' },
+];
+
+const esRoute = getEquivalentRoute(currentPath, 'es');
+const enRoute = getEquivalentRoute(currentPath, 'en');
+---
+
+<header class="sticky top-0 z-40 w-full bg-brand-cream/95 backdrop-blur-md border-b border-brand-gold/30 shadow-warm">
+  <div class="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1700px] 3xl:max-w-[92vw] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20 w-full">
+      
+      <!-- Brand Logo -->
+      <a href={`/${locale}/`} class="focus:outline-none focus:ring-2 focus:ring-brand-brown rounded-lg p-1 shrink-0">
+        <Logo size="md" />
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-1 xl:space-x-1.5 shrink" aria-label="Main Navigation">
+        {
+          navLinks.map((link) => {
+            const isActive = currentPath === link.href || (link.href !== `/${locale}/` && currentPath.startsWith(link.href));
+            return (
+              <a
+                href={link.href}
+                class={`px-2.5 py-1.5 xl:px-3 xl:py-2 rounded-lg font-bold text-xs xl:text-sm transition-all duration-200 whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-brand-brown ${
+                  isActive
+                    ? 'bg-brand-brown text-brand-gold border border-brand-gold/50 shadow-md'
+                    : 'text-brand-brown hover:bg-brand-brown hover:text-brand-gold'
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })
+        }
+      </nav>
+
+      <!-- Right Header Actions (Social Links + Language Switcher + DoorDash & Uber Eats Buttons) -->
+      <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+        
+        <!-- Desktop Social Links in Header -->
+        <div class="hidden 2xl:flex items-center pr-1">
+          <SocialLinks size="sm" />
+        </div>
+        
+        <!-- Desktop Language Selector -->
+        <div class="hidden sm:flex items-center bg-brand-cream-dark border border-brand-gold/40 rounded-full p-0.5 text-xs font-bold whitespace-nowrap flex-nowrap shrink-0">
+          <a
+            href={esRoute}
+            class={`px-2.5 py-1 rounded-full transition-all whitespace-nowrap ${
+              locale === 'es'
+                ? 'bg-brand-brown text-brand-gold shadow-sm'
+                : 'text-brand-brown hover:text-brand-gold-secondary'
+            }`}
+            title="Español"
+            aria-label="Cambiar a Español"
+          >
+            ES
+          </a>
+          <a
+            href={enRoute}
+            class={`px-2.5 py-1 rounded-full transition-all whitespace-nowrap ${
+              locale === 'en'
+                ? 'bg-brand-brown text-brand-gold shadow-sm'
+                : 'text-brand-brown hover:text-brand-gold-secondary'
+            }`}
+            title="English"
+            aria-label="Switch to English"
+          >
+            EN
+          </a>
+        </div>
+
+        <!-- DoorDash & Uber Eats Direct Order CTAs -->
+        <div class="hidden lg:flex items-center space-x-1.5 shrink-0">
+          <DoorDashButton size="sm" />
+          <UberEatsButton size="sm" />
+        </div>
+
+        <!-- Mobile Menu Hamburger Button -->
+        <button
+          id="open-mobile-menu"
+          type="button"
+          class="lg:hidden p-2.5 rounded-lg text-brand-brown hover:bg-brand-gold/10 focus:outline-none focus:ring-2 focus:ring-brand-gold cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center relative z-10 active:scale-95"
+          aria-expanded="false"
+          aria-controls="mobile-drawer"
+          aria-label={t('nav.openMenu')}
+        >
+          <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+
+      </div>
+    </div>
+</header>

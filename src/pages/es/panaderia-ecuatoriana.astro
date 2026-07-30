@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import ProductCard from '../../components/products/ProductCard.astro';
+import { getLocalProducts } from '../../services/api/publicApi';
+
+const locale = 'es';
+const { products } = await getLocalProducts(locale, 100);
+
+const breadcrumbs = [
+  { name: 'Inicio', url: '/es/' },
+  { name: 'Panadería Ecuatoriana', url: '/es/panaderia-ecuatoriana' },
+];
+---
+
+<BaseLayout
+  title="Pan Ecuatoriano Recién Horneado en Orange, NJ"
+  description="Panadería ecuatoriana tradicional de Ambato en Orange, NJ. Allullas frescas, pan de agua, quesadillas, empanadas de viento y roseros."
+  locale={locale}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+
+    <div class="mb-12 space-y-4 text-center sm:text-left">
+      <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+        🇪🇨 Tradición de Ambato en New Jersey
+      </span>
+      <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
+        Panadería Ecuatoriana Artesanal
+      </h1>
+      <p class="text-brand-brown/85 text-base sm:text-lg max-w-3xl leading-relaxed">
+        Cada mañana encendemos nuestros hornos a las 6:00 AM para ofrecerte el auténtico pan de Ambato. Elaborado con masa madre artesanal, manteca fina y la pasión de nuestros maestros panaderos.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {products.map((p) => (
+        <ProductCard product={p} locale={locale} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

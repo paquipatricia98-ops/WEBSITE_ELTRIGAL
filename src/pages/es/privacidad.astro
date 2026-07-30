@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+
+const locale = 'es';
+const breadcrumbs = [
+  { name: 'Inicio', url: '/es/' },
+  { name: 'Política de Privacidad', url: '/es/privacidad' },
+];
+---
+
+<BaseLayout
+  title="Política de Privacidad"
+  description="Política de Privacidad de Panadería y Pastelería El Trigal LLC."
+  locale={locale}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown mb-6">
+      Política de Privacidad
+    </h1>
+    <div class="prose prose-brand text-brand-brown/85 space-y-4 text-sm leading-relaxed">
+      <p>En Panadería y Pastelería El Trigal LLC respetamos y protegemos la privacidad de nuestros clientes.</p>
+      <p>La información recolectada mediante nuestros formularios de contacto y cotización de pasteles (nombre, teléfono, correo) se utiliza exclusivamente para coordinar sus pedidos y responder a sus consultas.</p>
+      <p>No vendemos ni compartimos sus datos personales con terceros no autorizados.</p>
+    </div>
+  </div>
+</BaseLayout>

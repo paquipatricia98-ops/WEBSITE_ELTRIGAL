@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+import FaqSection from '../../components/home/FaqSection.astro';
+import { getFaqs } from '../../services/api/publicApi';
+import { getFaqJsonLd } from '../../utils/jsonld';
+
+const locale = 'en';
+const faqs = await getFaqs(locale);
+const faqSchema = getFaqJsonLd(faqs, locale);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'FAQ', url: '/en/faq' },
+];
+---
+
+<BaseLayout
+  title="Frequently Asked Questions - Orders & Custom Cakes"
+  description="Find answers regarding fresh baking times, phone orders, DoorDash delivery, and cake lead times in Orange, NJ."
+  locale={locale}
+  jsonLd={faqSchema}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+    <FaqSection locale={locale} />
+  </div>
+</BaseLayout>

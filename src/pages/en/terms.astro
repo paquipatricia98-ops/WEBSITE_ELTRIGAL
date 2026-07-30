@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
+
+const locale = 'en';
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Terms of Service', url: '/en/terms' },
+];
+---
+
+<BaseLayout
+  title="Terms of Service"
+  description="Terms of Service for Panadería y Pastelería El Trigal LLC."
+  locale={locale}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <Breadcrumbs items={breadcrumbs} locale={locale} />
+    <h1 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown mb-6">
+      Terms of Service
+    </h1>
+    <div class="prose prose-brand text-brand-brown/85 space-y-4 text-sm leading-relaxed">
+      <p>Welcome to the public website of Panadería y Pastelería El Trigal LLC.</p>
+      <p>Published prices are in USD. Online quote submissions do not constitute a final binding contract until confirmed directly by bakery staff.</p>
+    </div>
+  </div>
+</BaseLayout>
