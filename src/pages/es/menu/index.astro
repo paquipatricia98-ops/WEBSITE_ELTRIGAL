@@ -8,16 +8,27 @@ import { useTranslations } from '../../../i18n/utils';
 const locale = 'es';
 const t = useTranslations(locale);
 
-const searchUrl = Astro.url.searchParams.get('search') || '';
-const categoryUrl = Astro.url.searchParams.get('category') || '';
-
 const categories = await getCategories(locale, 'local');
 const { products } = await getProducts({
   locale,
-  search: searchUrl,
-  categorySlug: categoryUrl,
+  limit: 150,
   type: 'local',
 });
+
+// Map category pills with icons
+const dynamicCategories = [
+  { id: 'todas', label: 'Todas las Categorías', icon: '✨' },
+  ...categories.map(cat => ({
+    id: cat.slug[locale] || cat.id,
+    label: cat.name[locale],
+    icon: cat.slug[locale]?.includes('pastel') || cat.slug[locale]?.includes('dulce') ? '🍰' : '🥖'
+  }))
+];
+
+const categorizedProducts = products.map((p) => ({
+  ...p,
+  catKey: p.primaryCategory?.slug?.[locale] || 'todas',
+}));
 
 const breadcrumbs = [
   { name: t('nav.home'), url: '/es/' },
@@ -30,98 +41,212 @@ const breadcrumbs = [
   description="Explora todo nuestro menú de pan ecuatoriano, allullas, tres leches, empanadas de viento y bocaditos artesanales en Orange, NJ."
   locale={locale}
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <div class="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1700px] 3xl:max-w-[92vw] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
     <Breadcrumbs items={breadcrumbs} locale={locale} />
 
-    <div class="mb-8 space-y-3 text-center sm:text-left">
-      <h1 class="font-serif text-3xl sm:text-5xl font-extrabold text-brand-brown">
+    <!-- PAGE HEADER -->
+    <div class="space-y-4 text-center sm:text-left">
+      <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-brown">
         {t('menu.title')}
       </h1>
-      <p class="text-brand-brown/80 text-base sm:text-lg max-w-3xl">
+      <p class="text-brand-brown/85 text-base sm:text-lg max-w-3xl leading-relaxed">
         {t('menu.subtitle')}
       </p>
     </div>
 
-    <!-- Search & Filters Toolbar -->
-    <div class="bg-brand-cream-dark/60 p-6 rounded-2xl border border-brand-gold/30 mb-10 space-y-4">
-      <form method="GET" class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-        
-        <!-- Search Input -->
-        <div class="sm:col-span-6 relative">
-          <input
-            type="text"
-            name="search"
-            value={searchUrl}
-            placeholder={t('menu.searchPlaceholder')}
-            class="w-full pl-10 pr-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream text-brand-brown focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm"
-          />
-          <span class="absolute left-3.5 top-3.5 text-brand-brown/50">🔍</span>
+    <!-- SEARCH & CATEGORY FILTER CONTROL BAR -->
+    <div class="w-full bg-brand-cream p-4 sm:p-6 rounded-3xl border-2 border-brand-gold/40 shadow-xl space-y-5">
+      
+      <!-- Real-Time Search Bar -->
+      <div class="relative w-full max-w-xl mx-auto">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-gold-secondary">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
         </div>
+        <input
+          type="text"
+          id="product-search-input"
+          class="w-full pl-12 pr-10 py-3.5 rounded-full bg-brand-cream-dark/60 border border-brand-gold/40 text-brand-brown font-semibold placeholder:text-brand-brown/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-brand-gold transition-all text-sm sm:text-base shadow-inner"
+          placeholder="Buscar pan, pastel, empanada, bocaditos..."
+        />
+        <button
+          type="button"
+          id="clear-search-btn"
+          class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-brand-brown/60 hover:text-brand-brown"
+          aria-label="Limpiar búsqueda"
+        >
+          ✕
+        </button>
+      </div>
 
-        <!-- Category Select -->
-        <div class="sm:col-span-4">
-          <select
-            name="category"
-            class="w-full px-4 py-3 rounded-xl border border-brand-brown/20 bg-brand-cream text-brand-brown focus:ring-2 focus:ring-brand-gold focus:outline-none text-sm"
-            onchange="this.form.submit()"
-          >
-            <option value="">{t('menu.allCategories')}</option>
-            {
-              categories.map((cat) => (
-                <option value={cat.slug[locale]} selected={categoryUrl === cat.slug[locale]}>
-                  {cat.name[locale]}
-                </option>
-              ))
-            }
-          </select>
-        </div>
-
-        <!-- Filter Submit Button -->
-        <div class="sm:col-span-2 flex space-x-2">
+      <!-- Category Filter Pills -->
+      <div class="flex flex-wrap items-center justify-center gap-2 pt-2 border-t border-brand-gold/20" id="category-pills-container">
+        {dynamicCategories.map((c) => (
           <button
-            type="submit"
-            class="w-full py-3 px-4 rounded-xl bg-brand-brown text-brand-gold font-bold text-xs hover:bg-brand-brown-dark transition-all text-center"
+            type="button"
+            data-category={c.id}
+            class={`category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm flex items-center space-x-1.5 cursor-pointer ${
+              c.id === 'todas'
+                ? 'bg-brand-brown text-brand-gold border-brand-gold shadow-md active-pill'
+                : 'bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20'
+            }`}
           >
-            Filtrar
+            <span>{c.icon}</span>
+            <span>{c.label}</span>
           </button>
-          {
-            (searchUrl || categoryUrl) && (
-              <a
-                href="/es/menu"
-                class="py-3 px-3 rounded-xl bg-brand-gold/20 text-brand-brown font-bold text-xs hover:bg-brand-gold/40 transition-all flex items-center justify-center"
-                title={t('menu.clearFilters')}
-              >
-                ✕
-              </a>
-            )
-          }
-        </div>
-
-      </form>
+        ))}
+      </div>
     </div>
 
-    <!-- Product Grid or Empty State -->
-    {
-      products.length > 0 ? (
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <ProductCard product={product} locale={locale} />
-          ))}
+    <!-- PRODUCT COUNT & FILTER STATUS -->
+    <div class="flex items-center justify-between text-xs sm:text-sm font-bold text-brand-brown/80 px-1">
+      <span id="product-count-label">Mostrando {categorizedProducts.length} productos</span>
+    </div>
+
+    <!-- PRODUCT CARDS GRID -->
+    <div class="flex flex-wrap justify-center gap-6 xl:gap-8" id="products-grid">
+      {categorizedProducts.map((p) => (
+        <div
+          class="product-item-wrapper w-full sm:w-[280px] md:w-[300px] xl:w-[320px] flex-shrink-0"
+          data-category={p.catKey}
+          data-search={`${p.name[locale]} ${p.shortDescription?.[locale] || ''} ${p.tags.join(' ')}`.toLowerCase()}
+        >
+          <ProductCard product={p} locale={locale} />
         </div>
-      ) : (
-        <div class="text-center py-16 bg-brand-cream-dark/30 rounded-3xl border border-dashed border-brand-brown/30 space-y-4">
-          <div class="text-5xl">🥖</div>
-          <h3 class="font-serif text-2xl font-bold text-brand-brown">{t('menu.noResultsTitle')}</h3>
-          <p class="text-sm text-brand-brown/75 max-w-md mx-auto">{t('menu.noResultsText')}</p>
-          <a
-            href="/es/menu"
-            class="inline-block px-6 py-2.5 rounded-full bg-brand-gold text-brand-brown font-bold text-xs hover:bg-brand-gold-secondary transition-all"
-          >
-            {t('menu.clearFilters')}
-          </a>
-        </div>
-      )
+      ))}
+    </div>
+
+    <!-- NO RESULTS EMPTY STATE -->
+    <div id="no-results-state" class="hidden text-center py-16 bg-brand-cream rounded-3xl border-2 border-dashed border-brand-gold/40 p-8 space-y-4">
+      <div class="text-4xl">🔍</div>
+      <h3 class="font-serif text-xl font-bold text-brand-brown">No encontramos productos con esa búsqueda</h3>
+      <p class="text-xs sm:text-sm text-brand-brown/70 max-w-md mx-auto">
+        Prueba buscando otro término o haz clic en "Todas las Categorías" para ver el catálogo completo.
+      </p>
+      <button
+        type="button"
+        id="reset-filter-btn"
+        class="px-5 py-2.5 rounded-xl bg-brand-gold text-brand-brown font-extrabold text-xs shadow-md hover:bg-brand-gold-secondary transition-all"
+      >
+        Ver Todos los Productos
+      </button>
+    </div>
+  </div>
+
+  <!-- Real-Time Client-Side Filtering Script -->
+  <script>
+    const searchInput = document.getElementById('product-search-input') as HTMLInputElement | null;
+    const clearBtn = document.getElementById('clear-search-btn');
+    const resetBtn = document.getElementById('reset-filter-btn');
+    const pills = document.querySelectorAll<HTMLButtonElement>('.category-pill');
+    const items = document.querySelectorAll<HTMLElement>('.product-item-wrapper');
+    const countLabel = document.getElementById('product-count-label');
+    const noResults = document.getElementById('no-results-state');
+
+    let activeCategory = 'todas';
+
+    const filterProducts = () => {
+      const query = (searchInput?.value || '').trim().toLowerCase();
+      let visibleCount = 0;
+
+      if (clearBtn) {
+        clearBtn.classList.toggle('hidden', query.length === 0);
+      }
+
+      items.forEach((item) => {
+        const itemCat = item.getAttribute('data-category') || '';
+        const itemSearchText = item.getAttribute('data-search') || '';
+
+        const matchesCat = activeCategory === 'todas' || itemCat === activeCategory;
+        const matchesQuery = query === '' || itemSearchText.includes(query);
+
+        if (matchesCat && matchesQuery) {
+          item.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+
+      if (countLabel) {
+        countLabel.textContent = `Mostrando ${visibleCount} de ${items.length} productos`;
+      }
+
+      if (noResults) {
+        noResults.classList.toggle('hidden', visibleCount > 0);
+      }
+    };
+
+    // Category Pill Click Handler
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const cat = pill.getAttribute('data-category') || 'todas';
+        activeCategory = cat;
+
+        pills.forEach((p) => {
+          if (p.getAttribute('data-category') === cat) {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+          } else {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+          }
+        });
+
+        filterProducts();
+      });
+    });
+
+    // Search Input Event
+    if (searchInput) {
+      searchInput.addEventListener('input', filterProducts);
     }
 
-  </div>
+    // Clear Search Event
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        if (searchInput) {
+          searchInput.value = '';
+          filterProducts();
+        }
+      });
+    }
+
+    // Reset Filters Event
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        activeCategory = 'todas';
+        pills.forEach((p) => {
+          const cat = p.getAttribute('data-category');
+          if (cat === 'todas') {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+          } else {
+            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+          }
+        });
+        filterProducts();
+      });
+    }
+
+    // Initial check from query URL if accessed directly
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryQuery = urlParams.get('category');
+    const searchQuery = urlParams.get('search');
+
+    if (categoryQuery) {
+      activeCategory = categoryQuery;
+      pills.forEach((p) => {
+        const cat = p.getAttribute('data-category');
+        if (cat === categoryQuery) {
+          p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+        } else {
+          p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+        }
+      });
+    }
+    if (searchQuery && searchInput) {
+      searchInput.value = searchQuery;
+    }
+    filterProducts();
+  </script>
 </BaseLayout>
