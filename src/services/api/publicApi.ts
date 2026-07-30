@@ -79,11 +79,11 @@ function mapCategoryToFrontend(raw: any): CategorySummary {
   };
 }
 
-export async function getCategories(locale: Locale = 'es'): Promise<CategorySummary[]> {
+export async function getCategories(locale: Locale = 'es', type?: 'local' | 'imported'): Promise<CategorySummary[]> {
   const res = await fetchApi(
     'public/categories',
     z.any(),
-    { query: { locale, status: 'published' } },
+    { query: { locale, status: 'published', type } },
     MOCK_CATEGORIES
   );
   if (res.success && Array.isArray(res.data)) {

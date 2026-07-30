@@ -11,7 +11,7 @@ const t = useTranslations(locale);
 const searchUrl = Astro.url.searchParams.get('search') || '';
 const categoryUrl = Astro.url.searchParams.get('category') || '';
 
-const categories = await getCategories(locale);
+const categories = await getCategories(locale, 'local');
 const { products } = await getProducts({
   locale,
   search: searchUrl,
