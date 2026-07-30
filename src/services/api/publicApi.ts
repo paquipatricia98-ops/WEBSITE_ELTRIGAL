@@ -157,7 +157,7 @@ export async function getProducts(params: GetProductsParams = {}): Promise<{ pro
         availability: availability !== undefined ? (availability ? 'true' : 'false') : undefined,
       },
     },
-    filteredMock
+    []
   );
 
   if (res.success && Array.isArray(res.data)) {
@@ -168,17 +168,15 @@ export async function getProducts(params: GetProductsParams = {}): Promise<{ pro
     };
   }
 
-  return { products: filteredMock, total: filteredMock.length };
+  return { products: [], total: 0 };
 }
 
 export async function getLocalProducts(locale: Locale = 'es', limit = 24): Promise<{ products: Product[]; total: number }> {
-  const filteredMock = MOCK_PRODUCTS.filter((p) => p.primaryCategory.slug.es === 'panaderia-ecuatoriana').slice(0, limit);
-
   const res = await fetchApi(
     'public/products',
     z.any(),
     { query: { locale, limit, type: 'local' } },
-    filteredMock
+    []
   );
 
   if (res.success && Array.isArray(res.data)) {
@@ -189,17 +187,15 @@ export async function getLocalProducts(locale: Locale = 'es', limit = 24): Promi
     };
   }
 
-  return { products: filteredMock, total: filteredMock.length };
+  return { products: [], total: 0 };
 }
 
 export async function getImportedProducts(locale: Locale = 'es', limit = 24): Promise<{ products: Product[]; total: number }> {
-  const filteredMock = MOCK_PRODUCTS.filter((p) => p.primaryCategory.slug.es === 'productos-ecuatorianos').slice(0, limit);
-
   const res = await fetchApi(
     'public/products',
     z.any(),
     { query: { locale, limit, type: 'imported' } },
-    filteredMock
+    []
   );
 
   if (res.success && Array.isArray(res.data)) {
@@ -210,38 +206,29 @@ export async function getImportedProducts(locale: Locale = 'es', limit = 24): Pr
     };
   }
 
-  return { products: filteredMock, total: filteredMock.length };
+  return { products: [], total: 0 };
 }
 
 export async function getProductBySlug(slug: string, locale: Locale = 'es'): Promise<Product | null> {
-  const mockMatch = MOCK_PRODUCTS.find(
-    (p) => p.slug[locale] === slug || p.slug.es === slug || p.slug.en === slug
-  );
-
   const res = await fetchApi(
     `public/products/${slug}`,
     z.any(),
     { query: { locale } },
-    mockMatch || null
+    null
   );
 
-  return res.success && res.data ? mapRenderProductToFrontend(res.data, locale) : mockMatch || null;
+  return res.success && res.data ? mapRenderProductToFrontend(res.data, locale) : null;
 }
 
 export async function getRelatedProducts(slug: string, locale: Locale = 'es', limit = 4): Promise<Product[]> {
-  const currentProduct = MOCK_PRODUCTS.find(
-    (p) => p.slug[locale] === slug || p.slug.es === slug || p.slug.en === slug
-  );
-  const mockRelated = MOCK_PRODUCTS.filter((p) => p.id !== currentProduct?.id).slice(0, limit);
-
   const res = await fetchApi(
     `public/products/${slug}/related`,
     z.array(ProductSchema),
     { query: { locale, limit } },
-    mockRelated
+    []
   );
 
-  return res.success ? res.data : mockRelated;
+  return res.success ? res.data : [];
 }
 
 export async function getFaqs(locale: Locale = 'es'): Promise<FaqItem[]> {
