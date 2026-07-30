@@ -33,10 +33,10 @@ function mapRenderProductToFrontend(raw: any, locale: Locale): Product {
     media: (raw.media && raw.media.length > 0) ? raw.media.map((m: any, idx: number) => ({
       id: m.id || m._id || String(idx),
       publicId: m.publicId || String(idx),
-      secureUrl: m.secureUrl || base.media[0].secureUrl,
-      altText: m.alt || base.media[0].altText,
+      secureUrl: m.secureUrl,
+      altText: m.altText || m.alt || { es: raw.productName || '', en: raw.productName || '' },
       isPrimary: m.isPrimary ?? idx === 0,
-    })) : (raw.productImage ? [{ id: '1', publicId: '1', secureUrl: raw.productImage, altText: { es: raw.productName, en: raw.productName }, isPrimary: true }] : base.media),
+    })).filter((m: any) => !!m.secureUrl) : (raw.productImage ? [{ id: '1', publicId: '1', secureUrl: raw.productImage, altText: { es: raw.productName || '', en: raw.productName || '' }, isPrimary: true }] : []),
     ingredients: raw.ingredients || { es: raw.productIngredients, en: raw.productIngredients } || base.ingredients,
     productType: raw.type || base.productType,
     primaryCategory: raw.primaryCategory || base.primaryCategory,
