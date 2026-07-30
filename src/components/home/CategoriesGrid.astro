@@ -12,6 +12,15 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const categories = await getCategories(locale);
+
+const categoryFallbackImages: Record<string, string> = {
+  bebidas: 'https://images.unsplash.com/photo-1541658016709-82535e94bc69?auto=format&fit=crop&w=600&h=400&q=80',
+  bocaditos: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&h=400&q=80',
+  galletas: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&h=400&q=80',
+  yogurts: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&h=400&q=80',
+  panaderia: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&h=400&q=80',
+  default: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&h=400&q=80',
+};
 ---
 
 <section class="py-16 lg:py-24 bg-brand-cream-dark/60 border-t border-brand-gold/20">
@@ -33,15 +42,27 @@ const categories = await getCategories(locale);
       {
         categories.map((cat) => {
           const categoryUrl = `/${locale}/menu/${cat.slug[locale] || cat.slug.es}`;
+          const slugKey = (cat.slug?.es || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+          const bgImage = cat.imageUrl || categoryFallbackImages[slugKey] || categoryFallbackImages.default;
+
           return (
             <a
               href={categoryUrl}
               class="group relative rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-hover border border-brand-gold/30 block bg-brand-brown h-64 transition-all duration-300 transform hover:-translate-y-1"
             >
               {
-                cat.imageUrl && (
+                bgImage.startsWith('http') ? (
+                  <img
+                    src={bgImage}
+                    alt={cat.name[locale]}
+                    width="600"
+                    height="400"
+                    class="w-full h-full object-cover opacity-70 group-hover:opacity-85 group-hover:scale-105 transition-all duration-500"
+                    loading="lazy"
+                  />
+                ) : (
                   <CloudinaryImage
-                    src={cat.imageUrl}
+                    src={bgImage}
                     alt={cat.name[locale]}
                     width={600}
                     height={400}
