@@ -160,13 +160,21 @@ const categories = await getCategories(locale);
     }
 
     let autoplayTimeout: any;
+    let autoplayDirection = 1;
 
     function startAutoplay() {
       if (autoplayTimeout) clearTimeout(autoplayTimeout);
       // Generate a random time between 3 and 7 seconds (3000ms to 7000ms)
       const randomTime = Math.floor(Math.random() * (7000 - 3000 + 1)) + 3000;
       autoplayTimeout = setTimeout(() => {
-        activeIndex = (activeIndex + 1) % cards.length;
+        if (activeIndex === cards.length - 1) {
+          autoplayDirection = -1;
+        } else if (activeIndex === 0) {
+          autoplayDirection = 1;
+        }
+        activeIndex = activeIndex + autoplayDirection;
+        if (activeIndex < 0) activeIndex = 0;
+        if (activeIndex >= cards.length) activeIndex = cards.length - 1;
         updateCoverflow();
       }, randomTime);
     }
