@@ -13,9 +13,14 @@ import UberEatsButton from '../../../components/ui/UberEatsButton.astro';
 
 export async function getStaticPaths() {
   const { products } = await getProducts({ locale: 'en', limit: 100 });
-  return products.map((p) => ({
-    params: { productSlug: p.slug.en },
-  }));
+  const paths: any[] = [];
+  products.forEach((p) => {
+    if (p.slug.en) paths.push({ params: { productSlug: p.slug.en } });
+    if (p.slug.es && p.slug.es !== p.slug.en) {
+      paths.push({ params: { productSlug: p.slug.es } });
+    }
+  });
+  return paths;
 }
 
 const locale = 'en';
