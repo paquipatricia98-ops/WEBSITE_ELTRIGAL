@@ -216,27 +216,29 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
     <!-- Related Products -->
     {
       relatedProducts.length > 0 && (
-        <div class="pt-10 border-t border-brand-gold/20 space-y-6">
-          <div class="flex items-end justify-between gap-4">
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-brand-gold-secondary mb-1">
-                More from {product.primaryCategory.name[locale]}
-              </p>
-              <h2 class="font-serif text-xl sm:text-2xl font-bold text-brand-brown">
-                You might also like
-              </h2>
+        <div class="mt-10 border-t border-brand-gold/20 pt-10">
+          <div class="bg-brand-cream-dark/40 rounded-3xl p-6 sm:p-10 space-y-6">
+            <div class="flex items-end justify-between gap-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-widest text-brand-gold-secondary mb-1">
+                  More from {product.primaryCategory.name[locale]}
+                </p>
+                <h2 class="font-serif text-xl sm:text-2xl font-bold text-brand-brown">
+                  You might also like
+                </h2>
+              </div>
+              <a
+                href={`/en/menu/${product.primaryCategory.slug.en}`}
+                class="shrink-0 text-xs font-bold text-brand-brown/60 hover:text-brand-brown border border-brand-brown/20 hover:border-brand-brown/50 px-4 py-2 rounded-full transition-all duration-200"
+              >
+                View all →
+              </a>
             </div>
-            <a
-              href={`/en/menu/${product.primaryCategory.slug.en}`}
-              class="shrink-0 text-xs font-bold text-brand-brown/60 hover:text-brand-brown border border-brand-brown/20 hover:border-brand-brown/50 px-4 py-2 rounded-full transition-all duration-200"
-            >
-              View all →
-            </a>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl">
-            {relatedProducts.map((rel) => (
-              <ProductCard product={rel} locale={locale} />
-            ))}
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {relatedProducts.map((rel) => (
+                <ProductCard product={rel} locale={locale} />
+              ))}
+            </div>
           </div>
         </div>
       )
