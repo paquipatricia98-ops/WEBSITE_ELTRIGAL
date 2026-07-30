@@ -53,6 +53,7 @@ const breadcrumbSchema = getBreadcrumbJsonLd(
   breadcrumbs.map((b) => ({ name: b.name, url: `https://eltrigalbakery.com${b.url}` }))
 );
 const combinedSchema = [productSchema, breadcrumbSchema];
+const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ordering?.ubereatsUrl);
 ---
 
 <BaseLayout
@@ -181,17 +182,21 @@ const combinedSchema = [productSchema, breadcrumbSchema];
 
 
         <!-- Delivery Ordering Options (DoorDash & Uber Eats) -->
-        <div class="space-y-3 pt-2 border-t border-brand-brown/10">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">🚚</span>
-            <h3 class="font-serif font-bold text-base text-brand-brown">Delivery available</h3>
-          </div>
-          <p class="text-xs text-brand-brown/60">Order online through our delivery platforms:</p>
-          <div class="flex flex-wrap items-center gap-3">
-            <DoorDashButton size="md" />
-            <UberEatsButton size="md" />
-          </div>
-        </div>
+        {
+          hasDeliveryLinks && (
+            <div class="space-y-3 pt-2 border-t border-brand-brown/10">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">🚚</span>
+                <h3 class="font-serif font-bold text-base text-brand-brown">Delivery available</h3>
+              </div>
+              <p class="text-xs text-brand-brown/60">Order online through our delivery platforms:</p>
+              <div class="flex flex-wrap items-center gap-3">
+                <DoorDashButton size="md" />
+                <UberEatsButton size="md" />
+              </div>
+            </div>
+          )
+        }
           {
             product.ordering.allowCustomQuote && (
               <a

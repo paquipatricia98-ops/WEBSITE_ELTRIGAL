@@ -9,6 +9,9 @@ interface Props {
 
 const { size = 'md', class: className = '', showText = true } = Astro.props;
 
+const ubereatsUrl = SITE_CONFIG.ordering?.ubereatsUrl;
+if (!ubereatsUrl) return;
+
 const paddingClasses = {
   sm: 'px-3 py-1.5 text-xs',
   md: 'px-4 py-2 text-xs sm:text-sm',
@@ -23,7 +26,7 @@ const iconSizes = {
 ---
 
 <a
-  href={SITE_CONFIG.ordering.ubereatsUrl}
+  href={ubereatsUrl}
   target="_blank"
   rel="noopener noreferrer"
   class={`inline-flex items-center justify-center space-x-1.5 font-black rounded-full bg-[#06C167] text-white hover:bg-[#05a357] transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#06C167] whitespace-nowrap shrink-0 ${paddingClasses} ${className}`}
