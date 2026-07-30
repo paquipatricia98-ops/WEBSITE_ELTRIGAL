@@ -17,7 +17,7 @@ const t = useTranslations(locale);
 const { categorySlug } = Astro.params;
 
 const category = await getCategoryBySlug(categorySlug || '', locale);
-const { products } = await getProducts({ locale, categorySlug: categorySlug || '', type: 'local' });
+const { products } = await getProducts({ locale, categorySlug: categorySlug || '' });
 
 const breadcrumbs = [
   { name: t('nav.home'), url: '/en/' },
