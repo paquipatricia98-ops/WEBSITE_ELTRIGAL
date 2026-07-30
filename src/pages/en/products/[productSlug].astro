@@ -133,10 +133,20 @@ const combinedSchema = [productSchema, breadcrumbSchema];
           </div>
         </div>
 
-        <!-- Short Description -->
-        <p class="text-base text-brand-brown/85 leading-relaxed border-t border-b border-brand-brown/10 py-4">
+        <!-- Description -->
+        <p class="text-base text-brand-brown/85 leading-relaxed border-t border-brand-brown/10 pt-4">
           {product.description[locale] || product.shortDescription[locale]}
         </p>
+
+        <!-- Ingredients (if present) -->
+        {
+          product.ingredients?.[locale] && (
+            <div class="bg-brand-cream-dark/50 border border-brand-gold/25 rounded-2xl px-5 py-4 space-y-1">
+              <h3 class="text-xs font-bold uppercase tracking-widest text-brand-brown/60">🌾 Ingredients</h3>
+              <p class="text-sm text-brand-brown/85 leading-relaxed">{product.ingredients[locale]}</p>
+            </div>
+          )
+        }
 
         <!-- Lead Time / Notice -->
         {
@@ -171,8 +181,12 @@ const combinedSchema = [productSchema, breadcrumbSchema];
 
 
         <!-- Delivery Ordering Options (DoorDash & Uber Eats) -->
-        <div class="space-y-3 pt-2">
-          <h3 class="font-serif font-bold text-base text-brand-brown">Order for Delivery:</h3>
+        <div class="space-y-3 pt-2 border-t border-brand-brown/10">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🚚</span>
+            <h3 class="font-serif font-bold text-base text-brand-brown">Delivery available</h3>
+          </div>
+          <p class="text-xs text-brand-brown/60">Order online through our delivery platforms:</p>
           <div class="flex flex-wrap items-center gap-3">
             <DoorDashButton size="md" />
             <UberEatsButton size="md" />
