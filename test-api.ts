@@ -1,9 +1,14 @@
-import { fetchApi } from './src/services/api/client';
-import { z } from 'zod';
+import { getCategories, getProducts } from './src/services/api/publicApi';
 
 const run = async () => {
-  console.log('Testing API...');
-  const res = await fetchApi('public/products/local', z.any(), { query: { limit: 1 } });
-  console.log('Response:', JSON.stringify(res, null, 2));
+  const cats = await getCategories('es', 'local');
+  const prodsRes = await getProducts({ locale: 'es', limit: 150, type: 'local' });
+  console.log('Categories count:', cats.length);
+  console.log('Categories:', cats.map(c => ({ id: c.id, name: c.name.es, slug: c.slug.es })));
+  console.log('Products count:', prodsRes.products.length);
+  console.log('Products:', prodsRes.products.map(p => ({
+    name: p.name.es,
+    primaryCategory: p.primaryCategory
+  })));
 };
 run();

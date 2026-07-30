@@ -11,7 +11,7 @@ const t = useTranslations(locale);
 const categories = await getCategories(locale, 'local');
 const { products } = await getProducts({
   locale,
-  limit: 150,
+  limit: 100,
   type: 'local',
 });
 
