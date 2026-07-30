@@ -216,13 +216,13 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
     <!-- Related Products -->
     {
       relatedProducts.length > 0 && (
-        <div class="pt-12 border-t border-brand-gold/20 space-y-8">
+        <div class="pt-10 border-t border-brand-gold/20 space-y-6">
           <div class="flex items-end justify-between gap-4">
             <div>
               <p class="text-xs font-semibold uppercase tracking-widest text-brand-gold-secondary mb-1">
                 More from {product.primaryCategory.name[locale]}
               </p>
-              <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown">
+              <h2 class="font-serif text-xl sm:text-2xl font-bold text-brand-brown">
                 You might also like
               </h2>
             </div>
@@ -233,7 +233,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
               View all →
             </a>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl">
             {relatedProducts.map((rel) => (
               <ProductCard product={rel} locale={locale} />
             ))}
