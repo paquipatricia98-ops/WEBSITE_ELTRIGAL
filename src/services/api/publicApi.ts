@@ -223,12 +223,16 @@ export async function getProductBySlug(slug: string, locale: Locale = 'es'): Pro
 export async function getRelatedProducts(slug: string, locale: Locale = 'es', limit = 4): Promise<Product[]> {
   const res = await fetchApi(
     `public/products/${slug}/related`,
-    z.array(ProductSchema),
+    z.any(),
     { query: { locale, limit } },
     []
   );
 
-  return res.success ? res.data : [];
+  if (!res.success || !res.data) return [];
+
+  // The endpoint returns { success, data: [...] } where data is an array of products
+  const rawItems: any[] = Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+  return rawItems.map((raw: any) => mapRenderProductToFrontend(raw, locale));
 }
 
 export async function getFaqs(locale: Locale = 'es'): Promise<FaqItem[]> {

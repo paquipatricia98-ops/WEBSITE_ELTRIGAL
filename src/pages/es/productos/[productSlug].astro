@@ -217,9 +217,22 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
     {
       relatedProducts.length > 0 && (
         <div class="pt-12 border-t border-brand-gold/20 space-y-8">
-          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown">
-            {t('product.relatedTitle')}
-          </h2>
+          <div class="flex items-end justify-between gap-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-brand-gold-secondary mb-1">
+                Más de {product.primaryCategory.name[locale]}
+              </p>
+              <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown">
+                También te puede gustar
+              </h2>
+            </div>
+            <a
+              href={`/es/menu/${product.primaryCategory.slug.es}`}
+              class="shrink-0 text-xs font-bold text-brand-brown/60 hover:text-brand-brown border border-brand-brown/20 hover:border-brand-brown/50 px-4 py-2 rounded-full transition-all duration-200"
+            >
+              Ver todos →
+            </a>
+          </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {relatedProducts.map((rel) => (
               <ProductCard product={rel} locale={locale} />
