@@ -22,7 +22,11 @@ if (!product) {
   return Astro.redirect('/en/404');
 }
 
-const relatedProducts = await getRelatedProducts(productSlug || '', locale, 3);
+if (product.slug.en && productSlug !== product.slug.en) {
+  return Astro.redirect(`/en/products/${product.slug.en}`);
+}
+
+const relatedProducts = await getRelatedProducts(product.slug.en || productSlug || '', locale, 3);
 const primaryImage = product.media.find((m) => m.isPrimary) || product.media[0];
 
 const formattedBasePrice = product.priceLabel?.[locale]

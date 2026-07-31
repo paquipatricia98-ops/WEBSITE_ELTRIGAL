@@ -12,7 +12,12 @@ const t = useTranslations(locale);
 const { categorySlug } = Astro.params;
 
 const category = await getCategoryBySlug(categorySlug || '', locale);
-const { products } = await getProducts({ locale, categorySlug: categorySlug || '' });
+
+if (category && category.slug.es && categorySlug !== category.slug.es) {
+  return Astro.redirect(`/es/menu/${category.slug.es}`);
+}
+
+const { products } = await getProducts({ locale, categorySlug: category?.slug.es || categorySlug || '' });
 
 const breadcrumbs = [
   { name: t('nav.home'), url: '/es/' },
