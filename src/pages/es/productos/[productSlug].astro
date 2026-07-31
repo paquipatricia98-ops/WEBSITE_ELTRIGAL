@@ -61,7 +61,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
     <Breadcrumbs items={breadcrumbs} locale={locale} />
 
     <!-- Main Product Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-2">
       
       <!-- Gallery Column -->
       <div class="lg:col-span-6 space-y-4">
@@ -220,7 +220,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
     <!-- Related Products -->
     {
       relatedProducts.length > 0 && (
-        <div class="mt-8 border-t border-brand-gold/20 pt-8">
+        <div class="mt-2 border-t border-brand-gold/20 pt-6">
           <div class="bg-brand-cream-dark/40 rounded-3xl p-6 sm:p-10 space-y-6">
             <div class="flex items-end justify-between gap-4">
               <div>
