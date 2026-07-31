@@ -222,7 +222,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
       relatedProducts.length > 0 && (
         <div class="mt-2 border-t border-brand-gold/20 pt-6">
           <div class="bg-brand-cream-dark/40 rounded-3xl p-6 sm:p-10 space-y-6">
-            <div class="flex items-end justify-between gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <p class="text-xs font-semibold uppercase tracking-widest text-brand-gold-secondary mb-1">
                   More from {product.primaryCategory.name[locale]}
