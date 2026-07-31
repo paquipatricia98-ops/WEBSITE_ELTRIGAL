@@ -38,6 +38,7 @@ function mapRenderProductToFrontend(raw: any, locale: Locale): Product {
       isPrimary: m.isPrimary ?? idx === 0,
     })).filter((m: any) => !!m.secureUrl) : (raw.productImage ? [{ id: '1', publicId: '1', secureUrl: raw.productImage, altText: { es: raw.productName || '', en: raw.productName || '' }, isPrimary: true }] : []),
     ingredients: raw.ingredients || { es: raw.productIngredients, en: raw.productIngredients } || base.ingredients,
+    allergens: raw.allergens || raw.productoAllergens || base.allergens || [],
     productType: raw.type || base.productType,
     primaryCategory: raw.primaryCategory || base.primaryCategory,
   };

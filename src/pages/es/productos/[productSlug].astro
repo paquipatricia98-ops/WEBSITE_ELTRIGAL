@@ -149,6 +149,16 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
           )
         }
 
+        <!-- Allergens (if present) -->
+        {
+          product.allergens && product.allergens.length > 0 && (
+            <div class="bg-brand-cream-dark/50 border border-brand-gold/25 rounded-2xl px-5 py-4 space-y-1">
+              <h3 class="text-xs font-bold uppercase tracking-widest text-brand-brown/60">⚠️ Alérgenos</h3>
+              <p class="text-sm text-brand-brown/85 leading-relaxed">{product.allergens.join(', ')}</p>
+            </div>
+          )
+        }
+
         <!-- Lead Time / Notice -->
         {
           product.availability.leadTimeDays > 0 && (
