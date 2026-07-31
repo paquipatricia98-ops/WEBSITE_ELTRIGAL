@@ -11,17 +11,7 @@ import { SITE_CONFIG } from '../../../config/site';
 import DoorDashButton from '../../../components/ui/DoorDashButton.astro';
 import UberEatsButton from '../../../components/ui/UberEatsButton.astro';
 
-export async function getStaticPaths() {
-  const { products } = await getProducts({ locale: 'en', limit: 100 });
-  const paths: any[] = [];
-  products.forEach((p) => {
-    if (p.slug.en) paths.push({ params: { productSlug: p.slug.en } });
-    if (p.slug.es && p.slug.es !== p.slug.en) {
-      paths.push({ params: { productSlug: p.slug.es } });
-    }
-  });
-  return paths;
-}
+export const prerender = false;
 
 const locale = 'en';
 const t = useTranslations(locale);

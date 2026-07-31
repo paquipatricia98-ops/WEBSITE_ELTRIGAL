@@ -5,12 +5,7 @@ import ProductCard from '../../../components/products/ProductCard.astro';
 import { getCategories, getCategoryBySlug, getProducts } from '../../../services/api/publicApi';
 import { useTranslations } from '../../../i18n/utils';
 
-export async function getStaticPaths() {
-  const categories = await getCategories('en');
-  return categories.map((cat) => ({
-    params: { categorySlug: cat.slug.en },
-  }));
-}
+export const prerender = false;
 
 const locale = 'en';
 const t = useTranslations(locale);
