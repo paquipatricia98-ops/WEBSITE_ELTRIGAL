@@ -89,21 +89,28 @@ const enRoute = getEquivalentRoute(currentPath, 'en');
         </div>
 
         <!-- Navigation links (6 Active Official Pages Only) -->
-        <nav class="space-y-1 py-2">
+        <nav class="flex flex-col py-2">
           {
-            navItems.map((item) => {
+            navItems.map((item, index) => {
               const isActive = currentPath === item.href || (item.href !== `/${locale}/` && currentPath.startsWith(item.href));
               return (
-                <a
-                  href={item.href}
-                  class={`block px-4 py-3 rounded-lg font-bold text-base transition-colors min-h-[44px] flex items-center ${
-                    isActive
-                      ? 'bg-brand-brown text-brand-cream border-l-4 border-brand-gold'
-                      : 'text-brand-brown hover:bg-brand-gold/10'
-                  }`}
-                >
-                  {item.label}
-                </a>
+                <>
+                  <a
+                    href={item.href}
+                    class={`block px-4 py-3 rounded-lg font-bold text-base transition-colors min-h-[44px] flex items-center ${
+                      isActive
+                        ? 'bg-brand-brown text-brand-cream border-l-4 border-brand-gold mb-1'
+                        : 'text-brand-brown hover:bg-brand-gold/10'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                  {index < navItems.length - 1 && (
+                    <div class="px-4">
+                      <hr class="border-t border-brand-brown/10 my-0.5" />
+                    </div>
+                  )}
+                </>
               );
             })
           }
@@ -112,9 +119,9 @@ const enRoute = getEquivalentRoute(currentPath, 'en');
 
       <!-- Mobile/iPad Drawer Bottom Actions (DoorDash, Uber Eats, Contact Info, Social Links) -->
       <div class="pt-6 mt-8 border-t border-brand-brown/10 space-y-5 shrink-0">
-        <div class="space-y-3">
-          <DoorDashButton size="lg" />
-          <UberEatsButton size="lg" />
+        <div class="flex items-center justify-center gap-3">
+          <DoorDashButton size="md" />
+          <UberEatsButton size="md" />
         </div>
         
         <div class="text-center text-sm text-brand-brown/90 space-y-4 pt-2">
@@ -155,11 +162,7 @@ const enRoute = getEquivalentRoute(currentPath, 'en');
       openBtn?.setAttribute('aria-expanded', 'true');
     }
 
-    function closeDrawer(e?: Event) {
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
+    function closeDrawer() {
       if (drawer) {
         drawer.style.display = 'none';
         drawer.classList.add('hidden');

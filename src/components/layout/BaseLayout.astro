@@ -22,7 +22,7 @@ const currentPath = Astro.url.pathname;
 ---
 
 <!xhtml>
-<html lang={locale} class="h-full w-full bg-brand-cream text-brand-brown overflow-x-hidden">
+<html lang={locale} class="h-full w-full bg-brand-cream text-brand-brown">
   <SeoHead
     title={title}
     description={description}
@@ -31,7 +31,7 @@ const currentPath = Astro.url.pathname;
     jsonLd={jsonLd}
     noindex={noindex}
   />
-  <body class="min-h-screen w-full flex flex-col antialiased selection:bg-brand-gold selection:text-brand-brown overflow-x-hidden bg-brand-cream text-brand-brown">
+  <body class="min-h-screen w-full flex flex-col antialiased selection:bg-brand-gold selection:text-brand-brown bg-brand-cream text-brand-brown">
     <!-- Skip to main content link for screen readers -->
     <a
       href="#main-content"

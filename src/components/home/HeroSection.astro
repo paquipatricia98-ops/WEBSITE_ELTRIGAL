@@ -15,10 +15,11 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section class="relative bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+<section class="relative bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pt-12 pb-32 lg:pt-20 lg:pb-48 overflow-hidden z-10">
   
-  <!-- Subtle decorative background grain/circles -->
-  <div class="absolute inset-0 opacity-40 pointer-events-none">
+  <!-- Subtle decorative background grain/circles and real wheat flakes (espigas) -->
+  <div class="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-multiply" style="background-image: url('/images/espiga-pattern.png'); background-size: 200px;"></div>
+  <div class="absolute inset-0 opacity-40 pointer-events-none z-0">
     <div class="absolute top-10 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-brand-gold/10 blur-3xl"></div>
   </div>
 
@@ -114,5 +115,24 @@ const t = useTranslations(locale);
       </div>
 
     </div>
+  </div>
+
+  <!-- Curvy Bottom Wave Divider (Exact Replica of Reference Style) -->
+  <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" class="w-full h-[80px] md:h-[140px] block" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cream Fill Base -->
+      <path 
+        d="M-5,50 C400,150 1000,-50 1445,50 L1445,105 L-5,105 Z" 
+        fill="#FDFBF7">
+      </path>
+      <!-- Brown Wave Stroke -->
+      <path 
+        d="M-5,50 C400,150 1000,-50 1445,50" 
+        fill="none" 
+        stroke="#4A3C31" 
+        stroke-width="14" 
+        vector-effect="non-scaling-stroke">
+      </path>
+    </svg>
   </div>
 </section>

@@ -14,7 +14,7 @@ const t = useTranslations(locale);
 const { products } = await getProducts({ locale, featured: true, limit: 6 });
 ---
 
-<section class="py-16 lg:py-24 bg-brand-cream border-t border-brand-gold/20">
+<section class="py-16 lg:py-24 bg-brand-cream">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
@@ -47,7 +47,7 @@ const { products } = await getProducts({ locale, featured: true, limit: 6 });
         href={`/${locale}/menu`}
         class="inline-flex items-center space-x-2 px-8 py-3.5 rounded-full bg-brand-brown text-brand-gold font-bold text-sm hover:bg-brand-brown-dark border-2 border-brand-gold shadow-md transition-all"
       >
-        <span>{locale === 'es' ? 'Ver Todo el Menú' : 'View Full Menu'}</span>
+        <span>{locale === 'es' ? 'Ver Todo el Catálogo' : 'View Full Catalog'}</span>
         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
         </svg>

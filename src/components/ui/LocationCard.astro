@@ -125,11 +125,13 @@ const t = useTranslations(locale);
       </div>
 
       <!-- Social Links -->
-      <div class="pt-3 border-t border-brand-gold/20">
-        <h4 class="text-[11px] font-bold uppercase tracking-wider text-brand-gold/90 mb-2.5">
+      <div class="pt-3 border-t border-brand-gold/20 flex flex-col items-center text-center md:items-start md:text-left">
+        <h4 class="text-[11px] font-bold uppercase tracking-wider text-brand-gold/90 mb-2.5 w-full">
           {locale === 'es' ? 'Síguenos en Redes' : 'Follow Us'}
         </h4>
-        <SocialLinks size="md" />
+        <div class="flex justify-center md:justify-start w-full">
+          <SocialLinks size="md" />
+        </div>
       </div>
     </div>
 

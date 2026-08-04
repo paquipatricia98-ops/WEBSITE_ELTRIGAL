@@ -27,13 +27,13 @@ const footerNav = [
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-brand-gold/20">
       
       <!-- Col 1: Brand Info -->
-      <div class="space-y-4">
+      <div class="space-y-4 flex flex-col items-center text-center md:items-start md:text-left">
         <Logo size="md" />
         <p class="text-sm text-brand-cream/80 leading-relaxed">
           {t('footer.aboutText')}
         </p>
         <!-- Social Icons in Official Brand Colors -->
-        <div class="pt-2">
+        <div class="pt-2 flex justify-center md:justify-start w-full">
           <SocialLinks size="md" />
         </div>
       </div>

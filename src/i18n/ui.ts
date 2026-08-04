@@ -26,7 +26,7 @@ export const UI_STRINGS = {
   es: {
     // Navigation
     'nav.home': 'Inicio',
-    'nav.menu': 'Menú',
+    'nav.menu': 'Catálogo',
     'nav.ecuadorianBakery': 'Panadería',
     'nav.customCakes': 'Productos 🇪🇨',
     'nav.ecuadorianProducts': 'Productos 🇪🇨',
@@ -47,7 +47,7 @@ export const UI_STRINGS = {
     'hero.badge': 'Tradición Ambateña en New Jersey',
     'hero.title': 'Sabores auténticos de Ecuador en Orange, NJ',
     'hero.subtitle': 'Pan fresco recién horneado todos los días, postres tradicionales ambateños y pasteles personalizados para tus momentos más especiales.',
-    'hero.ctaMenu': 'Explorar Menú',
+    'hero.ctaMenu': 'Explorar Catálogo',
     'hero.ctaQuote': 'Cotizar Pastel Personalizado',
     'hero.feature1': 'Horneado diario desde las 6:00 AM',
     'hero.feature2': 'Recetas 100% artesanales de Ambato',
@@ -83,7 +83,7 @@ export const UI_STRINGS = {
     'home.finalCtaText': 'Visítanos hoy o haz tu pedido por teléfono o DoorDash.',
 
     // Menu Page
-    'menu.title': 'Nuestro Menú Completo',
+    'menu.title': 'Nuestro Catálogo Completo',
     'menu.subtitle': 'Explora la variedad de panes, pasteles, bocaditos y productos tradicionales ecuatorianos.',
     'menu.searchPlaceholder': 'Buscar pan, pastel, empanada...',
     'menu.allCategories': 'Todas las Categorías',
@@ -157,7 +157,7 @@ export const UI_STRINGS = {
     'footer.terms': 'Términos de Servicio',
 
     // Common
-    'common.backToMenu': 'Volver al Menú',
+    'common.backToMenu': 'Volver al Catálogo',
     'common.viewDetails': 'Ver Detalle',
     'common.loading': 'Cargando...',
     'common.errorTitle': 'Error al cargar datos',
@@ -167,7 +167,7 @@ export const UI_STRINGS = {
   en: {
     // Navigation
     'nav.home': 'Home',
-    'nav.menu': 'Menu',
+    'nav.menu': 'Catalog',
     'nav.ecuadorianBakery': 'Bakery',
     'nav.customCakes': 'Products 🇪🇨',
     'nav.ecuadorianProducts': 'Products 🇪🇨',
@@ -188,7 +188,7 @@ export const UI_STRINGS = {
     'hero.badge': 'Ambato Tradition in New Jersey',
     'hero.title': 'Authentic Flavors of Ecuador in Orange, NJ',
     'hero.subtitle': 'Freshly baked bread every morning, traditional Ambato desserts, and custom cakes crafted for your special moments.',
-    'hero.ctaMenu': 'Explore Menu',
+    'hero.ctaMenu': 'Explore Catalog',
     'hero.ctaQuote': 'Quote Custom Cake',
     'hero.feature1': 'Daily fresh baking from 6:00 AM',
     'hero.feature2': '100% artisanal recipes from Ambato',
@@ -224,7 +224,7 @@ export const UI_STRINGS = {
     'home.finalCtaText': 'Visit us today or place your order via phone or DoorDash.',
 
     // Menu Page
-    'menu.title': 'Our Full Menu',
+    'menu.title': 'Our Full Catalog',
     'menu.subtitle': 'Browse our selection of breads, cakes, snacks, and traditional Ecuadorian goods.',
     'menu.searchPlaceholder': 'Search bread, cake, empanada...',
     'menu.allCategories': 'All Categories',
@@ -298,7 +298,7 @@ export const UI_STRINGS = {
     'footer.terms': 'Terms of Service',
 
     // Common
-    'common.backToMenu': 'Back to Menu',
+    'common.backToMenu': 'Back to Catalog',
     'common.viewDetails': 'View Details',
     'common.loading': 'Loading...',
     'common.errorTitle': 'Data loading error',

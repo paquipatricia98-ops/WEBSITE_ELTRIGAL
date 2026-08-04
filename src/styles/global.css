@@ -19,7 +19,6 @@
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     color: var(--brand-brown);
     background-color: var(--brand-cream);
-    overflow-x: hidden;
   }
 
   body {
@@ -30,7 +29,6 @@
     color: var(--brand-brown);
     background-color: var(--brand-cream);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6, p, a, span {
