@@ -4,9 +4,10 @@ interface Props {
   variant?: 'stacked' | 'inline' | 'badge';
   class?: string;
   showText?: boolean;
+  theme?: 'light' | 'dark';
 }
 
-const { size = 'md', variant = 'inline', class: className = '', showText = true } = Astro.props;
+const { size = 'md', variant = 'inline', class: className = '', showText = true, theme = 'light' } = Astro.props;
 
 const dimensions = {
   sm: 'w-10 h-10',
@@ -94,7 +95,7 @@ const dimensions = {
   {
     showText && (
       <div class="flex flex-col justify-center">
-        <span class="font-serif text-xl sm:text-2xl font-black tracking-tight text-brand-brown group-hover:text-brand-brown-dark transition-colors">
+        <span class={`font-serif text-xl sm:text-2xl font-black tracking-tight transition-colors ${theme === 'dark' ? 'text-brand-cream group-hover:text-white' : 'text-brand-brown group-hover:text-brand-brown-dark'}`}>
           El Trigal
         </span>
 

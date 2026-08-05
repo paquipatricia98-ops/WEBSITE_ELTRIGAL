@@ -1,5 +1,5 @@
 ---
-import { getTestimonials } from '../../services/api/publicApi';
+import { getGoogleReviews } from '../../services/api/publicApi';
 import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../types/api';
 
@@ -10,49 +10,171 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const testimonials = await getTestimonials(locale);
+const googleData = await getGoogleReviews(locale);
+// Fallback to empty array if no data is found
+const reviews = googleData?.reviews || [];
+const averageRating = googleData?.rating || 5.0;
+const totalReviews = googleData?.userRatingCount || 0;
+
+// Filter reviews that actually have text and display all of them
+const displayReviews = reviews.filter(r => r.text?.text);
+
+// The direct link to this specific location's Google Reviews
+const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJeeA0MWarw4kRn8FFEpUOUxc";
 ---
 
 <section class="py-16 lg:py-24 bg-brand-cream-dark/50 border-t border-brand-gold/20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
       <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
-        💬 {locale === 'es' ? 'Reseñas Reales' : 'Real Customer Reviews'}
+        💬 {locale === 'es' ? 'Reseñas Reales de Google' : 'Real Google Reviews'}
       </span>
       <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">
         {t('home.testimonialsTitle')}
       </h2>
-      <p class="text-brand-brown/80 text-base sm:text-lg">
-        {t('home.testimonialsSubtitle')}
-      </p>
+      
+      {totalReviews > 0 && (
+        <div class="flex flex-col items-center justify-center mt-4">
+          <div class="flex items-center gap-3 bg-white px-6 py-2 rounded-full shadow-sm border border-brand-gold/20">
+            <svg class="w-6 h-6 text-[#4285F4]" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+            </svg>
+            <span class="text-xl font-bold text-brand-brown">{averageRating.toFixed(1)}</span>
+            <div class="flex text-brand-gold text-lg">
+              ★★★★★
+            </div>
+            <span class="text-sm font-medium text-brand-brown/60">
+              ({totalReviews} {locale === 'es' ? 'reseñas' : 'reviews'})
+            </span>
+          </div>
+        </div>
+      )}
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {
-        testimonials.map((item) => (
-          <div class="bg-brand-cream p-8 rounded-2xl border border-brand-gold/30 shadow-warm flex flex-col justify-between space-y-4">
-            <div class="space-y-3">
-              <div class="flex text-brand-gold text-lg">
-                {Array.from({ length: item.rating }).map(() => (
-                  <span>★</span>
-                ))}
+    {displayReviews.length > 0 ? (
+      <div class="flex flex-wrap justify-center gap-8">
+        {displayReviews.map((item, index) => (
+          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-brand-cream p-8 rounded-2xl border border-brand-gold/30 shadow-warm flex flex-col space-y-5 hover:shadow-lg transition-shadow duration-300 self-start">
+            {/* Header: Photo and Name */}
+            <div class="flex items-center gap-4">
+              {item.authorAttribution?.photoUri ? (
+                <img 
+                  src={item.authorAttribution.photoUri} 
+                  alt={item.authorAttribution.displayName} 
+                  class="w-12 h-12 rounded-full object-cover border-2 border-brand-gold/20 shadow-sm" 
+                  referrerpolicy="no-referrer"
+                  loading="lazy"
+                />
+              ) : (
+                <div class="w-12 h-12 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-lg border-2 border-brand-gold/20 shadow-sm">
+                  {item.authorAttribution?.displayName?.charAt(0) || 'C'}
+                </div>
+              )}
+              
+              <div class="flex-1">
+                <div class="font-serif font-bold text-base text-brand-brown line-clamp-1">
+                  {item.authorAttribution?.displayName}
+                </div>
+                <div class="text-xs text-brand-brown/70 font-medium flex items-center gap-1 mt-0.5">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#4285F4"/>
+                    <path d="M11 19.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.22.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm5.9-2.56C17.72 16.2 18 14.88 18 13.5c0-3.31-2.69-6-6-6v3c0 1.1-.9 2-2 2h-2v2c0 .55-.45 1-1 1H7.13c.48 2.7 2.37 4.96 4.87 5.92V20c1.66 0 3-1.34 3-3v-1h1c1.1 0 2-.9 2-2v-1.12l-1.1 1.49z" fill="#34A853"/>
+                  </svg>
+                  <span>Google Review</span>
+                </div>
               </div>
-              <p class="text-sm text-brand-brown/90 italic leading-relaxed">
-                "{item.content[locale]}"
-              </p>
+
+              {/* Google Icon on Top Right */}
+              <div class="flex-shrink-0 self-start">
+                <svg class="w-6 h-6 text-[#4285F4]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                </svg>
+              </div>
             </div>
-            <div class="pt-4 border-t border-brand-brown/10 flex items-center justify-between">
-              <div>
-                <div class="font-serif font-bold text-sm text-brand-brown">{item.authorName}</div>
-                <div class="text-xs text-brand-gold-secondary font-semibold">{item.authorLocation}</div>
-              </div>
-              <div class="w-8 h-8 rounded-full bg-brand-brown text-brand-gold flex items-center justify-center font-bold text-xs">
-                🇪🇨
-              </div>
+
+            {/* Stars */}
+            <div class="flex text-brand-gold text-lg">
+              {Array.from({ length: item.rating || 5 }).map(() => (
+                <span>★</span>
+              ))}
+            </div>
+
+            {/* Content with Read More logic */}
+            <div class="review-text-container flex flex-col items-start" data-index={index}>
+              <p class="text-sm text-brand-brown/90 italic leading-relaxed w-full">
+                <span class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
+                  "{item.text?.text}"
+                </span>
+              </p>
+              <button 
+                class="read-more-btn mt-2 text-brand-gold font-bold text-xs hover:underline hidden" 
+                id={`read-more-btn-${index}`}
+                data-target={`review-content-${index}`}
+              >
+                {locale === 'es' ? 'Leer más' : 'Read more'}
+              </button>
             </div>
           </div>
-        ))
-      }
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-10 text-brand-brown/70">
+        <p>Cargando increíbles reseñas...</p>
+      </div>
+    )}
+
+    {/* See More Button */}
+    <div class="mt-12 flex justify-center">
+      <a 
+        href={GOOGLE_REVIEWS_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-8 py-3 bg-brand-gold hover:bg-brand-gold-secondary text-white font-bold rounded-full transition-colors shadow-md"
+      >
+        <span>{locale === 'es' ? 'Ver más reseñas en Google' : 'See more reviews on Google'}</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
     </div>
   </div>
 </section>
+
+<script>
+  // Script to handle the "Read More" functionality on the client side
+  document.addEventListener('DOMContentLoaded', () => {
+    const containers = document.querySelectorAll('.review-text-container');
+    
+    containers.forEach(container => {
+      const contentId = container.querySelector('.read-more-btn')?.getAttribute('data-target');
+      if (!contentId) return;
+      
+      const content = document.getElementById(contentId);
+      const btn = document.getElementById(`read-more-btn-${container.getAttribute('data-index')}`);
+      
+      if (content && btn) {
+        // Check if the text is truncated by line-clamp
+        // scrollHeight is the actual height of the text, clientHeight is the visible height
+        if (content.scrollHeight > content.clientHeight) {
+          btn.classList.remove('hidden');
+          
+          btn.addEventListener('click', () => {
+            if (content.classList.contains('line-clamp-4')) {
+              content.classList.remove('line-clamp-4');
+              btn.textContent = btn.textContent?.includes('Leer') ? 'Leer menos' : 'Read less';
+            } else {
+              content.classList.add('line-clamp-4');
+              btn.textContent = btn.textContent?.includes('menos') ? 'Leer más' : 'Read more';
+            }
+          });
+        }
+      }
+    });
+  });
+</script>

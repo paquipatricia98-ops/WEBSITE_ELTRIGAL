@@ -1,11 +1,10 @@
 import { z } from 'zod';
 import { fetchApi } from './client';
 import {
-  CategorySummarySchema,
   FaqItemSchema,
   GalleryMediaItemSchema,
-  ProductSchema,
   TestimonialSchema,
+  GoogleReviewsResponseSchema,
 } from '../../schemas/api';
 import {
   MOCK_CATEGORIES,
@@ -14,11 +13,11 @@ import {
   MOCK_PRODUCTS,
   MOCK_TESTIMONIALS,
 } from './mockData';
-import type { CategorySummary, FaqItem, GalleryMediaItem, Locale, Testimonial } from '../../types/api';
+import type { CategorySummary, FaqItem, GalleryMediaItem, Locale, Testimonial, GoogleReviewsResponse } from '../../types/api';
 import type { Product } from '../../types/product';
 import type { ContactFormData, CustomCakeFormData } from '../../schemas/forms';
 
-function mapRenderProductToFrontend(raw: any, locale: Locale): Product {
+function mapRenderProductToFrontend(raw: any): Product {
   // Use a mock product as a base to satisfy strict schema requirements for missing fields
   const base = MOCK_PRODUCTS[0];
   
@@ -44,7 +43,7 @@ function mapRenderProductToFrontend(raw: any, locale: Locale): Product {
   };
 }
 
-function flattenProductsResponse(data: any[], locale: Locale): Product[] {
+function flattenProductsResponse(data: any[]): Product[] {
   let flatProducts: any[] = [];
   
   for (const item of data) {
@@ -65,7 +64,7 @@ function flattenProductsResponse(data: any[], locale: Locale): Product[] {
     }
   }
   
-  return flatProducts.map((raw: any) => mapRenderProductToFrontend(raw, locale));
+  return flatProducts.map((raw: any) => mapRenderProductToFrontend(raw));
 }
 
 function mapCategoryToFrontend(raw: any): CategorySummary {
@@ -162,7 +161,7 @@ export async function getProducts(params: GetProductsParams = {}): Promise<{ pro
   );
 
   if (res.success && Array.isArray(res.data)) {
-    const products = flattenProductsResponse(res.data, locale);
+    const products = flattenProductsResponse(res.data);
     return {
       products,
       total: res.meta?.totalItems ?? products.length,
@@ -181,7 +180,7 @@ export async function getLocalProducts(locale: Locale = 'es', limit = 24): Promi
   );
 
   if (res.success && Array.isArray(res.data)) {
-    const products = flattenProductsResponse(res.data, locale);
+    const products = flattenProductsResponse(res.data);
     return {
       products,
       total: res.meta?.totalItems ?? products.length,
@@ -200,7 +199,7 @@ export async function getImportedProducts(locale: Locale = 'es', limit = 24): Pr
   );
 
   if (res.success && Array.isArray(res.data)) {
-    const products = flattenProductsResponse(res.data, locale);
+    const products = flattenProductsResponse(res.data);
     return {
       products,
       total: res.meta?.totalItems ?? products.length,
@@ -218,7 +217,7 @@ export async function getProductBySlug(slug: string, locale: Locale = 'es'): Pro
     null
   );
 
-  return res.success && res.data ? mapRenderProductToFrontend(res.data, locale) : null;
+  return res.success && res.data ? mapRenderProductToFrontend(res.data) : null;
 }
 
 export async function getRelatedProducts(slug: string, locale: Locale = 'es', limit = 4): Promise<Product[]> {
@@ -233,7 +232,7 @@ export async function getRelatedProducts(slug: string, locale: Locale = 'es', li
 
   // The endpoint returns { success, data: [...] } where data is an array of products
   const rawItems: any[] = Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
-  return rawItems.map((raw: any) => mapRenderProductToFrontend(raw, locale));
+  return rawItems.map((raw: any) => mapRenderProductToFrontend(raw));
 }
 
 export async function getFaqs(locale: Locale = 'es'): Promise<FaqItem[]> {
@@ -254,6 +253,16 @@ export async function getTestimonials(locale: Locale = 'es'): Promise<Testimonia
     MOCK_TESTIMONIALS
   );
   return res.success ? res.data : MOCK_TESTIMONIALS;
+}
+
+export async function getGoogleReviews(locale: Locale = 'es'): Promise<GoogleReviewsResponse | null> {
+  const res = await fetchApi(
+    'public/reviews',
+    GoogleReviewsResponseSchema,
+    { query: { locale } },
+    { rating: 0, userRatingCount: 0, reviews: [] }
+  );
+  return res.success ? res.data : null;
 }
 
 export async function getGallery(page = 1, limit = 24): Promise<GalleryMediaItem[]> {

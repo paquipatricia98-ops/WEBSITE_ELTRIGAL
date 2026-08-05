@@ -60,6 +60,24 @@ export interface Testimonial {
   date: string;
 }
 
+export interface GoogleReview {
+  authorAttribution: {
+    displayName: string;
+    photoUri?: string;
+  };
+  rating: number;
+  text?: {
+    text: string;
+  };
+  publishTime?: string;
+}
+
+export interface GoogleReviewsResponse {
+  rating?: number;
+  userRatingCount?: number;
+  reviews: GoogleReview[];
+}
+
 export interface FaqItem {
   id: string;
   category: 'general' | 'custom-cakes' | 'orders' | 'catering';

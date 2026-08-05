@@ -18,7 +18,7 @@ const t = useTranslations(locale);
       <div class="lg:col-span-6 space-y-6">
         <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-brand-gold/20 text-brand-gold border border-brand-gold/40 text-xs font-bold uppercase tracking-wider">
           <span>🥐</span>
-          <span>{locale === 'es' ? 'Tradición Ambateña' : 'Ambato Tradition'}</span>
+          <span>{locale === 'es' ? 'SABORES QUE NOS CONECTAN CON ECUADOR' : 'Ambato Tradition'}</span>
         </div>
 
         <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-cream leading-tight">
@@ -31,26 +31,26 @@ const t = useTranslations(locale);
 
         <div class="grid grid-cols-2 gap-4 py-2">
           <div class="bg-brand-cream/10 p-4 rounded-xl border border-brand-gold/30">
-            <div class="font-serif font-bold text-brand-gold text-lg">Allullas</div>
-            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Saladas y hojaldradas' : 'Savory & flaky'}</div>
+            <div class="font-serif font-bold text-brand-gold text-lg">Productos Horneados</div>
+            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Frescos, variados y preparados artesanalmente.' : 'Savory & flaky'}</div>
           </div>
           <div class="bg-brand-cream/10 p-4 rounded-xl border border-brand-gold/30">
-            <div class="font-serif font-bold text-brand-gold text-lg">Pan de Agua</div>
-            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Corteza crujiente' : 'Crispy crust'}</div>
+            <div class="font-serif font-bold text-brand-gold text-lg">Pasteles Personalizados</div>
+            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Diseños especiales para cumpleaños y celebraciones.' : 'Crispy crust'}</div>
           </div>
           <div class="bg-brand-cream/10 p-4 rounded-xl border border-brand-gold/30">
-            <div class="font-serif font-bold text-brand-gold text-lg">Empanadas de Viento</div>
-            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Queso fresco y azúcar' : 'Fresh cheese & sugar'}</div>
+            <div class="font-serif font-bold text-brand-gold text-lg">Smoothies y Bebidas</div>
+            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Opciones refrescantes, deliciosas y hechas al momento.' : 'Fresh cheese & sugar'}</div>
           </div>
           <div class="bg-brand-cream/10 p-4 rounded-xl border border-brand-gold/30">
-            <div class="font-serif font-bold text-brand-gold text-lg">Quesadillas</div>
-            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Almidón de achira' : 'Achira starch'}</div>
+            <div class="font-serif font-bold text-brand-gold text-lg">Postres Caseros</div>
+            <div class="text-xs text-brand-cream/70">{locale === 'es' ? 'Pan de chocolate, helado de mango y mucho más.' : 'Achira starch'}</div>
           </div>
         </div>
 
         <div class="pt-2">
           <a
-            href={locale === 'es' ? '/es/panaderia-ecuatoriana' : '/en/ecuadorian-bakery'}
+            href={locale === 'es' ? '/es/menu' : '/en/menu'}
             class="inline-block px-8 py-4 rounded-full bg-brand-gold text-brand-brown font-bold text-base hover:bg-brand-gold-secondary shadow-lg transition-all"
           >
             {t('home.ecuadorianBreadCta')} →
@@ -68,7 +68,7 @@ const t = useTranslations(locale);
             class="w-full h-[400px] lg:h-[500px] object-cover"
           />
           <div class="absolute bottom-4 right-4 bg-brand-brown/90 px-4 py-2 rounded-xl border border-brand-gold text-xs font-bold text-brand-gold">
-            🔥 {locale === 'es' ? 'Horneado diario desde las 6:00 AM' : 'Baked fresh daily from 6:00 AM'}
+            ✨ {locale === 'es' ? 'Frescura, tradición y sabor ecuatoriano' : 'Baked fresh daily from 6:00 AM'}
           </div>
         </div>
       </div>

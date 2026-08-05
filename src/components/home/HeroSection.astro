@@ -105,8 +105,8 @@ const t = useTranslations(locale);
                   🌟
                 </div>
                 <div>
-                  <h3 class="font-serif font-bold text-sm text-brand-gold">Pan de Agua y Allullas Frescas</h3>
-                  <p class="text-xs text-brand-cream/80">Receta tradicional horneada diariamente en Orange, NJ</p>
+                  <h3 class="font-serif font-bold text-sm text-brand-gold">Pan ecuatoriano recién horneado</h3>
+                  <p class="text-xs text-brand-cream/80">Tradición, frescura y sabor artesanal en Orange, NJ.</p>
                 </div>
               </div>
             </div>
@@ -120,17 +120,30 @@ const t = useTranslations(locale);
   <!-- Curvy Bottom Wave Divider (Exact Replica of Reference Style) -->
   <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0">
     <svg viewBox="0 0 1440 100" preserveAspectRatio="none" class="w-full h-[80px] md:h-[140px] block" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Gradient for the wave line -->
+        <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#D4AF37" />
+          <stop offset="50%" stop-color="#4A3C31" />
+          <stop offset="100%" stop-color="#D4AF37" />
+        </linearGradient>
+        <!-- Glow/Shadow effect -->
+        <filter id="wave-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#4A3C31" flood-opacity="0.3" />
+        </filter>
+      </defs>
       <!-- Cream Fill Base -->
       <path 
         d="M-5,50 C400,150 1000,-50 1445,50 L1445,105 L-5,105 Z" 
         fill="#FDFBF7">
       </path>
-      <!-- Brown Wave Stroke -->
+      <!-- Gradient Wave Stroke with Shadow -->
       <path 
         d="M-5,50 C400,150 1000,-50 1445,50" 
         fill="none" 
-        stroke="#4A3C31" 
+        stroke="url(#wave-gradient)" 
         stroke-width="14" 
+        filter="url(#wave-glow)"
         vector-effect="non-scaling-stroke">
       </path>
     </svg>

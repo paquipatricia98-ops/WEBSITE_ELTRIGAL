@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import Breadcrumbs from '../../components/ui/Breadcrumbs.astro';
-import CloudinaryImage from '../../components/ui/CloudinaryImage.astro';
+
 import DoorDashButton from '../../components/ui/DoorDashButton.astro';
 import UberEatsButton from '../../components/ui/UberEatsButton.astro';
 import { SITE_CONFIG } from '../../config/site';
@@ -24,51 +24,66 @@ const breadcrumbs = [
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
       <div class="lg:col-span-6 space-y-6">
         <span class="text-xs font-bold uppercase tracking-widest text-brand-gold-secondary">
-          🎉 Eventos y Fiestas Inolvidables
+          🎉 SABOR PARA TUS MOMENTOS ESPECIALES
         </span>
         <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown leading-tight">
-          Catering con el Sabor Auténtico de Ecuador
+          Catering y pedidos especiales con el sabor de Bakery "El Trigal"
         </h1>
-        <p class="text-brand-brown/85 text-base sm:text-lg leading-relaxed">
-          Preparamos bandejas de bocaditos dulces y salados para cumpleaños, bautizos, reuniones corporativas y celebraciones familiares en Orange, East Orange, West Orange y todo Essex County.
-        </p>
+        <div class="text-brand-brown/85 text-base sm:text-lg leading-relaxed space-y-4">
+          <p>
+            En Bakery “El Trigal” preparamos pasteles personalizados, postres, productos horneados, snacks, bebidas y smoothies para cumpleaños, reuniones familiares, eventos y celebraciones especiales.
+          </p>
+          <p>
+            Cada pedido se prepara con dedicación, frescura y ese sabor casero que nos conecta con nuestra tierra. Cuéntanos qué necesitas y te ayudaremos a preparar una opción especial para compartir con tus invitados.
+          </p>
+        </div>
 
-        <div class="grid grid-cols-2 gap-4 text-xs font-bold text-brand-brown">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-brand-brown mt-6">
           <div class="bg-brand-gold/15 p-4 rounded-xl border border-brand-gold/30">
-            🥟 Mini Empanadas de Viento
+            <div class="font-bold text-sm mb-1">🎂 Pasteles personalizados</div>
+            <div class="text-xs text-brand-brown/80">Diseños especiales para cumpleaños, aniversarios y celebraciones.</div>
           </div>
           <div class="bg-brand-gold/15 p-4 rounded-xl border border-brand-gold/30">
-            🥐 Allullitas y Hojaldres
+            <div class="font-bold text-sm mb-1">🍰 Postres y productos horneados</div>
+            <div class="text-xs text-brand-brown/80">Variedad de opciones frescas para compartir con tus invitados.</div>
           </div>
           <div class="bg-brand-gold/15 p-4 rounded-xl border border-brand-gold/30">
-            🧀 Quesadillas en Porciones
+            <div class="font-bold text-sm mb-1">🥤 Smoothies y bebidas</div>
+            <div class="text-xs text-brand-brown/80">Bebidas refrescantes preparadas para complementar tu celebración.</div>
           </div>
           <div class="bg-brand-gold/15 p-4 rounded-xl border border-brand-gold/30">
-            🍰 Postres en Vasito
+            <div class="font-bold text-sm mb-1">🍪 Snacks y pedidos especiales</div>
+            <div class="text-xs text-brand-brown/80">Opciones dulces y saladas de acuerdo con la disponibilidad.</div>
           </div>
         </div>
 
         <!-- Direct Action Buttons -->
-        <div class="pt-4 space-y-3">
-          <h3 class="font-serif font-bold text-lg text-brand-brown">Pide tu catering a domicilio:</h3>
-          <div class="flex flex-wrap items-center gap-3">
-            <DoorDashButton size="lg" />
-            <UberEatsButton size="lg" />
+        <div class="pt-6 space-y-4">
+          <h3 class="font-serif font-bold text-lg text-brand-brown">Planea tu pedido con nosotros</h3>
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="/es/contacto" class="inline-block bg-brand-gold hover:bg-brand-gold-secondary text-brand-brown font-bold px-6 py-3 rounded-xl transition-colors shadow-md">
+              Solicitar información
+            </a>
+            <a href={SITE_CONFIG.phone.tel} class="inline-block bg-white hover:bg-gray-50 text-brand-brown border border-brand-gold font-bold px-6 py-3 rounded-xl transition-colors shadow-sm">
+              📞 Llamar a Bakery "El Trigal"
+            </a>
           </div>
-          <p class="text-xs text-brand-brown/80 pt-1">
-            📞 O llámanos directamente al <a href={SITE_CONFIG.phone.tel} class="font-bold text-brand-brown underline">{SITE_CONFIG.phone.display}</a> para pedidos especiales.
+          <p class="text-xs text-brand-brown/70 italic mt-4 border-t pt-4 border-gray-200">
+            Pedidos especiales sujetos a disponibilidad. Contáctanos con anticipación para conocer opciones, cantidades y precios.
           </p>
+          <div class="pt-4 flex flex-wrap gap-3">
+             <DoorDashButton size="sm" />
+             <UberEatsButton size="sm" />
+          </div>
         </div>
       </div>
 
       <div class="lg:col-span-6">
         <div class="rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
-          <CloudinaryImage
-            src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=900&auto=format&fit=crop&q=80"
-            alt="Bandejas de catering El Trigal Orange NJ"
-            width={800}
-            height={600}
-            class="w-full h-[400px] object-cover"
+          <img
+            src="/images/catering/hero.jpg"
+            alt="Vitrina de pasteles y postres de Bakery El Trigal"
+            class="w-full h-auto object-cover"
           />
         </div>
       </div>

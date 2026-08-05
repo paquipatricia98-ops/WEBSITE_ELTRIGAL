@@ -128,6 +128,24 @@ export const TestimonialSchema = z.object({
   date: z.string(),
 });
 
+export const GoogleReviewSchema = z.object({
+  authorAttribution: z.object({
+    displayName: z.string(),
+    photoUri: z.string().optional(),
+  }),
+  rating: z.number(),
+  text: z.object({
+    text: z.string()
+  }).optional(),
+  publishTime: z.string().optional(),
+});
+
+export const GoogleReviewsResponseSchema = z.object({
+  rating: z.number().optional(),
+  userRatingCount: z.number().optional(),
+  reviews: z.array(GoogleReviewSchema),
+});
+
 export const FaqItemSchema = z.object({
   id: z.string(),
   category: z.enum(['general', 'custom-cakes', 'orders', 'catering']),

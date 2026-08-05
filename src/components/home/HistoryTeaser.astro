@@ -2,25 +2,88 @@
 import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../types/api';
 
+
 interface Props {
   locale: Locale;
 }
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+
+const images = [
+  {
+    src: '/images/history/cakes.jpg',
+    title: locale === 'es' ? 'Dulzura para cada ocasión' : 'Sweetness for every occasion',
+    text: locale === 'es' ? 'Pasteles, postres y delicias preparadas para compartir momentos especiales.' : 'Cakes, desserts and delights prepared to share special moments.',
+    colSpan: 'lg:col-span-5'
+  },
+  {
+    src: '/images/history/interior.jpg',
+    title: locale === 'es' ? 'Un espacio para disfrutar' : 'A space to enjoy',
+    text: locale === 'es' ? 'Visítanos y disfruta de un ambiente limpio, tranquilo y acogedor en Orange, NJ.' : 'Visit us and enjoy a clean, quiet and welcoming environment in Orange, NJ.',
+    colSpan: 'lg:col-span-7' // Takes more space!
+  },
+  {
+    src: '/images/history/snacks.jpg',
+    title: locale === 'es' ? 'Sabores de nuestra tierra' : 'Flavors of our homeland',
+    text: locale === 'es' ? 'Encuentra snacks y productos ecuatorianos que nos acercan a nuestras raíces.' : 'Find Ecuadorian snacks and products that bring us closer to our roots.',
+    colSpan: 'lg:col-span-7'
+  },
+  {
+    src: '/images/history/bread.jpg',
+    title: locale === 'es' ? 'Pan fresco y variedad' : 'Fresh bread and variety',
+    text: locale === 'es' ? 'Disfruta nuestra selección de panes y productos horneados preparados para cada día.' : 'Enjoy our selection of breads and baked goods prepared for every day.',
+    colSpan: 'lg:col-span-5'
+  }
+];
 ---
 
 <section class="py-16 lg:py-24 bg-brand-cream-dark/50 border-t border-brand-gold/20">
-  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
     <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
-      🏙️ {locale === 'es' ? 'Herencia y Amor por Nuestra Tierra' : 'Heritage & Love for Our Homeland'}
+      {t('home.historyBadge')}
     </span>
     <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-brown">
       {t('home.historyTitle')}
     </h2>
-    <p class="text-base sm:text-xl text-brand-brown/85 leading-relaxed max-w-3xl mx-auto">
+    <p class="text-base sm:text-xl text-brand-brown/85 leading-relaxed max-w-4xl mx-auto">
       {t('home.historyText')}
     </p>
+
+    <!-- Images Container -->
+    <div class="pt-8 pb-4">
+      <!-- Mobile Carousel (visible on small screens) -->
+      <div class="lg:hidden flex overflow-x-auto snap-x snap-mandatory space-x-4 pb-6 -mx-4 px-4 hide-scrollbar">
+        {images.map((img) => (
+          <div class="flex-none w-[85%] sm:w-[60%] snap-center relative rounded-3xl overflow-hidden group shadow-lg aspect-square">
+            <img src={img.src} alt={img.title} class="w-full h-full object-cover" loading="lazy" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6 text-left">
+              <h3 class="font-serif font-bold text-xl sm:text-2xl text-white mb-2 drop-shadow-md">{img.title}</h3>
+              <p class="text-white/90 text-sm sm:text-base leading-snug drop-shadow-md">{img.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Desktop Bento Grid (visible on large screens) -->
+      <div class="hidden lg:grid grid-cols-12 gap-4 auto-rows-[280px]">
+        {images.map((img) => (
+          <div class={`relative rounded-3xl overflow-hidden group shadow-md ${img.colSpan}`}>
+            <img 
+              src={img.src} 
+              alt={img.title} 
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-8 text-left opacity-95 group-hover:opacity-100 transition-opacity">
+              <h3 class="font-serif font-bold text-2xl text-white mb-2 drop-shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">{img.title}</h3>
+              <p class="text-white/95 text-base max-w-md drop-shadow-md transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75">{img.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
     <div class="pt-4">
       <a
         href={locale === 'es' ? '/es/nuestra-historia' : '/en/our-story'}
@@ -31,3 +94,14 @@ const t = useTranslations(locale);
     </div>
   </div>
 </section>
+
+<style>
+  /* Utility class to hide scrollbar but allow scrolling */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

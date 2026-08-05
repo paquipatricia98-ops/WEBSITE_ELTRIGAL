@@ -51,6 +51,12 @@ export function getBakeryJsonLd(locale: Locale) {
     ],
     'servesCuisine': ['Ecuadorean', 'Bakery', 'Pastries', 'Empanadas', 'Custom Cakes'],
     'acceptsReservations': 'True',
+    'hasMenu': `https://eltrigalbakery.com/${locale}/menu`,
+    'founder': {
+      '@type': 'Person',
+      'name': 'Lizbeth Toroshina',
+    },
+    'foundingDate': '2000', // Reference value based on typical long-standing bakeries if actual year is unknown.
   };
 }
 

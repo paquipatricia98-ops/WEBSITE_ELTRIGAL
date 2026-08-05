@@ -116,6 +116,9 @@ const t = useTranslations(locale);
     </div>
 
     <!-- Submit Button -->
+    <!-- Honeypot -->
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    
     <button
       type="submit"
       id="contact-submit"
@@ -125,6 +128,28 @@ const t = useTranslations(locale);
     </button>
 
   </form>
+
+  <!-- Success Modal (Tailwind styled like Bootstrap) -->
+  <div id="contact-success-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity">
+    <div class="bg-white rounded-lg shadow-xl w-11/12 max-w-md mx-auto overflow-hidden transform transition-all scale-95 opacity-0" id="contact-success-modal-content">
+      <div class="border-b px-4 py-3 flex justify-between items-center">
+        <h5 class="text-lg font-semibold text-gray-800 m-0">¡Enviado exitosamente!</h5>
+        <button type="button" id="close-contact-modal-x" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="p-4 text-gray-600 text-sm">
+        <p>Tu mensaje ha sido enviado correctamente.</p>
+        <p class="mt-2">Te responderemos a la brevedad posible.</p>
+        <p class="text-xs mt-3 pt-3 border-t text-gray-500">Nota para administrador: La primera vez, <b>Lizbeth debe abrir su correo</b> y dar clic en "Activar" el servicio de FormSubmit.</p>
+      </div>
+      <div class="border-t px-4 py-3 flex justify-end bg-gray-50">
+        <button type="button" id="close-contact-modal-btn" class="bg-[#0d6efd] hover:bg-[#0b5ed7] text-white px-4 py-2 rounded font-medium transition-colors">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -150,6 +175,7 @@ const t = useTranslations(locale);
       }
 
       const formData = new FormData(form);
+      if (formData.get('_honey')) return;
       const rawData = {
         name: formData.get('name')?.toString() || '',
         email: formData.get('email')?.toString() || '',
@@ -186,12 +212,42 @@ const t = useTranslations(locale);
 
       try {
         const res = await submitContact(parsed.data);
+        
+        // Send email notification to lizbeth.toroshina@gmail.com via FormSubmit
+        try {
+          await fetch("https://formsubmit.co/ajax/lizbeth.toroshina@gmail.com", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+              _subject: "Nuevo Mensaje de Contacto - El Trigal",
+              Nombre: parsed.data.name,
+              Email: parsed.data.email,
+              Telefono: parsed.data.phone || "No proporcionado",
+              Asunto: parsed.data.subject,
+              Mensaje: parsed.data.message,
+              _template: "table"
+            })
+          });
+        } catch (emailErr) {
+          console.warn("No se pudo enviar el correo de notificación:", emailErr);
+        }
+
         if (res.success) {
-          if (alert) {
-            alert.textContent = '¡Gracias por escribirnos! Te responderemos muy pronto.';
-            alert.classList.remove('hidden');
-            alert.classList.add('bg-green-100', 'text-green-800', 'border', 'border-green-300');
+          // Show Bootstrap-style Modal
+          const modal = document.getElementById('contact-success-modal');
+          const modalContent = document.getElementById('contact-success-modal-content');
+          if (modal && modalContent) {
+            modal.classList.remove('hidden');
+            // Trigger animation
+            setTimeout(() => {
+              modalContent.classList.remove('scale-95', 'opacity-0');
+              modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
           }
+          
           form.reset();
         } else {
           throw new Error(res.error.message);
@@ -209,5 +265,21 @@ const t = useTranslations(locale);
         }
       }
     });
+
+    // Modal Close Logic
+    const closeContactModal = () => {
+      const modal = document.getElementById('contact-success-modal');
+      const modalContent = document.getElementById('contact-success-modal-content');
+      if (modal && modalContent) {
+        modalContent.classList.remove('scale-100', 'opacity-100');
+        modalContent.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 200);
+      }
+    };
+
+    document.getElementById('close-contact-modal-x')?.addEventListener('click', closeContactModal);
+    document.getElementById('close-contact-modal-btn')?.addEventListener('click', closeContactModal);
   }
 </script>
