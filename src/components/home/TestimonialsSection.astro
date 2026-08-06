@@ -57,7 +57,7 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
     {displayReviews.length > 0 ? (
       <div class="flex flex-wrap justify-center gap-8">
         {displayReviews.map((item, index) => (
-          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-white p-8 rounded-2xl shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 relative text-left min-h-[320px]">
+          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-white p-8 rounded-2xl shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 relative text-left">
             
             {/* Google Icon Floating Top Right */}
             <div class="absolute top-6 right-6">
@@ -89,8 +89,8 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
               </div>
               
               {/* Name, Badge & Stars */}
-              <div class="flex flex-col justify-center pr-8">
-                <div class="font-bold text-xl text-brand-brown leading-tight">
+              <div class="flex flex-col justify-center pr-8 min-w-0 flex-1">
+                <div class="font-bold text-[17px] text-brand-brown leading-tight truncate">
                   {item.authorAttribution?.displayName}
                 </div>
                 <div class="text-[15px] text-gray-500 font-medium mt-1">
@@ -109,7 +109,7 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
 
             {/* Content */}
             <div class="review-text-container flex flex-col items-start w-full flex-1" data-index={index}>
-              <div class="text-[15px] text-gray-600 leading-relaxed text-left w-full">
+              <div class="text-[15px] text-gray-600 leading-relaxed text-left w-full min-h-[96px]">
                 <div class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
                   {item.text?.text}
                 </div>
