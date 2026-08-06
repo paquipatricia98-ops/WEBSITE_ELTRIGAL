@@ -26,6 +26,7 @@ const siteTitle = title
   : `${SITE_CONFIG.name} | Pan de Ambato y Pasteles en Orange, NJ`;
 
 const metaDescription = description || SITE_CONFIG.description[locale];
+const metaKeywords = SITE_CONFIG.keywords[locale];
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 
 const currentPath = Astro.url.pathname;
@@ -36,13 +37,16 @@ const enUrl = new URL(getEquivalentRoute(currentPath, 'en'), Astro.site).href;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+  <link rel="mask-icon" href="/favicon.svg?v=2" color="#F25C27" />
+  <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
   <meta name="generator" content={Astro.generator} />
 
   <!-- Primary Meta Tags -->
   <title>{siteTitle}</title>
   <meta name="title" content={siteTitle} />
   <meta name="description" content={metaDescription} />
+  <meta name="keywords" content={metaKeywords} />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
 
   <!-- Canonical & Hreflang -->
