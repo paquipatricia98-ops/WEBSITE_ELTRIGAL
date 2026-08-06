@@ -88,22 +88,22 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
                 )}
               </div>
               
-              {/* Name & Badge */}
+              {/* Name, Stars & Badge */}
               <div class="flex flex-col justify-center pr-8">
-                <div class="font-serif font-bold text-lg text-brand-brown leading-tight">
-                  {item.authorAttribution?.displayName}
+                <div class="flex items-center gap-2">
+                  <div class="font-serif font-bold text-lg text-brand-brown leading-tight">
+                    {item.authorAttribution?.displayName}
+                  </div>
+                  <div class="flex text-brand-gold text-base mt-0.5">
+                    {Array.from({ length: item.rating || 5 }).map(() => (
+                      <span>★</span>
+                    ))}
+                  </div>
                 </div>
                 <div class="text-[11px] text-brand-brown/60 font-semibold mt-1 uppercase tracking-widest">
                   Google Review
                 </div>
               </div>
-            </div>
-
-            {/* Stars */}
-            <div class="flex text-brand-gold text-lg justify-start">
-              {Array.from({ length: item.rating || 5 }).map(() => (
-                <span>★</span>
-              ))}
             </div>
 
             {/* Content */}
