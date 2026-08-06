@@ -108,7 +108,7 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
 
             {/* Content */}
             <div class="review-text-container flex flex-col items-start w-full flex-1" data-index={index}>
-              <div class="text-sm text-brand-brown/90 italic leading-relaxed text-left w-full">
+              <div class="text-sm text-brand-brown/90 italic leading-relaxed text-left w-full min-h-[96px]">
                 <div class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
                   "{item.text?.text}"
                 </div>
