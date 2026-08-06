@@ -77,12 +77,12 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
                   <img 
                     src={item.authorAttribution.photoUri} 
                     alt={item.authorAttribution.displayName} 
-                    class="w-20 h-20 rounded-full object-cover shadow-sm" 
+                    class="w-16 h-16 rounded-full object-cover shadow-sm" 
                     referrerpolicy="no-referrer"
                     loading="lazy"
                   />
                 ) : (
-                  <div class="w-20 h-20 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-3xl shadow-sm">
+                  <div class="w-16 h-16 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-2xl shadow-sm">
                     {item.authorAttribution?.displayName?.charAt(0) || 'C'}
                   </div>
                 )}
@@ -90,13 +90,13 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
               
               {/* Name, Badge & Stars */}
               <div class="flex flex-col justify-center pr-8 min-w-0 flex-1">
-                <div class="font-bold text-[17px] text-brand-brown leading-tight truncate">
+                <div class="font-bold text-xl text-brand-brown leading-tight">
                   {item.authorAttribution?.displayName}
                 </div>
                 <div class="text-[15px] text-gray-500 font-medium mt-1">
                   Google Review
                 </div>
-                <div class="flex text-brand-gold text-xl mt-1.5 gap-0.5">
+                <div class="flex text-brand-gold text-xl mt-1 gap-0.5">
                   {Array.from({ length: item.rating || 5 }).map(() => (
                     <span>★</span>
                   ))}
