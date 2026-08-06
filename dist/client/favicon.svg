@@ -1,0 +1,69 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Dark Brown Ring -->
+  <circle cx="100" cy="100" r="98" fill="#4A3C31" stroke="#D4AF37" stroke-width="4" />
+
+  <!-- Outer Gold Ring with Embellishments -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#D4AF37" stroke-width="6" />
+  <circle cx="100" cy="100" r="84" fill="#FDFBF7" stroke="#C5A059" stroke-width="2" stroke-dasharray="3 3" />
+
+  <!-- Inner Gold Ring -->
+  <circle cx="100" cy="100" r="76" fill="#D4AF37" />
+  
+  <!-- Center Cream Disc -->
+  <circle cx="100" cy="100" r="68" fill="#FDFBF7" stroke="#4A3C31" stroke-width="3" />
+  <circle cx="100" cy="100" r="64" fill="none" stroke="#4A3C31" stroke-width="1" />
+
+  <!-- Curved BAKERY Text Arc -->
+  <path id="bakeryArc" d="M 52,90 A 50,50 0 0,1 148,90" fill="none" />
+  <text font-family="'Playfair Display', Georgia, serif" font-size="15" font-weight="800" fill="#4A3C31" letter-spacing="3">
+    <textPath href="#bakeryArc" startOffset="50%" text-anchor="middle">
+      BAKERY
+    </textPath>
+  </text>
+
+  <!-- Steam Lines -->
+  <path d="M 94,54 Q 96,48 94,44" fill="none" stroke="#4A3C31" stroke-width="2" stroke-linecap="round" />
+  <path d="M 100,52 Q 102,46 100,42" fill="none" stroke="#4A3C31" stroke-width="2" stroke-linecap="round" />
+  <path d="M 106,54 Q 108,48 106,44" fill="none" stroke="#4A3C31" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Main EL TRIGAL Text -->
+  <text
+    x="100"
+    y="108"
+    font-family="'Playfair Display', Georgia, serif"
+    font-size="20"
+    font-weight="900"
+    fill="#4A3C31"
+    text-anchor="middle"
+    letter-spacing="1"
+  >
+    EL TRIGAL
+  </text>
+
+  <!-- Rolling Pin (Rodillo) -->
+  <g fill="#4A3C31">
+    <!-- Handles -->
+    <rect x="58" y="122" width="10" height="4" rx="2" />
+    <rect x="132" y="122" width="10" height="4" rx="2" stroke="#4A3C31" />
+    <!-- Barrel -->
+    <rect x="68" y="119" width="64" height="10" rx="3" />
+    <line x1="72" y1="124" x2="128" y2="124" stroke="#FDFBF7" stroke-width="1.5" opacity="0.6" />
+  </g>
+
+  <!-- Wheat Stalks (Espigas de Trigo) -->
+  <g stroke="#4A3C31" stroke-width="2" fill="#4A3C31">
+    <!-- Left Stalk -->
+    <path d="M 100,154 Q 76,148 56,134" fill="none" stroke-linecap="round" />
+    <circle cx="60" cy="136" r="3" />
+    <circle cx="68" cy="140" r="3" />
+    <circle cx="76" cy="144" r="3" />
+    <circle cx="85" cy="148" r="3" />
+
+    <!-- Right Stalk -->
+    <path d="M 100,154 Q 124,148 144,134" fill="none" stroke-linecap="round" />
+    <circle cx="140" cy="136" r="3" />
+    <circle cx="132" cy="140" r="3" />
+    <circle cx="124" cy="144" r="3" />
+    <circle cx="115" cy="148" r="3" />
+  </g>
+</svg>
