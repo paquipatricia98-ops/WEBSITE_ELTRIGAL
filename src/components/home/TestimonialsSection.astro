@@ -57,7 +57,7 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
     {displayReviews.length > 0 ? (
       <div class="flex flex-wrap justify-center gap-8">
         {displayReviews.map((item, index) => (
-          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-brand-cream p-8 rounded-2xl border border-brand-gold/30 shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 relative text-left min-h-[320px]">
+          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-white p-8 rounded-2xl shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 relative text-left min-h-[320px]">
             
             {/* Google Icon Floating Top Right */}
             <div class="absolute top-6 right-6">
@@ -70,47 +70,48 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
             </div>
 
             {/* Header: Photo and Name aligned left */}
-            <div class="flex items-center gap-4 mb-2">
+            <div class="flex items-center gap-4 mb-3">
               {/* Photo */}
               <div class="flex-shrink-0">
                 {item.authorAttribution?.photoUri ? (
                   <img 
                     src={item.authorAttribution.photoUri} 
                     alt={item.authorAttribution.displayName} 
-                    class="w-14 h-14 rounded-full object-cover border-2 border-brand-gold/30 shadow-sm" 
+                    class="w-20 h-20 rounded-full object-cover shadow-sm" 
                     referrerpolicy="no-referrer"
                     loading="lazy"
                   />
                 ) : (
-                  <div class="w-14 h-14 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-xl border-2 border-brand-gold/30 shadow-sm">
+                  <div class="w-20 h-20 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-3xl shadow-sm">
                     {item.authorAttribution?.displayName?.charAt(0) || 'C'}
                   </div>
                 )}
               </div>
               
-              {/* Name, Stars & Badge */}
+              {/* Name, Badge & Stars */}
               <div class="flex flex-col justify-center pr-8">
-                <div class="flex items-center gap-2">
-                  <div class="font-serif font-bold text-lg text-brand-brown leading-tight">
-                    {item.authorAttribution?.displayName}
-                  </div>
-                  <div class="flex text-brand-gold text-base mt-0.5">
-                    {Array.from({ length: item.rating || 5 }).map(() => (
-                      <span>★</span>
-                    ))}
-                  </div>
+                <div class="font-bold text-xl text-brand-brown leading-tight">
+                  {item.authorAttribution?.displayName}
                 </div>
-                <div class="text-[11px] text-brand-brown/60 font-semibold mt-1 uppercase tracking-widest">
+                <div class="text-[15px] text-gray-500 font-medium mt-1">
                   Google Review
+                </div>
+                <div class="flex text-brand-gold text-xl mt-1.5 gap-0.5">
+                  {Array.from({ length: item.rating || 5 }).map(() => (
+                    <span>★</span>
+                  ))}
+                  {Array.from({ length: 5 - (item.rating || 5) }).map(() => (
+                    <span class="text-gray-300">★</span>
+                  ))}
                 </div>
               </div>
             </div>
 
             {/* Content */}
             <div class="review-text-container flex flex-col items-start w-full flex-1" data-index={index}>
-              <div class="text-sm text-brand-brown/90 italic leading-relaxed text-left w-full">
+              <div class="text-[15px] text-gray-600 leading-relaxed text-left w-full">
                 <div class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
-                  "{item.text?.text}"
+                  {item.text?.text}
                 </div>
               </div>
               <div class="mt-auto pt-3">
