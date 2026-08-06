@@ -268,30 +268,10 @@ export async function getTestimonials(locale: Locale = 'es'): Promise<Testimonia
 }
 
 export async function getGoogleReviews(locale: Locale = 'es'): Promise<GoogleReviewsResponse | null> {
-  const fallback: GoogleReviewsResponse = {
-    rating: 5,
-    userRatingCount: MOCK_TESTIMONIALS.length,
-    reviews: MOCK_TESTIMONIALS.map(t => ({
-      authorAttribution: {
-        displayName: t.authorName,
-        uri: '',
-        photoUri: ''
-      },
-      language: locale,
-      rating: t.rating,
-      text: {
-        text: t.content[locale] || t.content.es,
-        languageCode: locale
-      },
-      time: t.date,
-    }))
-  };
-
   const res = await fetchApi(
     'public/reviews',
     GoogleReviewsResponseSchema,
-    { query: { locale } },
-    fallback
+    { query: { locale } }
   );
   return res.success ? res.data : null;
 }
