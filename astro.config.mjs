@@ -7,13 +7,14 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
+  output: 'server',
   site: 'https://eltrigalbakery.com',
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],
     routing: {
       prefixDefaultLocale: true,
-      redirectToDefaultLocale: true,
+      redirectToDefaultLocale: false,
     },
   },
   integrations: [
