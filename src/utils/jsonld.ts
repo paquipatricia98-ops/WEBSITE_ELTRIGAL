@@ -34,13 +34,13 @@ export function getBakeryJsonLd(locale: Locale) {
         '@type': 'OpeningHoursSpecification',
         'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         'opens': '06:00',
-        'closes': '20:00',
+        'closes': '21:00',
       },
       {
         '@type': 'OpeningHoursSpecification',
         'dayOfWeek': ['Sunday'],
         'opens': '06:00',
-        'closes': '19:00',
+        'closes': '18:00',
       },
     ],
     'sameAs': [
