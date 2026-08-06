@@ -57,7 +57,7 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
     {displayReviews.length > 0 ? (
       <div class="flex flex-wrap justify-center gap-8">
         {displayReviews.map((item, index) => (
-          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-brand-cream p-8 rounded-2xl border border-brand-gold/30 shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 self-start relative text-left">
+          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-brand-cream p-8 rounded-2xl border border-brand-gold/30 shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 relative text-left h-full">
             
             {/* Google Icon Floating Top Right */}
             <div class="absolute top-6 right-6">
@@ -107,19 +107,21 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
             </div>
 
             {/* Content */}
-            <div class="review-text-container flex flex-col items-start w-full" data-index={index}>
-              <p class="text-sm text-brand-brown/90 italic leading-relaxed text-left w-full">
-                <span class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
+            <div class="review-text-container flex flex-col items-start w-full flex-1" data-index={index}>
+              <div class="text-sm text-brand-brown/90 italic leading-relaxed text-left w-full">
+                <div class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
                   "{item.text?.text}"
-                </span>
-              </p>
-              <button 
-                class="read-more-btn mt-3 text-brand-gold font-bold text-xs hover:underline hidden" 
-                id={`read-more-btn-${index}`}
-                data-target={`review-content-${index}`}
-              >
-                {locale === 'es' ? 'Leer más' : 'Read more'}
-              </button>
+                </div>
+              </div>
+              <div class="mt-auto pt-3">
+                <button 
+                  class="read-more-btn text-brand-gold font-bold text-xs hover:underline hidden" 
+                  id={`read-more-btn-${index}`}
+                  data-target={`review-content-${index}`}
+                >
+                  {locale === 'es' ? 'Leer más' : 'Read more'}
+                </button>
+              </div>
             </div>
           </div>
         ))}
