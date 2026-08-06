@@ -70,19 +70,19 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
             </div>
 
             {/* Header: Photo and Name aligned left */}
-            <div class="flex items-center gap-4 mb-3">
+            <div class="flex items-center gap-3 mb-3">
               {/* Photo */}
               <div class="flex-shrink-0">
                 {item.authorAttribution?.photoUri ? (
                   <img 
                     src={item.authorAttribution.photoUri} 
                     alt={item.authorAttribution.displayName} 
-                    class="w-16 h-16 rounded-full object-cover shadow-sm" 
+                    class="w-14 h-14 rounded-full object-cover" 
                     referrerpolicy="no-referrer"
                     loading="lazy"
                   />
                 ) : (
-                  <div class="w-16 h-16 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-2xl shadow-sm">
+                  <div class="w-14 h-14 rounded-full bg-[#F25C27] text-white flex items-center justify-center font-medium text-[22px]">
                     {item.authorAttribution?.displayName?.charAt(0) || 'C'}
                   </div>
                 )}
@@ -90,18 +90,15 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
               
               {/* Name, Badge & Stars */}
               <div class="flex flex-col justify-center pr-8 min-w-0 flex-1">
-                <div class="font-bold text-xl text-brand-brown leading-tight">
+                <div class="font-bold text-base text-brand-brown leading-tight truncate">
                   {item.authorAttribution?.displayName}
                 </div>
-                <div class="text-[15px] text-gray-500 font-medium mt-1">
+                <div class="text-[13px] text-[#6B7280] mt-0.5">
                   Google Review
                 </div>
-                <div class="flex text-brand-gold text-xl mt-1 gap-0.5">
+                <div class="flex text-[#FABB05] text-[18px] mt-0.5 gap-[1px]">
                   {Array.from({ length: item.rating || 5 }).map(() => (
                     <span>★</span>
-                  ))}
-                  {Array.from({ length: 5 - (item.rating || 5) }).map(() => (
-                    <span class="text-gray-300">★</span>
                   ))}
                 </div>
               </div>
