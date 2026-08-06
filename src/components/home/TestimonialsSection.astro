@@ -57,10 +57,10 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
     {displayReviews.length > 0 ? (
       <div class="flex flex-wrap justify-center gap-8">
         {displayReviews.map((item, index) => (
-          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-brand-cream p-8 rounded-2xl border border-brand-gold/30 shadow-warm flex flex-col items-center text-center space-y-4 hover:shadow-lg transition-shadow duration-300 self-start relative">
+          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-brand-cream p-8 rounded-2xl border border-brand-gold/30 shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 self-start relative text-left">
             
             {/* Google Icon Floating Top Right */}
-            <div class="absolute top-4 right-4">
+            <div class="absolute top-6 right-6">
               <svg class="w-6 h-6 text-[#4285F4] opacity-80" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -69,43 +69,46 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
               </svg>
             </div>
 
-            {/* Photo */}
-            <div class="mb-1">
-              {item.authorAttribution?.photoUri ? (
-                <img 
-                  src={item.authorAttribution.photoUri} 
-                  alt={item.authorAttribution.displayName} 
-                  class="w-16 h-16 rounded-full object-cover border-2 border-brand-gold/30 shadow-md mx-auto" 
-                  referrerpolicy="no-referrer"
-                  loading="lazy"
-                />
-              ) : (
-                <div class="w-16 h-16 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-2xl border-2 border-brand-gold/30 shadow-md mx-auto">
-                  {item.authorAttribution?.displayName?.charAt(0) || 'C'}
-                </div>
-              )}
-            </div>
-            
-            {/* Name & Badge */}
-            <div class="flex flex-col items-center">
-              <div class="font-serif font-bold text-lg text-brand-brown">
-                {item.authorAttribution?.displayName}
+            {/* Header: Photo and Name aligned left */}
+            <div class="flex items-center gap-4 mb-2">
+              {/* Photo */}
+              <div class="flex-shrink-0">
+                {item.authorAttribution?.photoUri ? (
+                  <img 
+                    src={item.authorAttribution.photoUri} 
+                    alt={item.authorAttribution.displayName} 
+                    class="w-14 h-14 rounded-full object-cover border-2 border-brand-gold/30 shadow-sm" 
+                    referrerpolicy="no-referrer"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="w-14 h-14 rounded-full bg-brand-gold text-white flex items-center justify-center font-bold text-xl border-2 border-brand-gold/30 shadow-sm">
+                    {item.authorAttribution?.displayName?.charAt(0) || 'C'}
+                  </div>
+                )}
               </div>
-              <div class="text-xs text-brand-brown/60 font-medium mt-1 uppercase tracking-wider">
-                Google Review
+              
+              {/* Name & Badge */}
+              <div class="flex flex-col justify-center pr-8">
+                <div class="font-serif font-bold text-lg text-brand-brown leading-tight">
+                  {item.authorAttribution?.displayName}
+                </div>
+                <div class="text-[11px] text-brand-brown/60 font-semibold mt-1 uppercase tracking-widest">
+                  Google Review
+                </div>
               </div>
             </div>
 
             {/* Stars */}
-            <div class="flex text-brand-gold text-lg justify-center">
+            <div class="flex text-brand-gold text-lg justify-start">
               {Array.from({ length: item.rating || 5 }).map(() => (
                 <span>★</span>
               ))}
             </div>
 
             {/* Content */}
-            <div class="review-text-container flex flex-col items-center w-full" data-index={index}>
-              <p class="text-sm text-brand-brown/90 italic leading-relaxed text-center w-full">
+            <div class="review-text-container flex flex-col items-start w-full" data-index={index}>
+              <p class="text-sm text-brand-brown/90 italic leading-relaxed text-left w-full">
                 <span class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
                   "{item.text?.text}"
                 </span>
