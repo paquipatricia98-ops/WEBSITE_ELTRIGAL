@@ -19,7 +19,19 @@ import type { ContactFormData, CustomCakeFormData } from '../../schemas/forms';
 
 function mapRenderProductToFrontend(raw: any): Product {
   // Use a mock product as a base to satisfy strict schema requirements for missing fields
-  const base = MOCK_PRODUCTS[0];
+  const base = MOCK_PRODUCTS[0] || {
+    id: '', sku: null, name: { es: '', en: '' }, slug: { es: '', en: '' },
+    shortDescription: { es: '', en: '' }, description: { es: '', en: '' },
+    primaryCategory: { id: '', name: { es: '', en: '' }, slug: { es: '', en: '' } },
+    categories: [], productType: 'simple', basePriceCents: 0, compareAtPriceCents: null,
+    currency: 'USD', priceLabel: null, variants: [], options: [], media: [],
+    ingredients: null, allergens: [], dietaryTags: [],
+    availability: { isAvailable: false, leadTimeDays: 0 },
+    ordering: { allowDirectCall: true, allowDoorDash: false, allowCustomQuote: false },
+    tags: [], featured: false, bestSeller: false, newProduct: false,
+    seo: { title: { es: '', en: '' }, description: { es: '', en: '' }, keywords: [] },
+    updatedAt: new Date().toISOString()
+  };
   
   return {
     ...base,
@@ -256,11 +268,30 @@ export async function getTestimonials(locale: Locale = 'es'): Promise<Testimonia
 }
 
 export async function getGoogleReviews(locale: Locale = 'es'): Promise<GoogleReviewsResponse | null> {
+  const fallback: GoogleReviewsResponse = {
+    rating: 5,
+    userRatingCount: MOCK_TESTIMONIALS.length,
+    reviews: MOCK_TESTIMONIALS.map(t => ({
+      authorAttribution: {
+        displayName: t.authorName,
+        uri: '',
+        photoUri: ''
+      },
+      language: locale,
+      rating: t.rating,
+      text: {
+        text: t.content[locale] || t.content.es,
+        languageCode: locale
+      },
+      time: t.date,
+    }))
+  };
+
   const res = await fetchApi(
     'public/reviews',
     GoogleReviewsResponseSchema,
     { query: { locale } },
-    { rating: 0, userRatingCount: 0, reviews: [] }
+    fallback
   );
   return res.success ? res.data : null;
 }
