@@ -62,7 +62,7 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
     const apiUrl = headerEl.dataset.api;
 
     try {
-      const response = await fetch(`${apiUrl}/public/reviews/google?locale=${locale}`);
+      const response = await fetch(`${apiUrl}/public/reviews?locale=${locale}`);
       if (!response.ok) throw new Error('API Error');
       const json = await response.json();
       const googleData = json.data;
