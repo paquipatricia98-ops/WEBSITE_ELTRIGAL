@@ -1,33 +1,11 @@
 ---
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
-import ProductCard from '../../../components/products/ProductCard.astro';
-import { getLocalProducts } from '../../../services/api/publicApi';
 import { useTranslations } from '../../../i18n/utils';
 
 const locale = 'en';
 const t = useTranslations(locale);
-const { products } = await getLocalProducts(locale, 100);
-
-// Map categories from the products returned by the API
-const uniqueCatIds = Array.from(new Set(products.map(p => p.primaryCategory?.id))).filter(Boolean);
-
-const dynamicCategories = [
-  { id: 'todas', label: 'All Categories', icon: '✨' },
-  ...uniqueCatIds.map(catId => {
-    const prod = products.find(p => p.primaryCategory?.id === catId);
-    return {
-      id: prod?.primaryCategory?.slug?.[locale] || catId,
-      label: prod?.primaryCategory?.name?.[locale] || 'Category',
-      icon: prod?.primaryCategory?.slug?.[locale]?.includes('pastel') || prod?.primaryCategory?.slug?.[locale]?.includes('sweet') ? '🍰' : '🥖'
-    };
-  })
-];
-
-const categorizedProducts = products.map((p) => ({
-  ...p,
-  catKey: p.primaryCategory?.slug?.[locale] || 'todas',
-}));
+const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend.onrender.com/api/v1';
 
 const breadcrumbs = [
   { name: t('nav.home'), url: '/en/' },
@@ -40,7 +18,7 @@ const breadcrumbs = [
   description="Explore our full menu of Ecuadorian bread, allullas, tres leches, viento empanadas, and artisanal party snacks in Orange, NJ."
   locale={locale}
 >
-  <div class="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1700px] 3xl:max-w-[92vw] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+  <div class="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1700px] 3xl:max-w-[92vw] mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8" data-locale={locale} data-api={apiUrl} id="menu-container">
     <Breadcrumbs items={breadcrumbs} locale={locale} />
 
     <!-- PAGE HEADER -->
@@ -56,7 +34,7 @@ const breadcrumbs = [
     <!-- SEARCH & CATEGORY FILTER CONTROL BAR -->
     <div class="w-full bg-brand-cream p-4 sm:p-6 rounded-3xl border-2 border-brand-gold/40 shadow-xl space-y-5">
       
-      <!-- Real-Time Search Bar (Centered with oval pill borders) -->
+      <!-- Real-Time Search Bar -->
       <div class="relative w-full max-w-xl mx-auto">
         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-gold-secondary">
           <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -79,41 +57,22 @@ const breadcrumbs = [
         </button>
       </div>
 
-      <!-- Category Filter Pills (Centered) -->
+      <!-- Category Filter Pills (Dynamically populated) -->
       <div class="flex flex-wrap items-center justify-center gap-2 pt-2 border-t border-brand-gold/20" id="category-pills-container">
-        {dynamicCategories.map((c) => (
-          <button
-            type="button"
-            data-category={c.id}
-            class={`category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm flex items-center space-x-1.5 cursor-pointer ${
-              c.id === 'todas'
-                ? 'bg-brand-brown text-brand-gold border-brand-gold shadow-md active-pill'
-                : 'bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20'
-            }`}
-          >
-            <span>{c.icon}</span>
-            <span>{c.label}</span>
-          </button>
-        ))}
+        <!-- Pills will be injected here -->
       </div>
     </div>
 
     <!-- PRODUCT COUNT & FILTER STATUS -->
     <div class="flex items-center justify-between text-xs sm:text-sm font-bold text-brand-brown/80 px-1">
-      <span id="product-count-label">Showing {categorizedProducts.length} products</span>
+      <span id="product-count-label">Loading catalog...</span>
     </div>
 
-    <!-- PRODUCT CARDS GRID (Centered) -->
-    <div class="flex flex-wrap justify-center gap-6 xl:gap-8" id="products-grid">
-      {categorizedProducts.map((p) => (
-        <div
-          class="product-item-wrapper w-full sm:w-[280px] md:w-[300px] xl:w-[320px] flex-shrink-0"
-          data-category={p.catKey}
-          data-search={`${p.name[locale]} ${p.shortDescription?.[locale] || ''} ${p.tags.join(' ')}`.toLowerCase()}
-        >
-          <ProductCard product={p} locale={locale} />
-        </div>
-      ))}
+    <!-- PRODUCT CARDS GRID -->
+    <div class="flex flex-wrap justify-center gap-6 xl:gap-8 min-h-[400px]" id="products-grid">
+      <div class="w-full text-center text-brand-brown/50 animate-pulse py-20">
+        Loading all products, please wait...
+      </div>
     </div>
 
     <!-- NO RESULTS EMPTY STATE -->
@@ -133,119 +92,238 @@ const breadcrumbs = [
     </div>
   </div>
 
-  <!-- Real-Time Client-Side Filtering Script -->
   <script>
-    const searchInput = document.getElementById('product-search-input') as HTMLInputElement | null;
-    const clearBtn = document.getElementById('clear-search-btn');
-    const resetBtn = document.getElementById('reset-filter-btn');
-    const pills = document.querySelectorAll<HTMLButtonElement>('.category-pill');
-    const items = document.querySelectorAll<HTMLElement>('.product-item-wrapper');
-    const countLabel = document.getElementById('product-count-label');
-    const noResults = document.getElementById('no-results-state');
+    function formatPriceCents(cents: any, locale: any) {
+      return new Intl.NumberFormat(locale === 'es' ? 'es-US' : 'en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(cents / 100);
+    }
 
-    let activeCategory = 'todas';
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('menu-container');
+      if (!container) return;
 
-    const filterProducts = () => {
-      const query = (searchInput?.value || '').trim().toLowerCase();
-      let visibleCount = 0;
+      const locale = container.dataset.locale as string;
+      const apiUrl = container.dataset.api;
 
-      if (clearBtn) {
-        clearBtn.classList.toggle('hidden', query.length === 0);
-      }
+      const searchInput = document.getElementById('product-search-input') as HTMLInputElement | null;
+      const clearBtn = document.getElementById('clear-search-btn');
+      const resetBtn = document.getElementById('reset-filter-btn');
+      const pillsContainer = document.getElementById('category-pills-container');
+      const productsGrid = document.getElementById('products-grid');
+      const countLabel = document.getElementById('product-count-label');
+      const noResults = document.getElementById('no-results-state');
 
-      items.forEach((item) => {
-        const itemCat = item.getAttribute('data-category') || '';
-        const itemSearchText = item.getAttribute('data-search') || '';
+      let activeCategory = 'todas';
+      let allItems: any[] = [];
 
-        const matchesCat = activeCategory === 'todas' || itemCat === activeCategory;
-        const matchesQuery = query === '' || itemSearchText.includes(query);
+      try {
+        const response = await fetch(`${apiUrl}/public/products?limit=100`);
+        if (!response.ok) throw new Error('API Error');
+        const data = await response.json();
+        const products = data.data || [];
 
-        if (matchesCat && matchesQuery) {
-          item.classList.remove('hidden');
-          visibleCount++;
-        } else {
-          item.classList.add('hidden');
+        // Generate Categories
+        const uniqueCatIds = Array.from(new Set(products.map((p: any) => p.primaryCategory?.id))).filter(Boolean);
+        const dynamicCategories = [
+          { id: 'todas', label: 'All Categories', icon: '✨' },
+          ...uniqueCatIds.map((catId: any) => {
+            const prod = products.find((p: any) => p.primaryCategory?.id === catId);
+            const slug = prod?.primaryCategory?.slug?.[locale] || catId;
+            return {
+              id: slug,
+              label: prod?.primaryCategory?.name?.[locale] || 'Category',
+              icon: slug.includes('pastel') || slug.includes('sweet') ? '🍰' : '🥖'
+            };
+          })
+        ];
+
+        // Render Category Pills
+        if (pillsContainer) {
+          pillsContainer.innerHTML = dynamicCategories.map(c => `
+            <button
+              type="button"
+            data-category="${c.id}"
+            class="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm flex items-center space-x-1.5 cursor-pointer ${
+              c.id === 'todas'
+                ? 'bg-brand-brown text-brand-gold border-brand-gold shadow-md active-pill'
+                : 'bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20'
+            }"
+          >
+            <span>${c.icon}</span>
+            <span>${c.label}</span>
+          </button>
+        `).join('');
         }
-      });
 
-      if (countLabel) {
-        countLabel.textContent = `Showing ${visibleCount} of ${items.length} products`;
-      }
+        // Generate Products HTML
+        const productsHtml = products.map((product: any) => {
+          const primaryImage = product.media?.find((m: any) => m.isPrimary) || product.media?.[0];
+          const imageUrl = primaryImage ? primaryImage.secureUrl : '';
+          const altText = primaryImage ? (primaryImage.altText[locale] || product.name[locale]) : '';
+          
+          const productUrl = locale === 'es'
+            ? `/es/productos/${product.slug[locale] || product.slug.es}`
+            : `/en/products/${product.slug[locale] || product.slug.en}`;
 
-      if (noResults) {
-        noResults.classList.toggle('hidden', visibleCount > 0);
-      }
-    };
+          const formattedPrice = product.priceLabel?.[locale]
+            ? product.priceLabel[locale]
+            : product.basePriceCents
+            ? formatPriceCents(product.basePriceCents, locale)
+            : null;
 
-    // Category Pill Click Handler
-    pills.forEach((pill) => {
-      pill.addEventListener('click', () => {
-        const cat = pill.getAttribute('data-category') || 'todas';
-        activeCategory = cat;
+          const catName = product.primaryCategory?.name[locale] || '';
+          const catKey = product.primaryCategory?.slug?.[locale] || 'todas';
+          const desc = product.shortDescription?.[locale] || '';
+          const tags = product.tags?.join(' ') || '';
+          const searchText = `${product.name[locale]} ${desc} ${tags}`.toLowerCase();
 
-        pills.forEach((p) => {
-          if (p.getAttribute('data-category') === cat) {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
-          } else {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
-          }
+          return `
+            <div class="product-item-wrapper w-full sm:w-[280px] md:w-[300px] xl:w-[320px] flex-shrink-0" data-category="${catKey}" data-search="${searchText}">
+              <article class="bg-brand-cream border border-brand-gold/30 rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-hover transition-all duration-300 flex flex-col group h-full">
+                <a href="${productUrl}" class="relative block overflow-hidden aspect-[4/3] bg-brand-cream-dark">
+                  ${imageUrl ? `
+                    <img src="${imageUrl}" alt="${altText}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  ` : `
+                    <div class="w-full h-full flex items-center justify-center text-4xl text-brand-gold-secondary">🍞</div>
+                  `}
+                </a>
+                <div class="p-5 flex flex-col flex-grow space-y-2">
+                  <div class="flex flex-wrap items-center justify-between gap-1">
+                    <span class="text-xs font-semibold text-brand-gold-secondary uppercase tracking-wider">${catName}</span>
+                    <span class="flex items-center gap-1 bg-brand-brown text-brand-gold text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">🚚 Delivery</span>
+                  </div>
+                  <h3 class="font-serif font-bold text-xl text-brand-brown group-hover:text-brand-brown-dark transition-colors line-clamp-1">
+                    <a href="${productUrl}" class="focus:outline-none focus:underline">${product.name[locale]}</a>
+                  </h3>
+                  <p class="text-xs sm:text-sm text-brand-brown/75 line-clamp-2 leading-relaxed flex-grow">${desc}</p>
+                  <div class="pt-2 flex items-center justify-between border-t border-brand-gold/20">
+                    ${formattedPrice ? `
+                      <span class="font-serif font-extrabold text-xl text-brand-brown">${formattedPrice}</span>
+                    ` : `
+                      <span class="text-xs text-brand-brown/50 italic">${locale === 'es' ? 'Consultar precio' : 'Ask for price'}</span>
+                    `}
+                    <a href="${productUrl}" class="text-xs font-bold text-brand-brown/60 hover:text-brand-brown underline-offset-2 hover:underline transition-colors">
+                      ${locale === 'es' ? 'Ver más →' : 'View →'}
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          `;
         });
 
+        if (productsGrid) {
+          productsGrid.innerHTML = productsHtml.join('');
+        }
+        
+        // Re-attach elements and events
+        allItems = Array.from(document.querySelectorAll('.product-item-wrapper'));
+        const pills = document.querySelectorAll('.category-pill');
+
+        const filterProducts = () => {
+          const query = (searchInput?.value || '').trim().toLowerCase();
+          let visibleCount = 0;
+
+          if (clearBtn) {
+            clearBtn.classList.toggle('hidden', query.length === 0);
+          }
+
+          allItems.forEach((item) => {
+            const itemCat = item.getAttribute('data-category') || '';
+            const itemSearchText = item.getAttribute('data-search') || '';
+
+            const matchesCat = activeCategory === 'todas' || itemCat === activeCategory;
+            const matchesQuery = query === '' || itemSearchText.includes(query);
+
+            if (matchesCat && matchesQuery) {
+              item.classList.remove('hidden');
+              visibleCount++;
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+
+          if (countLabel) {
+            countLabel.textContent = `Showing ${visibleCount} of ${allItems.length} products`;
+          }
+
+          if (noResults) {
+            noResults.classList.toggle('hidden', visibleCount === 0);
+          }
+        };
+
+        // Pill Events
+        pills.forEach((pill) => {
+          pill.addEventListener('click', () => {
+            const cat = pill.getAttribute('data-category') || 'todas';
+            activeCategory = cat;
+
+            pills.forEach((p) => {
+              if (p.getAttribute('data-category') === cat) {
+                p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+              } else {
+                p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+              }
+            });
+
+            filterProducts();
+          });
+        });
+
+        // Search Events
+        if (searchInput) searchInput.addEventListener('input', filterProducts);
+        if (clearBtn) {
+          clearBtn.addEventListener('click', () => {
+            if (searchInput) {
+              searchInput.value = '';
+              filterProducts();
+            }
+          });
+        }
+        if (resetBtn) {
+          resetBtn.addEventListener('click', () => {
+            if (searchInput) searchInput.value = '';
+            activeCategory = 'todas';
+            pills.forEach((p) => {
+              const cat = p.getAttribute('data-category');
+              if (cat === 'todas') {
+                p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+              } else {
+                p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+              }
+            });
+            filterProducts();
+          });
+        }
+
+        // Apply initial filters if any
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryQuery = urlParams.get('category');
+        const searchQuery = urlParams.get('search');
+
+        if (categoryQuery) {
+          activeCategory = categoryQuery;
+          pills.forEach((p) => {
+            const cat = p.getAttribute('data-category');
+            if (cat === categoryQuery) {
+              p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+            } else {
+              p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+            }
+          });
+        }
+        if (searchQuery && searchInput) {
+          searchInput.value = searchQuery;
+        }
+
         filterProducts();
-      });
+
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        if (countLabel) countLabel.textContent = 'Error loading products.';
+      }
     });
-
-    // Search Input Event
-    if (searchInput) {
-      searchInput.addEventListener('input', filterProducts);
-    }
-
-    // Clear Search Event
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        if (searchInput) {
-          searchInput.value = '';
-          filterProducts();
-        }
-      });
-    }
-
-    // Reset Filters Event
-    if (resetBtn) {
-      resetBtn.addEventListener('click', () => {
-        if (searchInput) searchInput.value = '';
-        activeCategory = 'todas';
-        pills.forEach((p) => {
-          const cat = p.getAttribute('data-category');
-          if (cat === 'todas') {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
-          } else {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
-          }
-        });
-        filterProducts();
-      });
-    }
-
-    // Initial check from query URL if accessed directly
-    const urlParams = new URLSearchParams(window.location.search);
-    const categoryQuery = urlParams.get('category');
-    const searchQuery = urlParams.get('search');
-
-    if (categoryQuery) {
-      activeCategory = categoryQuery;
-      pills.forEach((p) => {
-        const cat = p.getAttribute('data-category');
-        if (cat === categoryQuery) {
-          p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
-        } else {
-          p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
-        }
-      });
-    }
-    if (searchQuery && searchInput) {
-      searchInput.value = searchQuery;
-    }
-    filterProducts();
   </script>
 </BaseLayout>
