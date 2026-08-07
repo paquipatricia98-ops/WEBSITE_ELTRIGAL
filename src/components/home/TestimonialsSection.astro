@@ -1,5 +1,4 @@
 ---
-import { getGoogleReviews } from '../../services/api/publicApi';
 import { useTranslations } from '../../i18n/utils';
 import type { Locale } from '../../types/api';
 
@@ -10,127 +9,32 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-const googleData = await getGoogleReviews(locale);
-// Fallback to empty array if no data is found
-const reviews = googleData?.reviews || [];
-const averageRating = googleData?.rating || 5.0;
-const totalReviews = googleData?.userRatingCount || 0;
-
-// Filter reviews that actually have text and display up to 5 of them
-const displayReviews = reviews.filter(r => r.text?.text).slice(0, 5);
-
-// The direct link to this specific location's Google Reviews
+const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend.onrender.com/api/v1';
 const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJeeA0MWarw4kRn8FFEpUOUxc";
 ---
 
 <section class="py-16 lg:py-24 bg-brand-cream-dark/50 border-t border-brand-gold/20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
+    
+    <!-- Header dynamically updated by JS -->
+    <div id="testimonials-header" data-locale={locale} data-api={apiUrl} class="text-center max-w-3xl mx-auto mb-12 space-y-3">
       <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
         💬 {locale === 'es' ? 'Reseñas Reales de Google' : 'Real Google Reviews'}
       </span>
       <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">
         {t('home.testimonialsTitle')}
       </h2>
-      
-      {totalReviews > 0 && (
-        <div class="flex flex-col items-center justify-center mt-4">
-          <div class="flex items-center gap-3 bg-white px-6 py-2 rounded-full shadow-sm border border-brand-gold/20">
-            <svg class="w-6 h-6 text-[#4285F4]" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-            </svg>
-            <span class="text-xl font-bold text-brand-brown">{averageRating.toFixed(1)}</span>
-            <div class="flex text-brand-gold text-lg">
-              ★★★★★
-            </div>
-            <span class="text-sm font-medium text-brand-brown/60">
-              ({totalReviews} {locale === 'es' ? 'reseñas' : 'reviews'})
-            </span>
-          </div>
-        </div>
-      )}
+      <div id="testimonials-stats" class="h-16"></div>
     </div>
 
-    {displayReviews.length > 0 ? (
-      <div class="flex flex-wrap justify-center gap-8">
-        {displayReviews.map((item, index) => (
-          <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-white p-8 rounded-2xl shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 relative text-left">
-            
-            {/* Google Icon Floating Top Right */}
-            <div class="absolute top-6 right-6">
-              <svg class="w-6 h-6 text-[#4285F4] opacity-80" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-              </svg>
-            </div>
-
-            {/* Header: Photo and Name aligned left */}
-            <div class="flex items-center gap-3 mb-3">
-              {/* Photo */}
-              <div class="flex-shrink-0">
-                {item.authorAttribution?.photoUri ? (
-                  <img 
-                    src={item.authorAttribution.photoUri} 
-                    alt={item.authorAttribution.displayName} 
-                    class="w-14 h-14 rounded-full object-cover" 
-                    referrerpolicy="no-referrer"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="w-14 h-14 rounded-full bg-[#F25C27] text-white flex items-center justify-center font-medium text-[22px]">
-                    {item.authorAttribution?.displayName?.charAt(0) || 'C'}
-                  </div>
-                )}
-              </div>
-              
-              {/* Name, Badge & Stars */}
-              <div class="flex flex-col justify-center pr-8 min-w-0 flex-1">
-                <div class="font-bold text-base text-brand-brown leading-tight truncate">
-                  {item.authorAttribution?.displayName}
-                </div>
-                <div class="text-[13px] text-[#6B7280] mt-0.5">
-                  Google Review
-                </div>
-                <div class="flex text-[#FABB05] text-[18px] mt-0.5 gap-[1px]">
-                  {Array.from({ length: item.rating || 5 }).map(() => (
-                    <span>★</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div class="review-text-container flex flex-col items-start w-full flex-1" data-index={index}>
-              <div class="text-[15px] text-gray-600 leading-relaxed text-left w-full min-h-[96px]">
-                <div class="line-clamp-4 transition-all duration-300" id={`review-content-${index}`}>
-                  {item.text?.text}
-                </div>
-              </div>
-              <div class="mt-auto pt-3">
-                <button 
-                  class="read-more-btn text-brand-gold font-bold text-xs hover:underline hidden" 
-                  id={`read-more-btn-${index}`}
-                  data-target={`review-content-${index}`}
-                >
-                  {locale === 'es' ? 'Leer más' : 'Read more'}
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+    <!-- Grid dynamically updated by JS -->
+    <div id="testimonials-grid" class="flex flex-wrap justify-center gap-8 min-h-[200px]">
+      <div class="text-center py-10 text-brand-brown/70 w-full animate-pulse">
+        <p>{locale === 'es' ? 'Cargando increíbles reseñas...' : 'Loading amazing reviews...'}</p>
       </div>
-    ) : (
-      <div class="text-center py-10 text-brand-brown/70">
-        <p>Cargando increíbles reseñas...</p>
-      </div>
-    )}
+    </div>
 
-    {/* See More Button */}
+    <!-- See More Button -->
     <div class="mt-12 flex justify-center">
       <a 
         href={GOOGLE_REVIEWS_URL}
@@ -148,34 +52,132 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
 </section>
 
 <script>
-  // Script to handle the "Read More" functionality on the client side
-  document.addEventListener('DOMContentLoaded', () => {
-    const containers = document.querySelectorAll('.review-text-container');
-    
-    containers.forEach(container => {
-      const contentId = container.querySelector('.read-more-btn')?.getAttribute('data-target');
-      if (!contentId) return;
+  document.addEventListener('DOMContentLoaded', async () => {
+    const headerEl = document.getElementById('testimonials-header');
+    const statsEl = document.getElementById('testimonials-stats');
+    const gridEl = document.getElementById('testimonials-grid');
+    if (!headerEl || !statsEl || !gridEl) return;
+
+    const locale = headerEl.dataset.locale as string;
+    const apiUrl = headerEl.dataset.api;
+
+    try {
+      const response = await fetch(`${apiUrl}/public/reviews/google?locale=${locale}`);
+      if (!response.ok) throw new Error('API Error');
+      const json = await response.json();
+      const googleData = json.data;
       
-      const content = document.getElementById(contentId);
-      const btn = document.getElementById(`read-more-btn-${container.getAttribute('data-index')}`);
-      
-      if (content && btn) {
-        // Check if the text is truncated by line-clamp
-        // scrollHeight is the actual height of the text, clientHeight is the visible height
-        if (content.scrollHeight > content.clientHeight) {
-          btn.classList.remove('hidden');
-          
-          btn.addEventListener('click', () => {
-            if (content.classList.contains('line-clamp-4')) {
-              content.classList.remove('line-clamp-4');
-              btn.textContent = btn.textContent?.includes('Leer') ? 'Leer menos' : 'Read less';
-            } else {
-              content.classList.add('line-clamp-4');
-              btn.textContent = btn.textContent?.includes('menos') ? 'Leer más' : 'Read more';
-            }
-          });
-        }
+      const reviews = googleData?.reviews || [];
+      const averageRating = googleData?.rating || 5.0;
+      const totalReviews = googleData?.userRatingCount || 0;
+      const displayReviews = reviews.filter((r: any) => r.text?.text).slice(0, 5);
+
+      if (totalReviews > 0) {
+        statsEl.innerHTML = `
+          <div class="flex flex-col items-center justify-center mt-4">
+            <div class="flex items-center gap-3 bg-white px-6 py-2 rounded-full shadow-sm border border-brand-gold/20">
+              <svg class="w-6 h-6 text-[#4285F4]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+              </svg>
+              <span class="text-xl font-bold text-brand-brown">${averageRating.toFixed(1)}</span>
+              <div class="flex text-brand-gold text-lg">★★★★★</div>
+              <span class="text-sm font-medium text-brand-brown/60">
+                (${totalReviews} ${locale === 'es' ? 'reseñas' : 'reviews'})
+              </span>
+            </div>
+          </div>
+        `;
+      } else {
+        statsEl.innerHTML = '';
       }
-    });
+
+      if (displayReviews.length > 0) {
+        gridEl.innerHTML = displayReviews.map((item: any, index: any) => {
+          const photoUrl = item.authorAttribution?.photoUri;
+          const name = item.authorAttribution?.displayName || 'Cliente';
+          const initial = name.charAt(0).toUpperCase();
+          const rating = item.rating || 5;
+          const starsHtml = Array.from({ length: rating }).map(() => '<span>★</span>').join('');
+          const text = item.text?.text || '';
+
+          return `
+            <div class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] bg-white p-8 rounded-2xl shadow-warm flex flex-col space-y-4 hover:shadow-lg transition-shadow duration-300 relative text-left">
+              
+              <div class="absolute top-6 right-6">
+                <svg class="w-6 h-6 text-[#4285F4] opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                </svg>
+              </div>
+
+              <div class="flex items-center gap-3 mb-3">
+                <div class="flex-shrink-0">
+                  ${photoUrl ? `
+                    <img src="${photoUrl}" alt="${name}" class="w-14 h-14 rounded-full object-cover" referrerpolicy="no-referrer" loading="lazy" />
+                  ` : `
+                    <div class="w-14 h-14 rounded-full bg-[#F25C27] text-white flex items-center justify-center font-medium text-[22px]">${initial}</div>
+                  `}
+                </div>
+                
+                <div class="flex flex-col justify-center pr-8 min-w-0 flex-1">
+                  <div class="font-bold text-base text-brand-brown leading-tight truncate">${name}</div>
+                  <div class="text-[13px] text-[#6B7280] mt-0.5">Google Review</div>
+                  <div class="flex text-[#FABB05] text-[18px] mt-0.5 gap-[1px]">
+                    ${starsHtml}
+                  </div>
+                </div>
+              </div>
+
+              <div class="review-text-container flex flex-col items-start w-full flex-1" data-index="${index}">
+                <div class="text-[15px] text-gray-600 leading-relaxed text-left w-full min-h-[96px]">
+                  <div class="line-clamp-4 transition-all duration-300" id="review-content-${index}">
+                    ${text}
+                  </div>
+                </div>
+                <div class="mt-auto pt-3">
+                  <button class="read-more-btn text-brand-gold font-bold text-xs hover:underline hidden" id="read-more-btn-${index}" data-target="review-content-${index}">
+                    ${locale === 'es' ? 'Leer más' : 'Read more'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Initialize Read More buttons
+        const containers = document.querySelectorAll('.review-text-container');
+        containers.forEach(container => {
+          const contentId = container.querySelector('.read-more-btn')?.getAttribute('data-target');
+          if (!contentId) return;
+          const content = document.getElementById(contentId);
+          const btn = document.getElementById(`read-more-btn-${container.getAttribute('data-index')}`);
+          if (content && btn) {
+            if (content.scrollHeight > content.clientHeight) {
+              btn.classList.remove('hidden');
+              btn.addEventListener('click', () => {
+                if (content.classList.contains('line-clamp-4')) {
+                  content.classList.remove('line-clamp-4');
+                  btn.textContent = btn.textContent?.includes('Leer') ? 'Leer menos' : 'Read less';
+                } else {
+                  content.classList.add('line-clamp-4');
+                  btn.textContent = btn.textContent?.includes('menos') ? 'Leer más' : 'Read more';
+                }
+              });
+            }
+          }
+        });
+
+      } else {
+        gridEl.innerHTML = `<div class="text-center py-10 w-full text-brand-brown/70"><p>${locale === 'es' ? 'No hay reseñas disponibles.' : 'No reviews available.'}</p></div>`;
+      }
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+      gridEl.innerHTML = `<div class="text-center py-10 w-full text-red-500/80"><p>${locale === 'es' ? 'Error al cargar las reseñas.' : 'Error loading reviews.'}</p></div>`;
+    }
   });
 </script>
