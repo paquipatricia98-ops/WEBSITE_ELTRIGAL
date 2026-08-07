@@ -3,7 +3,7 @@ import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
 import ProductCard from '../../../components/products/ProductCard.astro';
-import { getProductBySlug, getRelatedProducts } from '../../../services/api/publicApi';
+import { getProducts, getProductBySlug, getRelatedProducts } from '../../../services/api/publicApi';
 import { formatPriceCents } from '../../../utils/formatters';
 import { getBreadcrumbJsonLd, getProductJsonLd } from '../../../utils/jsonld';
 import { useTranslations } from '../../../i18n/utils';

@@ -183,7 +183,7 @@ function createApiResponseSchema(dataSchema) {
   ]);
 }
 
-const BASE_URL = "https://el-trigal-backend.onrender.com/api/v1";
+const BASE_URL = "https://el-trigal-backend-nun9.onrender.com/api/v1";
 async function fetchApi(endpoint, dataSchema, options = {}, fallbackData) {
   const { method = "GET", headers = {}, body, query } = options;
   let urlString = `${BASE_URL.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
@@ -1242,6 +1242,18 @@ function mapCategoryToFrontend(raw) {
     productCount: raw.productCount || 0
   };
 }
+async function getCategories(locale = "es", type) {
+  const res = await fetchApi(
+    "public/categories",
+    z.any(),
+    { query: { locale, status: "published", type } },
+    MOCK_CATEGORIES
+  );
+  if (res.success && Array.isArray(res.data)) {
+    return res.data.map(mapCategoryToFrontend);
+  }
+  return MOCK_CATEGORIES;
+}
 async function getCategoryBySlug(slug, locale = "es") {
   const mockMatch = MOCK_CATEGORIES.find((c) => c.slug[locale] === slug || c.slug.es === slug || c.slug.en === slug) || null;
   const res = await fetchApi(
@@ -1369,4 +1381,4 @@ async function getGallery(page = 1, limit = 24) {
   return res.success ? res.data : MOCK_GALLERY;
 }
 
-export { getImportedProducts as a, getFaqs as b, getGallery as c, getCategoryBySlug as d, getProducts as e, getProductBySlug as f, getLocalProducts as g, getRelatedProducts as h };
+export { getImportedProducts as a, getFaqs as b, getGallery as c, getCategoryBySlug as d, getProducts as e, getCategories as f, getLocalProducts as g, getProductBySlug as h, getRelatedProducts as i };

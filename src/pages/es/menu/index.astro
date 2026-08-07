@@ -5,7 +5,7 @@ import { useTranslations } from '../../../i18n/utils';
 
 const locale = 'es';
 const t = useTranslations(locale);
-const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend.onrender.com/api/v1';
+const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend-nun9.onrender.com/api/v1';
 
 const breadcrumbs = [
   { name: t('nav.home'), url: '/es/' },
@@ -161,7 +161,7 @@ const breadcrumbs = [
         const productsHtml = products.map((product: any) => {
           const primaryImage = product.media?.find((m: any) => m.isPrimary) || product.media?.[0];
           const imageUrl = primaryImage ? primaryImage.secureUrl : '';
-          const altText = primaryImage ? (primaryImage.altText[locale] || product.name[locale]) : '';
+          const altText = primaryImage ? ((primaryImage.alt?.[locale]) || (primaryImage.altText?.[locale]) || (product.name?.[locale]) || '') : '';
           
           const productUrl = locale === 'es'
             ? `/es/productos/${product.slug[locale] || product.slug.es}`
@@ -250,7 +250,7 @@ const breadcrumbs = [
           }
 
           if (noResults) {
-            noResults.classList.toggle('hidden', visibleCount === 0);
+            noResults.classList.toggle('hidden', visibleCount > 0);
           }
         };
 

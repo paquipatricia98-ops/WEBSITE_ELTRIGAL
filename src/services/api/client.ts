@@ -2,7 +2,7 @@ import { createApiResponseSchema } from '../../schemas/api';
 import type { z } from 'zod';
 import type { ApiResponse } from '../../types/api';
 
-const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend.onrender.com/api/v1';
+const BASE_URL = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend-nun9.onrender.com/api/v1';
 
 export interface FetchApiOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE';

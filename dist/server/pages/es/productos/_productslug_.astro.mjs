@@ -4,7 +4,7 @@ import { $ as $$BaseLayout, u as useTranslations, a as $$DoorDashButton, b as $$
 import { $ as $$Breadcrumbs } from '../../../chunks/Breadcrumbs_CZu6KnEI.mjs';
 import { $ as $$CloudinaryImage } from '../../../chunks/CloudinaryImage_DpWQm9Rh.mjs';
 import { f as formatPriceCents, $ as $$ProductCard } from '../../../chunks/ProductCard_CML-SMFI.mjs';
-import { f as getProductBySlug, h as getRelatedProducts } from '../../../chunks/publicApi_PevibVH-.mjs';
+import { h as getProductBySlug, i as getRelatedProducts } from '../../../chunks/publicApi_Df2ikEzm.mjs';
 import { b as getProductJsonLd, c as getBreadcrumbJsonLd } from '../../../chunks/jsonld__ujoVyex.mjs';
 export { renderers } from '../../../renderers.mjs';
 

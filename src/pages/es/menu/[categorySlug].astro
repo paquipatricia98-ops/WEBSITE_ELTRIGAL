@@ -2,10 +2,15 @@
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import ProductCard from '../../../components/products/ProductCard.astro';
-import { getCategoryBySlug, getProducts } from '../../../services/api/publicApi';
+import { getCategoryBySlug, getProducts, getCategories } from '../../../services/api/publicApi';
 import { useTranslations } from '../../../i18n/utils';
 
-export const prerender = false;
+export async function getStaticPaths() {
+  const categories = await getCategories('es');
+  return categories.map((cat) => ({
+    params: { categorySlug: cat.slug.es || cat.slug.en || cat.id },
+  }));
+}
 
 const locale = 'es';
 const t = useTranslations(locale);
