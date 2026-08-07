@@ -32,26 +32,69 @@ function mapRenderProductToFrontend(raw: any): Product {
     seo: { title: { es: '', en: '' }, description: { es: '', en: '' }, keywords: [] },
     updatedAt: new Date().toISOString()
   };
-  
+  const nameObj = typeof raw.name === 'object' && raw.name !== null
+    ? { es: raw.name.es || raw.name.en || raw.productName || '', en: raw.name.en || raw.name.es || raw.productName || '' }
+    : { es: raw.name || raw.productName || '', en: raw.name || raw.productName || '' };
+
+  const slugObj = typeof raw.slug === 'object' && raw.slug !== null
+    ? { es: raw.slug.es || raw.slug.en || raw.productSlug || '', en: raw.slug.en || raw.slug.es || raw.productSlug || '' }
+    : { es: raw.slug || raw.productSlug || '', en: raw.slug || raw.productSlug || '' };
+
+  const descObj = typeof raw.description === 'object' && raw.description !== null
+    ? { es: raw.description.es || raw.description.en || raw.productDescription || '', en: raw.description.en || raw.description.es || raw.productDescription || '' }
+    : { es: raw.description || raw.productDescription || '', en: raw.description || raw.productDescription || '' };
+
+  const shortDescObj = {
+    es: (typeof raw.shortDescription === 'object' && raw.shortDescription?.es) || (typeof raw.shortDescription === 'string' && raw.shortDescription) || descObj.es,
+    en: (typeof raw.shortDescription === 'object' && raw.shortDescription?.en) || (typeof raw.shortDescription === 'string' && raw.shortDescription) || descObj.en,
+  };
+
+  const primaryCat = raw.primaryCategory ? {
+    id: raw.primaryCategory.id || raw.primaryCategory._id || '',
+    name: typeof raw.primaryCategory.name === 'object' && raw.primaryCategory.name ? raw.primaryCategory.name : { es: raw.primaryCategory.name || '', en: raw.primaryCategory.name || '' },
+    slug: typeof raw.primaryCategory.slug === 'object' && raw.primaryCategory.slug ? raw.primaryCategory.slug : { es: raw.primaryCategory.slug || '', en: raw.primaryCategory.slug || '' },
+  } : base.primaryCategory;
+
+  const isAvailable = raw.availability
+    ? (raw.availability.isAvailable ?? (raw.availability.status === 'available' || raw.availability.status === 'always' || raw.availability.status === 'in_stock'))
+    : true;
+
+  const seoObj = {
+    title: {
+      es: raw.seo?.es?.metaTitle || raw.productoSeo?.metaTitle || nameObj.es,
+      en: raw.seo?.en?.metaTitle || raw.productoSeo?.metaTitle || nameObj.en,
+    },
+    description: {
+      es: raw.seo?.es?.metaDescription || raw.productoSeo?.metaDescription || shortDescObj.es,
+      en: raw.seo?.en?.metaDescription || raw.productoSeo?.metaDescription || shortDescObj.en,
+    },
+    keywords: [],
+  };
+
   return {
     ...base,
     id: raw._id || raw.id || raw.productId || base.id,
-    name: raw.name || { es: raw.productName, en: raw.productName } || base.name,
-    slug: raw.slug || { es: raw.productSlug, en: raw.productSlug } || base.slug,
-    shortDescription: raw.shortDescription || raw.description || { es: raw.productDescription, en: raw.productDescription } || base.shortDescription,
-    description: raw.description || { es: raw.productDescription, en: raw.productDescription } || base.description,
+    name: nameObj,
+    slug: slugObj,
+    shortDescription: shortDescObj,
+    description: descObj,
     basePriceCents: raw.basePriceCents !== undefined ? raw.basePriceCents : (raw.productPrice !== undefined ? Math.round(raw.productPrice * 100) : (raw.priceCents || base.basePriceCents)),
     media: (raw.media && raw.media.length > 0) ? raw.media.map((m: any, idx: number) => ({
       id: m.id || m._id || String(idx),
       publicId: m.publicId || String(idx),
       secureUrl: m.secureUrl,
-      altText: m.altText || m.alt || { es: raw.productName || '', en: raw.productName || '' },
+      altText: typeof m.altText === 'object' && m.altText ? m.altText : (typeof m.alt === 'object' && m.alt ? m.alt : { es: nameObj.es, en: nameObj.en }),
       isPrimary: m.isPrimary ?? idx === 0,
-    })).filter((m: any) => !!m.secureUrl) : (raw.productImage ? [{ id: '1', publicId: '1', secureUrl: raw.productImage, altText: { es: raw.productName || '', en: raw.productName || '' }, isPrimary: true }] : []),
-    ingredients: raw.ingredients || { es: raw.productIngredients, en: raw.productIngredients } || base.ingredients,
+    })).filter((m: any) => !!m.secureUrl) : (raw.productImage ? [{ id: '1', publicId: '1', secureUrl: raw.productImage, altText: nameObj, isPrimary: true }] : []),
+    ingredients: typeof raw.ingredients === 'object' && raw.ingredients !== null ? raw.ingredients : (typeof raw.ingredients === 'string' ? { es: raw.ingredients, en: raw.ingredients } : (raw.productIngredients ? { es: raw.productIngredients, en: raw.productIngredients } : base.ingredients)),
     allergens: raw.allergens || raw.productoAllergens || base.allergens || [],
+    availability: {
+      isAvailable,
+      leadTimeDays: raw.availability?.leadTimeHours ? Math.ceil(raw.availability.leadTimeHours / 24) : 0,
+    },
     productType: raw.type || base.productType,
-    primaryCategory: raw.primaryCategory || base.primaryCategory,
+    primaryCategory: primaryCat,
+    seo: seoObj,
   };
 }
 

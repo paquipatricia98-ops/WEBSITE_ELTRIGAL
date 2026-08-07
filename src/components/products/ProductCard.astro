@@ -12,9 +12,13 @@ interface Props {
 const { product, locale } = Astro.props;
 
 const primaryImage = product.media.find((m) => m.isPrimary) || product.media[0];
+const slugVal = typeof product.slug === 'object' && product.slug
+  ? (product.slug[locale] || product.slug.es || product.slug.en || '')
+  : (product.slug || '');
+
 const productUrl = locale === 'es'
-  ? `/es/productos/${product.slug[locale] || product.slug.es}`
-  : `/en/products/${product.slug[locale] || product.slug.en}`;
+  ? `/es/productos/${slugVal}`
+  : `/en/products/${slugVal}`;
 
 // Format price
 const formattedPrice = product.priceLabel?.[locale]

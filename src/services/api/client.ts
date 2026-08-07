@@ -19,7 +19,16 @@ export async function fetchApi<T>(
 ): Promise<ApiResponse<T>> {
   const { method = 'GET', headers = {}, body, query } = options;
 
-  let urlString = `${BASE_URL.replace(/\/$/, '')}/${endpoint.replace(/^\//, '')}`;
+  let baseUrl = BASE_URL;
+  if (baseUrl.startsWith('/')) {
+    if (typeof window !== 'undefined') {
+      baseUrl = `${window.location.origin}${baseUrl}`;
+    } else {
+      baseUrl = `https://el-trigal-backend-nun9.onrender.com${baseUrl}`;
+    }
+  }
+
+  let urlString = `${baseUrl.replace(/\/$/, '')}/${endpoint.replace(/^\//, '')}`;
   if (query) {
     const params = new URLSearchParams();
     Object.entries(query).forEach(([key, val]) => {

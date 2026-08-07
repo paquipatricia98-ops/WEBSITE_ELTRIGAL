@@ -52,7 +52,6 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
 </section>
 
 <script>
-  // Format price utility inside client script
   function formatPriceCents(cents: any, locale: any) {
     return new Intl.NumberFormat(locale === 'es' ? 'es-US' : 'en-US', {
       style: 'currency',
@@ -60,17 +59,22 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
     }).format(cents / 100);
   }
 
-  document.addEventListener('DOMContentLoaded', async () => {
+  async function loadFeaturedProducts() {
     const grid = document.getElementById('featured-products-grid');
     if (!grid) return;
 
     const locale = grid.dataset.locale as string;
-    const apiUrl = grid.dataset.api;
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const apiUrl = isLocalhost ? '/api/v1' : (grid.dataset.api || '/api/v1');
+
+    async function fetchProductsData() {
+      const res = await fetch(`${apiUrl}/public/products?featured=true&limit=6`);
+      if (!res.ok) throw new Error('API Error');
+      return await res.json();
+    }
 
     try {
-      const response = await fetch(`${apiUrl}/public/products?featured=true&limit=6`);
-      if (!response.ok) throw new Error('API Error');
-      const data = await response.json();
+      const data = await fetchProductsData();
       const products = data.data || [];
 
       if (products.length === 0) {
@@ -80,12 +84,15 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
 
       grid.innerHTML = products.map((product: any) => {
         const primaryImage = product.media?.find((m: any) => m.isPrimary) || product.media?.[0];
-        const imageUrl = primaryImage ? primaryImage.secureUrl : '';
+        const imageUrl = primaryImage ? (primaryImage.secureUrl || primaryImage.url || '') : '';
         const altText = primaryImage ? ((primaryImage.alt?.[locale]) || (primaryImage.altText?.[locale]) || (product.name?.[locale]) || '') : '';
         
+        const prodSlug = typeof product.slug === 'object' ? (product.slug?.[locale] || product.slug?.es || product.slug?.en || '') : (product.slug || '');
+        const prodName = typeof product.name === 'object' ? (product.name?.[locale] || product.name?.es || product.name?.en || '') : (product.name || '');
+
         const productUrl = locale === 'es'
-          ? `/es/productos/${product.slug[locale] || product.slug.es}`
-          : `/en/products/${product.slug[locale] || product.slug.en}`;
+          ? `/es/productos/${prodSlug}`
+          : `/en/products/${prodSlug}`;
 
         const formattedPrice = product.priceLabel?.[locale]
           ? product.priceLabel[locale]
@@ -93,8 +100,8 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
           ? formatPriceCents(product.basePriceCents, locale)
           : null;
 
-        const catName = product.primaryCategory?.name[locale] || '';
-        const desc = product.shortDescription?.[locale] || '';
+        const catName = product.primaryCategory?.name?.[locale] || product.primaryCategory?.name?.es || '';
+        const desc = product.shortDescription?.[locale] || product.shortDescription?.es || product.description?.[locale] || '';
 
         return `
           <div class="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm">
@@ -112,7 +119,7 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
                   <span class="flex items-center gap-1 bg-brand-brown text-brand-gold text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">🚚 Delivery</span>
                 </div>
                 <h3 class="font-serif font-bold text-xl text-brand-brown group-hover:text-brand-brown-dark transition-colors line-clamp-1">
-                  <a href="${productUrl}" class="focus:outline-none focus:underline">${product.name[locale]}</a>
+                  <a href="${productUrl}" class="focus:outline-none focus:underline">${prodName}</a>
                 </h3>
                 <p class="text-xs sm:text-sm text-brand-brown/75 line-clamp-2 leading-relaxed flex-grow">${desc}</p>
                 <div class="pt-2 flex items-center justify-between border-t border-brand-gold/20">
@@ -135,5 +142,9 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
       console.error('Error fetching featured products:', error);
       grid.innerHTML = `<div class="w-full text-center text-red-500/80">${locale === 'es' ? 'Error al cargar los productos.' : 'Error loading products.'}</div>`;
     }
-  });
+  }
+
+  loadFeaturedProducts();
+  document.addEventListener('DOMContentLoaded', loadFeaturedProducts);
+  document.addEventListener('astro:page-load', loadFeaturedProducts);
 </script>

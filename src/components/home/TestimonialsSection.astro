@@ -59,12 +59,17 @@ const GOOGLE_REVIEWS_URL = "https://search.google.com/local/reviews?placeid=ChIJ
     if (!headerEl || !statsEl || !gridEl) return;
 
     const locale = headerEl.dataset.locale as string;
-    const apiUrl = headerEl.dataset.api;
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const apiUrl = isLocalhost ? '/api/v1' : (headerEl.dataset.api || '/api/v1');
+
+    async function fetchReviewsData() {
+      const res = await fetch(`${apiUrl}/public/reviews?locale=${locale}`);
+      if (!res.ok) throw new Error('API Error');
+      return await res.json();
+    }
 
     try {
-      const response = await fetch(`${apiUrl}/public/reviews?locale=${locale}`);
-      if (!response.ok) throw new Error('API Error');
-      const json = await response.json();
+      const json = await fetchReviewsData();
       const googleData = json.data;
       
       const reviews = googleData?.reviews || [];

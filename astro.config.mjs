@@ -31,6 +31,15 @@ export default defineConfig({
     }),
   ],
   vite: {
+    server: {
+      proxy: {
+        '/api/v1': {
+          target: 'https://el-trigal-backend-nun9.onrender.com',
+          changeOrigin: true,
+          secure: true,
+        },
+      },
+    },
     optimizeDeps: {
       exclude: ['@astrojs/telemetry'],
     },

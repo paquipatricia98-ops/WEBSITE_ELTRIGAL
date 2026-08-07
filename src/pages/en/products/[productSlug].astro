@@ -61,6 +61,8 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
   locale={locale}
   ogImage={primaryImage?.secureUrl}
   jsonLd={combinedSchema}
+  alternateEsRoute={`/es/productos/${product.slug.es || product.slug.en}`}
+  alternateEnRoute={`/en/products/${product.slug.en}`}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <Breadcrumbs items={breadcrumbs} locale={locale} />

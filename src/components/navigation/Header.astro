@@ -8,9 +8,11 @@ import type { Locale } from '../../types/api';
 
 interface Props {
   locale: Locale;
+  alternateEsRoute?: string;
+  alternateEnRoute?: string;
 }
 
-const { locale } = Astro.props;
+const { locale, alternateEsRoute, alternateEnRoute } = Astro.props;
 const t = useTranslations(locale);
 const currentPath = Astro.url.pathname;
 
@@ -23,11 +25,11 @@ const navLinks = [
   { label: t('nav.contact'), href: locale === 'es' ? '/es/contacto' : '/en/contact' },
 ];
 
-const esRoute = getEquivalentRoute(currentPath, 'es');
-const enRoute = getEquivalentRoute(currentPath, 'en');
+const esRoute = alternateEsRoute || getEquivalentRoute(currentPath, 'es');
+const enRoute = alternateEnRoute || getEquivalentRoute(currentPath, 'en');
 ---
 
-<header class="sticky top-0 z-40 w-full bg-brand-cream/95 backdrop-blur-md border-b border-brand-gold/30 shadow-warm">
+<header class="sticky top-0 z-40 w-full max-w-full overflow-x-hidden bg-brand-cream/95 backdrop-blur-md border-b border-brand-gold/30 shadow-warm">
   <div class="w-full max-w-7xl xl:max-w-[1400px] 2xl:max-w-[1700px] 3xl:max-w-[92vw] mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20 w-full">
       

@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light !important;
+  supported-color-schemes: light !important;
   --brand-brown: #4A3C31;
   --brand-gold: #D4AF37;
   --brand-gold-secondary: #C5A059;
@@ -15,13 +17,18 @@
 
 @layer base {
   html {
+    color-scheme: light !important;
     scroll-behavior: smooth;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     color: var(--brand-brown);
     background-color: var(--brand-cream);
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
   }
 
   body {
+    color-scheme: light !important;
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
@@ -29,6 +36,10 @@
     color: var(--brand-brown);
     background-color: var(--brand-cream);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
   }
 
   h1, h2, h3, h4, h5, h6, p, a, span {

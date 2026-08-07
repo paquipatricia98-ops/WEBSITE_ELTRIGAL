@@ -10,9 +10,11 @@ import type { Locale } from '../../types/api';
 interface Props {
   locale: Locale;
   currentPath: string;
+  alternateEsRoute?: string;
+  alternateEnRoute?: string;
 }
 
-const { locale, currentPath } = Astro.props;
+const { locale, currentPath, alternateEsRoute, alternateEnRoute } = Astro.props;
 const t = useTranslations(locale);
 
 const navItems = [
@@ -24,8 +26,8 @@ const navItems = [
   { label: t('nav.contact'), href: locale === 'es' ? '/es/contacto' : '/en/contact' },
 ];
 
-const esRoute = getEquivalentRoute(currentPath, 'es');
-const enRoute = getEquivalentRoute(currentPath, 'en');
+const esRoute = alternateEsRoute || getEquivalentRoute(currentPath, 'es');
+const enRoute = alternateEnRoute || getEquivalentRoute(currentPath, 'en');
 ---
 
 <div
@@ -43,10 +45,10 @@ const enRoute = getEquivalentRoute(currentPath, 'en');
 
   <!-- Drawer panel -->
   <div
-    class="fixed inset-y-0 right-0 z-[10000] w-full max-w-xs sm:max-w-md bg-brand-cream shadow-2xl flex flex-col border-l-2 border-brand-gold"
+    class="fixed inset-y-0 right-0 z-[10000] w-[88vw] max-w-sm sm:max-w-md bg-brand-cream shadow-2xl flex flex-col border-l-2 border-brand-gold max-w-full overflow-x-hidden"
   >
     <!-- Inner scrollable container -->
-    <div class="flex-1 overflow-y-auto p-6 pt-[max(1.5rem,env(safe-area-inset-top))] pb-[max(2rem,env(safe-area-inset-bottom))] flex flex-col">
+    <div class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(5rem,env(safe-area-inset-bottom))] flex flex-col">
       
       <div class="space-y-4 flex-1">
         <!-- Drawer header -->

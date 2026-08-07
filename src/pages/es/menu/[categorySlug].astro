@@ -35,6 +35,8 @@ const breadcrumbs = [
   title={category?.name[locale] || 'Categoría del Menú'}
   description={category?.description?.[locale] || 'Catálogo de panadería y pastelería El Trigal en Orange, NJ.'}
   locale={locale}
+  alternateEsRoute={`/es/menu/${category?.slug.es || categorySlug}`}
+  alternateEnRoute={`/en/menu/${category?.slug.en || category?.slug.es || categorySlug}`}
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <Breadcrumbs items={breadcrumbs} locale={locale} />

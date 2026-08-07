@@ -10,6 +10,8 @@ interface Props {
   ogImage?: string;
   jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
   noindex?: boolean;
+  alternateEsRoute?: string;
+  alternateEnRoute?: string;
 }
 
 const {
@@ -19,6 +21,8 @@ const {
   ogImage = 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=630&auto=format&fit=crop&q=80',
   jsonLd,
   noindex = false,
+  alternateEsRoute,
+  alternateEnRoute,
 } = Astro.props;
 
 const siteTitle = title
@@ -30,13 +34,17 @@ const metaKeywords = SITE_CONFIG.keywords[locale];
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 
 const currentPath = Astro.url.pathname;
-const esUrl = new URL(getEquivalentRoute(currentPath, 'es'), Astro.site).href;
-const enUrl = new URL(getEquivalentRoute(currentPath, 'en'), Astro.site).href;
+const esUrl = alternateEsRoute ? new URL(alternateEsRoute, Astro.site).href : new URL(getEquivalentRoute(currentPath, 'es'), Astro.site).href;
+const enUrl = alternateEnRoute ? new URL(alternateEnRoute, Astro.site).href : new URL(getEquivalentRoute(currentPath, 'en'), Astro.site).href;
 ---
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
+  <meta name="theme-color" content="#FDFBF7" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
   <link rel="mask-icon" href="/favicon.svg?v=2" color="#F25C27" />
   <link rel="apple-touch-icon" href="/favicon.svg?v=2" />

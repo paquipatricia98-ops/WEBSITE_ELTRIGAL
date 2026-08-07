@@ -28,8 +28,8 @@ const t = useTranslations(locale);
     </div>
 
     <!-- 3D Cover Flow Slider Wrapper -->
-    <div class="relative max-w-5xl mx-auto px-4 py-8">
-      <div class="coverflow-container relative h-[400px] w-full flex items-center justify-center" style="perspective: 1200px; transform-style: preserve-3d;" data-locale={locale} data-api={import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend-nun9.onrender.com/api/v1'}>
+    <div class="relative max-w-5xl mx-auto px-4 py-8 overflow-hidden max-w-full">
+      <div class="coverflow-container relative h-[400px] w-full flex items-center justify-center overflow-hidden" style="perspective: 1200px; transform-style: preserve-3d;" data-locale={locale} data-api={import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend-nun9.onrender.com/api/v1'}>
         <!-- Dynamic content goes here -->
       </div>
 
@@ -62,13 +62,17 @@ const t = useTranslations(locale);
     if (!container) return;
 
     const locale = container.dataset.locale as string;
-    const apiUrl = container.dataset.api;
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const apiUrl = isLocalhost ? '/api/v1' : (container.dataset.api || '/api/v1');
+
+    async function fetchCategoriesData() {
+      const res = await fetch(`${apiUrl}/public/categories`);
+      if (!res.ok) throw new Error('Error fetching categories');
+      return await res.json();
+    }
 
     try {
-      const response = await fetch(`${apiUrl}/public/categories`);
-      if (!response.ok) throw new Error('Error fetching categories');
-      
-      const resData = await response.json();
+      const resData = await fetchCategoriesData();
       const categories = resData.data || [];
 
       if (categories.length === 0) {
@@ -89,8 +93,8 @@ const t = useTranslations(locale);
         if (dbImage) {
           return `
             <a href="${categoryUrl}" class="coverflow-card absolute w-[260px] sm:w-[320px] h-[360px] rounded-2xl overflow-hidden shadow-warm border block transition-all duration-500 ease-out origin-center cursor-pointer bg-brand-brown border-brand-gold/30" style="will-change: transform, opacity;">
-              <img src="${dbImage}" alt="${catName}" width="600" height="400" class="w-full h-full object-cover transition-all duration-500" loading="lazy" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent p-6 flex flex-col justify-end">
+              <img src="${dbImage}" alt="${catName}" width="600" height="400" class="w-full h-full object-cover transition-all duration-500" loading="lazy" onerror="this.onerror=null; this.src='/images/history/interior.jpg';" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-6 flex flex-col justify-end">
                 <h3 class="font-serif text-2xl font-bold text-white transition-colors">${catName}</h3>
                 ${catDesc ? `<p class="text-xs sm:text-sm text-brand-cream/80 line-clamp-2 mt-1">${catDesc}</p>` : ''}
                 <div class="mt-3 flex items-center text-xs font-bold text-brand-gold">
@@ -269,5 +273,6 @@ const t = useTranslations(locale);
 
   // Execute initialization on page load and view transitions
   fetchAndRenderCategories();
+  document.addEventListener('DOMContentLoaded', fetchAndRenderCategories);
   document.addEventListener('astro:page-load', fetchAndRenderCategories);
 </script>
