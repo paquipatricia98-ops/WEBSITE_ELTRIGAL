@@ -1,6 +1,6 @@
-import { e as createAstro, f as createComponent, m as maybeRenderHead, h as addAttribute, k as renderComponent, r as renderTemplate } from './astro/server_DYzyEL0a.mjs';
+import { e as createAstro, f as createComponent, m as maybeRenderHead, h as addAttribute, k as renderComponent, r as renderTemplate } from './astro/server_BYp-mrTa.mjs';
 import 'piccolore';
-import { $ as $$CloudinaryImage } from './CloudinaryImage_CKpxiDzb.mjs';
+import { $ as $$CloudinaryImage } from './CloudinaryImage_DpWQm9Rh.mjs';
 
 function formatPriceCents(cents, locale = "es") {
   if (cents === null || cents === void 0 || isNaN(cents)) {

@@ -1,9 +1,9 @@
-import { e as createAstro, f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../../chunks/astro/server_DYzyEL0a.mjs';
+import { e as createAstro, f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../../chunks/astro/server_BYp-mrTa.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout, u as useTranslations } from '../../../chunks/BaseLayout_DtHrG7ZJ.mjs';
-import { $ as $$Breadcrumbs } from '../../../chunks/Breadcrumbs_sYitnpyE.mjs';
-import { $ as $$ProductCard } from '../../../chunks/ProductCard_BS--r9Mz.mjs';
-import { d as getCategoryBySlug, e as getProducts } from '../../../chunks/publicApi_ih3EJtSd.mjs';
+import { $ as $$BaseLayout, u as useTranslations } from '../../../chunks/BaseLayout_CNquR-ll.mjs';
+import { $ as $$Breadcrumbs } from '../../../chunks/Breadcrumbs_CZu6KnEI.mjs';
+import { $ as $$ProductCard } from '../../../chunks/ProductCard_CML-SMFI.mjs';
+import { d as getCategoryBySlug, e as getProducts } from '../../../chunks/publicApi_PevibVH-.mjs';
 export { renderers } from '../../../renderers.mjs';
 
 const $$Astro = createAstro("https://eltrigalbakery.com");
