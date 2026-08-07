@@ -14,7 +14,7 @@ const t = useTranslations(locale);
 const currentYear = new Date().getFullYear();
 
 const footerNav = [
-  { label: t('nav.menu'), href: `/${locale}/menu` },
+  { label: t('nav.menu'), href: locale === 'es' ? '/es/catalogo' : '/en/catalog' },
   { label: t('nav.ecuadorianProducts'), href: locale === 'es' ? '/es/productos-ecuatorianos' : '/en/ecuadorian-products' },
   { label: t('nav.catering'), href: locale === 'es' ? '/es/catering-eventos' : '/en/catering-events' },
   { label: t('nav.ourStory'), href: locale === 'es' ? '/es/nuestra-historia' : '/en/our-story' },

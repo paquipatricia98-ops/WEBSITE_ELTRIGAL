@@ -64,7 +64,7 @@ const t = useTranslations(locale);
         <!-- CTAs & Direct Delivery Ordering -->
         <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-4">
           <a
-            href={`/${locale}/menu`}
+            href={locale === 'es' ? '/es/catalogo' : '/en/catalog'}
             class="px-6 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-lg hover:shadow-gold-glow transition-all transform hover:-translate-y-0.5 text-center shrink-0"
           >
             {t('hero.ctaMenu')}

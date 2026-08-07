@@ -9,7 +9,8 @@ export const DEFAULT_LOCALE: Locale = 'es';
 
 export const ROUTE_MAP: Record<string, { es: string; en: string }> = {
   'home': { es: '/es/', en: '/en/' },
-  'menu': { es: '/es/menu', en: '/en/menu' },
+  'menu': { es: '/es/catalogo', en: '/en/catalog' },
+  'catalog': { es: '/es/catalogo', en: '/en/catalog' },
   'custom-cakes': { es: '/es/pasteles-personalizados', en: '/en/custom-cakes' },
   'ecuadorian-bakery': { es: '/es/panaderia-ecuatoriana', en: '/en/ecuadorian-bakery' },
   'ecuadorian-products': { es: '/es/productos-ecuatorianos', en: '/en/ecuadorian-products' },

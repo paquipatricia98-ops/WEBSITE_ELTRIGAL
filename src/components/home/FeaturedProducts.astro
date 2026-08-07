@@ -38,7 +38,7 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
     <!-- View All Button -->
     <div class="mt-12 text-center">
       <a
-        href={`/${locale}/menu`}
+        href={locale === 'es' ? '/es/catalogo' : '/en/catalog'}
         class="inline-flex items-center space-x-2 px-8 py-3.5 rounded-full bg-brand-brown text-brand-gold font-bold text-sm hover:bg-brand-brown-dark border-2 border-brand-gold shadow-md transition-all"
       >
         <span>{locale === 'es' ? 'Ver Todo el Catálogo' : 'View Full Catalog'}</span>

@@ -81,7 +81,8 @@ const t = useTranslations(locale);
       }
 
       container.innerHTML = categories.map((cat: any) => {
-        const categoryUrl = `/${locale}/menu?category=${cat.slug?.[locale] || cat.slug?.es || cat.id}`;
+        const catSlug = cat.slug?.[locale] || cat.slug?.es || cat.slug?.en || cat.id;
+        const categoryUrl = locale === 'es' ? `/es/catalogo?category=${catSlug}` : `/en/catalog?category=${catSlug}`;
         const dbImage = typeof cat.image === 'object' && cat.image 
           ? (cat.image.secureUrl || cat.image.url) 
           : (typeof cat.image === 'string' ? cat.image : null);

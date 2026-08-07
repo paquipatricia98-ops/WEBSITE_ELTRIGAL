@@ -39,12 +39,10 @@ export function getEquivalentRoute(pathname: string, targetLocale: Locale): stri
     }
   }
 
-  // Handle /es/menu/category-slug -> /en/menu/category-slug
-  if (pathname.includes('/menu/')) {
-    const parts = pathname.split('/menu/');
-    if (parts.length === 2 && parts[1]) {
-      return `/${targetLocale}/menu/${parts[1]}`;
-    }
+  // Handle category pages: /es/catalogo/category-slug <-> /en/catalog/category-slug
+  if (pathname.includes('/menu/') || pathname.includes('/catalogo/') || pathname.includes('/catalog/')) {
+    const slug = pathname.split('/').pop() || '';
+    return targetLocale === 'en' ? `/en/menu/${slug}` : `/es/menu/${slug}`;
   }
 
   // Handle product pages: /es/productos/slug <-> /en/products/slug
