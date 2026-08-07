@@ -180,84 +180,11 @@ const PageNumberParamNotFound = {
   message: (paramName) => `[paginate()] page number param \`${paramName}\` not found in your filepath.`,
   hint: "Rename your file to `[page].astro` or `[...page].astro`."
 };
-const ImageMissingAlt = {
-  name: "ImageMissingAlt",
-  title: 'Image missing required "alt" property.',
-  message: 'Image missing "alt" property. "alt" text is required to describe important images on the page.',
-  hint: 'Use an empty string ("") for decorative images.'
-};
-const InvalidImageService = {
-  name: "InvalidImageService",
-  title: "Error while loading image service.",
-  message: "There was an error loading the configured image service. Please see the stack trace for more information."
-};
-const MissingImageDimension = {
-  name: "MissingImageDimension",
-  title: "Missing image dimensions",
-  message: (missingDimension, imageURL) => `Missing ${missingDimension === "both" ? "width and height attributes" : `${missingDimension} attribute`} for ${imageURL}. When using remote images, both dimensions are required in order to avoid CLS.`,
-  hint: "If your image is inside your `src` folder, you probably meant to import it instead. See [the Imports guide for more information](https://docs.astro.build/en/guides/imports/#other-assets). You can also use `inferSize={true}` for remote images to get the original dimensions."
-};
-const FailedToFetchRemoteImageDimensions = {
-  name: "FailedToFetchRemoteImageDimensions",
-  title: "Failed to retrieve remote image dimensions",
-  message: (imageURL) => `Failed to get the dimensions for ${imageURL}.`,
-  hint: "Verify your remote image URL is accurate, and that you are not using `inferSize` with a file located in your `public/` folder."
-};
-const RemoteImageNotAllowed = {
-  name: "RemoteImageNotAllowed",
-  title: "Remote image is not allowed",
-  message: (imageURL) => `Remote image ${imageURL} is not allowed by your image configuration.`,
-  hint: "Update `image.domains` or `image.remotePatterns`, or remove `inferSize` for this image."
-};
-const UnsupportedImageFormat = {
-  name: "UnsupportedImageFormat",
-  title: "Unsupported image format",
-  message: (format, imagePath, supportedFormats) => `Received unsupported format \`${format}\` from \`${imagePath}\`. Currently only ${supportedFormats.join(
-    ", "
-  )} are supported by our image services.`,
-  hint: "Using an `img` tag directly instead of the `Image` component might be what you're looking for."
-};
-const UnsupportedImageConversion = {
-  name: "UnsupportedImageConversion",
-  title: "Unsupported image conversion",
-  message: "Converting between vector (such as SVGs) and raster (such as PNGs and JPEGs) images is not currently supported."
-};
 const PrerenderDynamicEndpointPathCollide = {
   name: "PrerenderDynamicEndpointPathCollide",
   title: "Prerendered dynamic endpoint has path collision.",
   message: (pathname) => `Could not render \`${pathname}\` with an \`undefined\` param as the generated path will collide during prerendering. Prevent passing \`undefined\` as \`params\` for the endpoint's \`getStaticPaths()\` function, or add an additional extension to the endpoint's filename.`,
   hint: (filename) => `Rename \`${filename}\` to \`${filename.replace(/\.(?:js|ts)/, (m) => `.json` + m)}\``
-};
-const ExpectedImage = {
-  name: "ExpectedImage",
-  title: "Expected src to be an image.",
-  message: (src, typeofOptions, fullOptions) => `Expected \`src\` property for \`getImage\` or \`<Image />\` to be either an ESM imported image or a string with the path of a remote image. Received \`${src}\` (type: \`${typeofOptions}\`).
-
-Full serialized options received: \`${fullOptions}\`.`,
-  hint: "This error can often happen because of a wrong path. Make sure the path to your image is correct. If you're passing an async function, make sure to call and await it."
-};
-const ExpectedImageOptions = {
-  name: "ExpectedImageOptions",
-  title: "Expected image options.",
-  message: (options) => `Expected getImage() parameter to be an object. Received \`${options}\`.`
-};
-const ExpectedNotESMImage = {
-  name: "ExpectedNotESMImage",
-  title: "Expected image options, not an ESM-imported image.",
-  message: "An ESM-imported image cannot be passed directly to `getImage()`. Instead, pass an object with the image in the `src` property.",
-  hint: "Try changing `getImage(myImage)` to `getImage({ src: myImage })`"
-};
-const IncompatibleDescriptorOptions = {
-  name: "IncompatibleDescriptorOptions",
-  title: "Cannot set both `densities` and `widths`",
-  message: "Only one of `densities` or `widths` can be specified. In most cases, you'll probably want to use only `widths` if you require specific widths.",
-  hint: "Those attributes are used to construct a `srcset` attribute, which cannot have both `x` and `w` descriptors."
-};
-const NoImageMetadata = {
-  name: "NoImageMetadata",
-  title: "Could not process image metadata.",
-  message: (imagePath) => `Could not process image metadata${imagePath ? ` for \`${imagePath}\`` : ""}.`,
-  hint: "This is often caused by a corrupted or malformed image. Re-exporting the image from your image editor may fix this issue."
 };
 const ResponseSentError = {
   name: "ResponseSentError",
@@ -297,12 +224,6 @@ const AstroResponseHeadersReassigned = {
   message: "Individual headers can be added to and removed from `Astro.response.headers`, but it must not be replaced with another instance of `Headers` altogether.",
   hint: "Consider using `Astro.response.headers.add()`, and `Astro.response.headers.delete()`."
 };
-const LocalImageUsedWrongly = {
-  name: "LocalImageUsedWrongly",
-  title: "Local images must be imported.",
-  message: (imageFilePath) => `\`Image\`'s and \`getImage\`'s \`src\` parameter must be an imported image or an URL, it cannot be a string filepath. Received \`${imageFilePath}\`.`,
-  hint: "If you want to use an image from your `src` folder, you need to either import it or if the image is coming from a content collection, use the [image() schema helper](https://docs.astro.build/en/guides/images/#images-in-content-collections). See https://docs.astro.build/en/guides/images/#src-required for more information on the `src` property."
-};
 const AstroGlobUsedOutside = {
   name: "AstroGlobUsedOutside",
   title: "Astro.glob() used outside of an Astro file.",
@@ -314,12 +235,6 @@ const AstroGlobNoMatch = {
   title: "Astro.glob() did not match any files.",
   message: (globStr) => `\`Astro.glob(${globStr})\` did not return any matching files.`,
   hint: "Check the pattern for typos."
-};
-const MissingSharp = {
-  name: "MissingSharp",
-  title: "Could not find Sharp.",
-  message: "Could not find Sharp. Please install Sharp (`sharp`) manually into your project or migrate to another image service.",
-  hint: "See Sharp's installation instructions for more information: https://sharp.pixelplumbing.com/install. If you are not relying on `astro:assets` to optimize, transform, or process any images, you can configure a passthrough image service instead of installing Sharp. See https://docs.astro.build/en/reference/errors/missing-sharp for more information.\n\nSee https://docs.astro.build/en/guides/images/#default-image-service for more information on how to migrate to another image service."
 };
 const FailedToFindPageMapSSR = {
   name: "FailedToFindPageMapSSR",
@@ -345,18 +260,6 @@ The static route '${to}' is rendered by the component
 '${component}', which is marked as prerendered. This is a forbidden operation because during the build the component '${component}' is compiled to an
 HTML file, which can't be retrieved at runtime by Astro.`,
   hint: (component) => `Add \`export const prerender = false\` to the component '${component}', or use a Astro.redirect().`
-};
-const ExperimentalFontsNotEnabled = {
-  name: "ExperimentalFontsNotEnabled",
-  title: "Experimental fonts are not enabled",
-  message: "The Font component is used but experimental fonts have not been registered in the config.",
-  hint: "Check that you have enabled experimental fonts and also configured your preferred fonts."
-};
-const FontFamilyNotFound = {
-  name: "FontFamilyNotFound",
-  title: "Font family not found",
-  message: (family) => `No data was found for the \`"${family}"\` family passed to the \`<Font>\` component.`,
-  hint: "This is often caused by a typo. Check that the `<Font />` component is using a `cssVariable` specified in your config."
 };
 const CspNotEnabled = {
   name: "CspNotEnabled",
@@ -387,266 +290,6 @@ const SessionStorageSaveError = {
   message: (error, driver) => `Error when saving session data${driver ? ` with driver \`${driver}\`` : ""}. \`${error ?? ""}\``,
   hint: "For more information, see https://docs.astro.build/en/guides/sessions/"
 };
-
-function isPromise(value) {
-  return !!value && typeof value === "object" && "then" in value && typeof value.then === "function";
-}
-async function* streamAsyncIterator(stream) {
-  const reader = stream.getReader();
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) return;
-      yield value;
-    }
-  } finally {
-    reader.releaseLock();
-  }
-}
-
-const escapeHTML = escape;
-class HTMLBytes extends Uint8Array {
-}
-Object.defineProperty(HTMLBytes.prototype, Symbol.toStringTag, {
-  get() {
-    return "HTMLBytes";
-  }
-});
-class HTMLString extends String {
-  get [Symbol.toStringTag]() {
-    return "HTMLString";
-  }
-}
-const markHTMLString = (value) => {
-  if (value instanceof HTMLString) {
-    return value;
-  }
-  if (typeof value === "string") {
-    return new HTMLString(value);
-  }
-  return value;
-};
-function isHTMLString(value) {
-  return Object.prototype.toString.call(value) === "[object HTMLString]";
-}
-function markHTMLBytes(bytes) {
-  return new HTMLBytes(bytes);
-}
-function hasGetReader(obj) {
-  return typeof obj.getReader === "function";
-}
-async function* unescapeChunksAsync(iterable) {
-  if (hasGetReader(iterable)) {
-    for await (const chunk of streamAsyncIterator(iterable)) {
-      yield unescapeHTML(chunk);
-    }
-  } else {
-    for await (const chunk of iterable) {
-      yield unescapeHTML(chunk);
-    }
-  }
-}
-function* unescapeChunks(iterable) {
-  for (const chunk of iterable) {
-    yield unescapeHTML(chunk);
-  }
-}
-function unescapeHTML(str) {
-  if (!!str && typeof str === "object") {
-    if (str instanceof Uint8Array) {
-      return markHTMLBytes(str);
-    } else if (str instanceof Response && str.body) {
-      const body = str.body;
-      return unescapeChunksAsync(body);
-    } else if (typeof str.then === "function") {
-      return Promise.resolve(str).then((value) => {
-        return unescapeHTML(value);
-      });
-    } else if (str[Symbol.for("astro:slot-string")]) {
-      return str;
-    } else if (Symbol.iterator in str) {
-      return unescapeChunks(str);
-    } else if (Symbol.asyncIterator in str || hasGetReader(str)) {
-      return unescapeChunksAsync(str);
-    }
-  }
-  return markHTMLString(str);
-}
-
-const voidElementNames = /^(area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)$/i;
-const htmlBooleanAttributes = /^(?:allowfullscreen|async|autofocus|autoplay|checked|controls|default|defer|disabled|disablepictureinpicture|disableremoteplayback|formnovalidate|hidden|inert|loop|muted|nomodule|novalidate|open|playsinline|readonly|required|reversed|scoped|seamless|selected|itemscope)$/i;
-const AMPERSAND_REGEX = /&/g;
-const DOUBLE_QUOTE_REGEX = /"/g;
-const STATIC_DIRECTIVES = /* @__PURE__ */ new Set(["set:html", "set:text"]);
-const toIdent = (k) => k.trim().replace(/(?!^)\b\w|\s+|\W+/g, (match, index) => {
-  if (/\W/.test(match)) return "";
-  return index === 0 ? match : match.toUpperCase();
-});
-const toAttributeString = (value, shouldEscape = true) => shouldEscape ? String(value).replace(AMPERSAND_REGEX, "&#38;").replace(DOUBLE_QUOTE_REGEX, "&#34;") : value;
-const kebab = (k) => k.toLowerCase() === k ? k : k.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
-const toStyleString = (obj) => Object.entries(obj).filter(([_, v]) => typeof v === "string" && v.trim() || typeof v === "number").map(([k, v]) => {
-  if (k[0] !== "-" && k[1] !== "-") return `${kebab(k)}:${v}`;
-  return `${k}:${v}`;
-}).join(";");
-function defineScriptVars(vars) {
-  let output = "";
-  for (const [key, value] of Object.entries(vars)) {
-    output += `const ${toIdent(key)} = ${JSON.stringify(value)?.replace(
-      /<\/script>/g,
-      "\\x3C/script>"
-    )};
-`;
-  }
-  return markHTMLString(output);
-}
-function formatList(values) {
-  if (values.length === 1) {
-    return values[0];
-  }
-  return `${values.slice(0, -1).join(", ")} or ${values[values.length - 1]}`;
-}
-function isCustomElement(tagName) {
-  return tagName.includes("-");
-}
-function handleBooleanAttribute(key, value, shouldEscape, tagName) {
-  if (tagName && isCustomElement(tagName)) {
-    return markHTMLString(` ${key}="${toAttributeString(value, shouldEscape)}"`);
-  }
-  return markHTMLString(value ? ` ${key}` : "");
-}
-function addAttribute(value, key, shouldEscape = true, tagName = "") {
-  if (value == null) {
-    return "";
-  }
-  if (STATIC_DIRECTIVES.has(key)) {
-    console.warn(`[astro] The "${key}" directive cannot be applied dynamically at runtime. It will not be rendered as an attribute.
-
-Make sure to use the static attribute syntax (\`${key}={value}\`) instead of the dynamic spread syntax (\`{...{ "${key}": value }}\`).`);
-    return "";
-  }
-  if (key === "class:list") {
-    const listValue = toAttributeString(clsx(value), shouldEscape);
-    if (listValue === "") {
-      return "";
-    }
-    return markHTMLString(` ${key.slice(0, -5)}="${listValue}"`);
-  }
-  if (key === "style" && !(value instanceof HTMLString)) {
-    if (Array.isArray(value) && value.length === 2) {
-      return markHTMLString(
-        ` ${key}="${toAttributeString(`${toStyleString(value[0])};${value[1]}`, shouldEscape)}"`
-      );
-    }
-    if (typeof value === "object") {
-      return markHTMLString(` ${key}="${toAttributeString(toStyleString(value), shouldEscape)}"`);
-    }
-  }
-  if (key === "className") {
-    return markHTMLString(` class="${toAttributeString(value, shouldEscape)}"`);
-  }
-  if (typeof value === "string" && value.includes("&") && isHttpUrl(value)) {
-    return markHTMLString(` ${key}="${toAttributeString(value, false)}"`);
-  }
-  if (htmlBooleanAttributes.test(key)) {
-    return handleBooleanAttribute(key, value, shouldEscape, tagName);
-  }
-  if (value === "") {
-    return markHTMLString(` ${key}`);
-  }
-  if (key === "popover" && typeof value === "boolean") {
-    return handleBooleanAttribute(key, value, shouldEscape, tagName);
-  }
-  if (key === "download" && typeof value === "boolean") {
-    return handleBooleanAttribute(key, value, shouldEscape, tagName);
-  }
-  return markHTMLString(` ${key}="${toAttributeString(value, shouldEscape)}"`);
-}
-function internalSpreadAttributes(values, shouldEscape = true, tagName) {
-  let output = "";
-  for (const [key, value] of Object.entries(values)) {
-    output += addAttribute(value, key, shouldEscape, tagName);
-  }
-  return markHTMLString(output);
-}
-function renderElement$1(name, { props: _props, children = "" }, shouldEscape = true) {
-  const { lang: _, "data-astro-id": astroId, "define:vars": defineVars, ...props } = _props;
-  if (defineVars) {
-    if (name === "style") {
-      delete props["is:global"];
-      delete props["is:scoped"];
-    }
-    if (name === "script") {
-      delete props.hoist;
-      children = defineScriptVars(defineVars) + "\n" + children;
-    }
-  }
-  if ((children == null || children == "") && voidElementNames.test(name)) {
-    return `<${name}${internalSpreadAttributes(props, shouldEscape, name)}>`;
-  }
-  return `<${name}${internalSpreadAttributes(props, shouldEscape, name)}>${children}</${name}>`;
-}
-const noop = () => {
-};
-class BufferedRenderer {
-  chunks = [];
-  renderPromise;
-  destination;
-  /**
-   * Determines whether buffer has been flushed
-   * to the final destination.
-   */
-  flushed = false;
-  constructor(destination, renderFunction) {
-    this.destination = destination;
-    this.renderPromise = renderFunction(this);
-    if (isPromise(this.renderPromise)) {
-      Promise.resolve(this.renderPromise).catch(noop);
-    }
-  }
-  write(chunk) {
-    if (this.flushed) {
-      this.destination.write(chunk);
-    } else {
-      this.chunks.push(chunk);
-    }
-  }
-  flush() {
-    if (this.flushed) {
-      throw new Error("The render buffer has already been flushed.");
-    }
-    this.flushed = true;
-    for (const chunk of this.chunks) {
-      this.destination.write(chunk);
-    }
-    return this.renderPromise;
-  }
-}
-function createBufferedRenderer(destination, renderFunction) {
-  return new BufferedRenderer(destination, renderFunction);
-}
-const isNode = typeof process !== "undefined" && Object.prototype.toString.call(process) === "[object process]";
-const isDeno = typeof Deno !== "undefined";
-function promiseWithResolvers() {
-  let resolve, reject;
-  const promise = new Promise((_resolve, _reject) => {
-    resolve = _resolve;
-    reject = _reject;
-  });
-  return {
-    promise,
-    resolve,
-    reject
-  };
-}
-const VALID_PROTOCOLS = ["http:", "https:"];
-function isHttpUrl(url) {
-  try {
-    const parsedUrl = new URL(url);
-    return VALID_PROTOCOLS.includes(parsedUrl.protocol);
-  } catch {
-    return false;
-  }
-}
 
 function validateArgs(args) {
   if (args.length !== 3) return false;
@@ -779,6 +422,91 @@ Found handlers: ${Object.keys(mod).map((exp) => JSON.stringify(exp)).join(", ")}
     return new Response(null, response);
   }
   return response;
+}
+
+function isPromise(value) {
+  return !!value && typeof value === "object" && "then" in value && typeof value.then === "function";
+}
+async function* streamAsyncIterator(stream) {
+  const reader = stream.getReader();
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) return;
+      yield value;
+    }
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+const escapeHTML = escape;
+class HTMLBytes extends Uint8Array {
+}
+Object.defineProperty(HTMLBytes.prototype, Symbol.toStringTag, {
+  get() {
+    return "HTMLBytes";
+  }
+});
+class HTMLString extends String {
+  get [Symbol.toStringTag]() {
+    return "HTMLString";
+  }
+}
+const markHTMLString = (value) => {
+  if (value instanceof HTMLString) {
+    return value;
+  }
+  if (typeof value === "string") {
+    return new HTMLString(value);
+  }
+  return value;
+};
+function isHTMLString(value) {
+  return Object.prototype.toString.call(value) === "[object HTMLString]";
+}
+function markHTMLBytes(bytes) {
+  return new HTMLBytes(bytes);
+}
+function hasGetReader(obj) {
+  return typeof obj.getReader === "function";
+}
+async function* unescapeChunksAsync(iterable) {
+  if (hasGetReader(iterable)) {
+    for await (const chunk of streamAsyncIterator(iterable)) {
+      yield unescapeHTML(chunk);
+    }
+  } else {
+    for await (const chunk of iterable) {
+      yield unescapeHTML(chunk);
+    }
+  }
+}
+function* unescapeChunks(iterable) {
+  for (const chunk of iterable) {
+    yield unescapeHTML(chunk);
+  }
+}
+function unescapeHTML(str) {
+  if (!!str && typeof str === "object") {
+    if (str instanceof Uint8Array) {
+      return markHTMLBytes(str);
+    } else if (str instanceof Response && str.body) {
+      const body = str.body;
+      return unescapeChunksAsync(body);
+    } else if (typeof str.then === "function") {
+      return Promise.resolve(str).then((value) => {
+        return unescapeHTML(value);
+      });
+    } else if (str[Symbol.for("astro:slot-string")]) {
+      return str;
+    } else if (Symbol.iterator in str) {
+      return unescapeChunks(str);
+    } else if (Symbol.asyncIterator in str || hasGetReader(str)) {
+      return unescapeChunksAsync(str);
+    }
+  }
+  return markHTMLString(str);
 }
 
 const AstroJSX = "astro:jsx";
@@ -1166,6 +894,181 @@ function createRenderInstruction(instruction) {
 }
 function isRenderInstruction(chunk) {
   return chunk && typeof chunk === "object" && chunk[RenderInstructionSymbol];
+}
+
+const voidElementNames = /^(area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)$/i;
+const htmlBooleanAttributes = /^(?:allowfullscreen|async|autofocus|autoplay|checked|controls|default|defer|disabled|disablepictureinpicture|disableremoteplayback|formnovalidate|hidden|inert|loop|muted|nomodule|novalidate|open|playsinline|readonly|required|reversed|scoped|seamless|selected|itemscope)$/i;
+const AMPERSAND_REGEX = /&/g;
+const DOUBLE_QUOTE_REGEX = /"/g;
+const STATIC_DIRECTIVES = /* @__PURE__ */ new Set(["set:html", "set:text"]);
+const toIdent = (k) => k.trim().replace(/(?!^)\b\w|\s+|\W+/g, (match, index) => {
+  if (/\W/.test(match)) return "";
+  return index === 0 ? match : match.toUpperCase();
+});
+const toAttributeString = (value, shouldEscape = true) => shouldEscape ? String(value).replace(AMPERSAND_REGEX, "&#38;").replace(DOUBLE_QUOTE_REGEX, "&#34;") : value;
+const kebab = (k) => k.toLowerCase() === k ? k : k.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+const toStyleString = (obj) => Object.entries(obj).filter(([_, v]) => typeof v === "string" && v.trim() || typeof v === "number").map(([k, v]) => {
+  if (k[0] !== "-" && k[1] !== "-") return `${kebab(k)}:${v}`;
+  return `${k}:${v}`;
+}).join(";");
+function defineScriptVars(vars) {
+  let output = "";
+  for (const [key, value] of Object.entries(vars)) {
+    output += `const ${toIdent(key)} = ${JSON.stringify(value)?.replace(
+      /<\/script>/g,
+      "\\x3C/script>"
+    )};
+`;
+  }
+  return markHTMLString(output);
+}
+function formatList(values) {
+  if (values.length === 1) {
+    return values[0];
+  }
+  return `${values.slice(0, -1).join(", ")} or ${values[values.length - 1]}`;
+}
+function isCustomElement(tagName) {
+  return tagName.includes("-");
+}
+function handleBooleanAttribute(key, value, shouldEscape, tagName) {
+  if (tagName && isCustomElement(tagName)) {
+    return markHTMLString(` ${key}="${toAttributeString(value, shouldEscape)}"`);
+  }
+  return markHTMLString(value ? ` ${key}` : "");
+}
+function addAttribute(value, key, shouldEscape = true, tagName = "") {
+  if (value == null) {
+    return "";
+  }
+  if (STATIC_DIRECTIVES.has(key)) {
+    console.warn(`[astro] The "${key}" directive cannot be applied dynamically at runtime. It will not be rendered as an attribute.
+
+Make sure to use the static attribute syntax (\`${key}={value}\`) instead of the dynamic spread syntax (\`{...{ "${key}": value }}\`).`);
+    return "";
+  }
+  if (key === "class:list") {
+    const listValue = toAttributeString(clsx(value), shouldEscape);
+    if (listValue === "") {
+      return "";
+    }
+    return markHTMLString(` ${key.slice(0, -5)}="${listValue}"`);
+  }
+  if (key === "style" && !(value instanceof HTMLString)) {
+    if (Array.isArray(value) && value.length === 2) {
+      return markHTMLString(
+        ` ${key}="${toAttributeString(`${toStyleString(value[0])};${value[1]}`, shouldEscape)}"`
+      );
+    }
+    if (typeof value === "object") {
+      return markHTMLString(` ${key}="${toAttributeString(toStyleString(value), shouldEscape)}"`);
+    }
+  }
+  if (key === "className") {
+    return markHTMLString(` class="${toAttributeString(value, shouldEscape)}"`);
+  }
+  if (typeof value === "string" && value.includes("&") && isHttpUrl(value)) {
+    return markHTMLString(` ${key}="${toAttributeString(value, false)}"`);
+  }
+  if (htmlBooleanAttributes.test(key)) {
+    return handleBooleanAttribute(key, value, shouldEscape, tagName);
+  }
+  if (value === "") {
+    return markHTMLString(` ${key}`);
+  }
+  if (key === "popover" && typeof value === "boolean") {
+    return handleBooleanAttribute(key, value, shouldEscape, tagName);
+  }
+  if (key === "download" && typeof value === "boolean") {
+    return handleBooleanAttribute(key, value, shouldEscape, tagName);
+  }
+  return markHTMLString(` ${key}="${toAttributeString(value, shouldEscape)}"`);
+}
+function internalSpreadAttributes(values, shouldEscape = true, tagName) {
+  let output = "";
+  for (const [key, value] of Object.entries(values)) {
+    output += addAttribute(value, key, shouldEscape, tagName);
+  }
+  return markHTMLString(output);
+}
+function renderElement$1(name, { props: _props, children = "" }, shouldEscape = true) {
+  const { lang: _, "data-astro-id": astroId, "define:vars": defineVars, ...props } = _props;
+  if (defineVars) {
+    if (name === "style") {
+      delete props["is:global"];
+      delete props["is:scoped"];
+    }
+    if (name === "script") {
+      delete props.hoist;
+      children = defineScriptVars(defineVars) + "\n" + children;
+    }
+  }
+  if ((children == null || children == "") && voidElementNames.test(name)) {
+    return `<${name}${internalSpreadAttributes(props, shouldEscape, name)}>`;
+  }
+  return `<${name}${internalSpreadAttributes(props, shouldEscape, name)}>${children}</${name}>`;
+}
+const noop = () => {
+};
+class BufferedRenderer {
+  chunks = [];
+  renderPromise;
+  destination;
+  /**
+   * Determines whether buffer has been flushed
+   * to the final destination.
+   */
+  flushed = false;
+  constructor(destination, renderFunction) {
+    this.destination = destination;
+    this.renderPromise = renderFunction(this);
+    if (isPromise(this.renderPromise)) {
+      Promise.resolve(this.renderPromise).catch(noop);
+    }
+  }
+  write(chunk) {
+    if (this.flushed) {
+      this.destination.write(chunk);
+    } else {
+      this.chunks.push(chunk);
+    }
+  }
+  flush() {
+    if (this.flushed) {
+      throw new Error("The render buffer has already been flushed.");
+    }
+    this.flushed = true;
+    for (const chunk of this.chunks) {
+      this.destination.write(chunk);
+    }
+    return this.renderPromise;
+  }
+}
+function createBufferedRenderer(destination, renderFunction) {
+  return new BufferedRenderer(destination, renderFunction);
+}
+const isNode = typeof process !== "undefined" && Object.prototype.toString.call(process) === "[object process]";
+const isDeno = typeof Deno !== "undefined";
+function promiseWithResolvers() {
+  let resolve, reject;
+  const promise = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+  return {
+    promise,
+    resolve,
+    reject
+  };
+}
+const VALID_PROTOCOLS = ["http:", "https:"];
+function isHttpUrl(url) {
+  try {
+    const parsedUrl = new URL(url);
+    return VALID_PROTOCOLS.includes(parsedUrl.protocol);
+  } catch {
+    return false;
+  }
 }
 
 const uniqueElements = (item, index, all) => {
@@ -2843,4 +2746,4 @@ function spreadAttributes(values = {}, _name, { class: scopedClassName } = {}) {
   return markHTMLString(output);
 }
 
-export { PrerenderDynamicEndpointPathCollide as $, AstroError as A, isAstroComponentFactory as B, ROUTE_TYPE_HEADER as C, DEFAULT_404_COMPONENT as D, ExpectedImage as E, FailedToFetchRemoteImageDimensions as F, REROUTE_DIRECTIVE_HEADER as G, i18nNoLocaleFoundInPath as H, IncompatibleDescriptorOptions as I, ResponseSentError as J, ActionNotFoundError as K, LocalImageUsedWrongly as L, MissingImageDimension as M, NoImageMetadata as N, MiddlewareNoDataOrNextCalled as O, MiddlewareNotAResponse as P, originPathnameSymbol as Q, RemoteImageNotAllowed as R, RewriteWithBodyUsed as S, GetStaticPathsRequired as T, UnsupportedImageFormat as U, InvalidGetStaticPathsReturn as V, InvalidGetStaticPathsEntry as W, GetStaticPathsExpectedParams as X, GetStaticPathsInvalidRouteParam as Y, PageNumberParamNotFound as Z, NoMatchingStaticPathFound as _, UnsupportedImageConversion as a, ReservedSlotName as a0, renderSlotToString as a1, renderJSX as a2, chunkToString as a3, isRenderInstruction as a4, ForbiddenRewrite as a5, SessionStorageInitError as a6, SessionStorageSaveError as a7, ASTRO_VERSION as a8, CspNotEnabled as a9, LocalsReassigned as aa, generateCspDigest as ab, PrerenderClientAddressNotAvailable as ac, clientAddressSymbol as ad, ClientAddressNotAvailable as ae, StaticClientAddressNotAvailable as af, AstroResponseHeadersReassigned as ag, responseSentSymbol as ah, renderPage as ai, REWRITE_DIRECTIVE_HEADER_KEY as aj, REWRITE_DIRECTIVE_HEADER_VALUE as ak, renderEndpoint as al, LocalsNotAnObject as am, FailedToFindPageMapSSR as an, REROUTABLE_STATUS_CODES as ao, nodeRequestAbortControllerCleanupSymbol as ap, MissingSharp as aq, ExpectedImageOptions as b, ExpectedNotESMImage as c, InvalidImageService as d, createAstro as e, createComponent as f, ImageMissingAlt as g, addAttribute as h, ExperimentalFontsNotEnabled as i, FontFamilyNotFound as j, renderComponent as k, renderScript as l, maybeRenderHead as m, renderHead as n, Fragment as o, renderSlot as p, decodeKey as q, renderTemplate as r, spreadAttributes as s, toStyleString as t, unescapeHTML as u, NOOP_MIDDLEWARE_HEADER as v, REDIRECT_STATUS_CODES as w, ActionsReturnedInvalidDataError as x, decryptString as y, createSlotValueFromString as z };
+export { AstroResponseHeadersReassigned as $, AstroError as A, NoMatchingStaticPathFound as B, PrerenderDynamicEndpointPathCollide as C, DEFAULT_404_COMPONENT as D, ReservedSlotName as E, Fragment as F, GetStaticPathsRequired as G, renderSlotToString as H, InvalidGetStaticPathsReturn as I, renderJSX as J, chunkToString as K, isRenderInstruction as L, MiddlewareNoDataOrNextCalled as M, NOOP_MIDDLEWARE_HEADER as N, ForbiddenRewrite as O, PageNumberParamNotFound as P, SessionStorageSaveError as Q, REDIRECT_STATUS_CODES as R, SessionStorageInitError as S, ASTRO_VERSION as T, CspNotEnabled as U, LocalsReassigned as V, generateCspDigest as W, PrerenderClientAddressNotAvailable as X, clientAddressSymbol as Y, ClientAddressNotAvailable as Z, StaticClientAddressNotAvailable as _, renderTemplate as a, responseSentSymbol as a0, renderPage as a1, REWRITE_DIRECTIVE_HEADER_KEY as a2, REWRITE_DIRECTIVE_HEADER_VALUE as a3, renderEndpoint as a4, LocalsNotAnObject as a5, FailedToFindPageMapSSR as a6, REROUTABLE_STATUS_CODES as a7, nodeRequestAbortControllerCleanupSymbol as a8, addAttribute as b, createComponent as c, renderScript as d, createAstro as e, renderHead as f, renderSlot as g, decodeKey as h, ActionsReturnedInvalidDataError as i, decryptString as j, createSlotValueFromString as k, isAstroComponentFactory as l, maybeRenderHead as m, ROUTE_TYPE_HEADER as n, REROUTE_DIRECTIVE_HEADER as o, i18nNoLocaleFoundInPath as p, ResponseSentError as q, renderComponent as r, ActionNotFoundError as s, MiddlewareNotAResponse as t, unescapeHTML as u, originPathnameSymbol as v, RewriteWithBodyUsed as w, InvalidGetStaticPathsEntry as x, GetStaticPathsExpectedParams as y, GetStaticPathsInvalidRouteParam as z };
