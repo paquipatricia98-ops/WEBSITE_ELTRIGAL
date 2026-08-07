@@ -1,0 +1,42 @@
+function M(c,t){return new Intl.NumberFormat(t==="es"?"es-US":"en-US",{style:"currency",currency:"USD"}).format(c/100)}async function w(){const c=document.getElementById("menu-container");if(!c)return;const t=c.dataset.locale,B=window.location.hostname==="localhost"||window.location.hostname==="127.0.0.1"?"/api/v1":c.dataset.api||"/api/v1",n=document.getElementById("product-search-input"),u=document.getElementById("clear-search-btn"),v=document.getElementById("reset-filter-btn"),C=document.getElementById("category-pills-container"),$=document.getElementById("products-grid"),p=document.getElementById("product-count-label"),E=document.getElementById("no-results-state");let i="todas",f=[];const s=(o,L)=>o?typeof o=="string"?o:typeof o=="object"?o[L]||o.en||o.es||"":String(o):"";try{const o=await fetch(`${B}/public/products?limit=100`);if(!o.ok)throw new Error("API Error");const y=(await o.json()).data||[],P=Array.from(new Set(y.map(e=>e.primaryCategory?.id||e.primaryCategory?._id))).filter(Boolean),N=[{id:"todas",label:t==="es"?"Todas las Categorías":"All Categories",icon:"✨"},...P.map(e=>{const r=y.find(d=>d.primaryCategory?.id===e||d.primaryCategory?._id===e),a=s(r?.primaryCategory?.slug,t)||String(e),l=s(r?.primaryCategory?.name,t)||(t==="es"?"Categoría":"Category"),g=a.includes("pastel")||a.includes("cake")||a.includes("dulce")||a.includes("sweet")?"🍰":"🥖";return{id:a,label:l,icon:g}})];C&&(C.innerHTML=N.map(e=>`
+            <button
+              type="button"
+            data-category="${e.id}"
+            class="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm flex items-center space-x-1.5 cursor-pointer ${e.id==="todas"?"bg-brand-brown text-brand-gold border-brand-gold shadow-md active-pill":"bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20"}"
+          >
+            <span>${e.icon}</span>
+            <span>${e.label}</span>
+          </button>
+        `).join(""));const j=y.map(e=>{const r=e.media?.find(H=>H.isPrimary)||e.media?.[0],a=r?r.secureUrl||r.url||"":e.productoImage||"",l=s(e.name||e.productoName,t),g=r&&s(r.altText||r.alt,t)||l,d=s(e.slug||e.productoSlug,t),m=t==="es"?`/es/productos/${d}`:`/en/products/${d}`,S=e.priceLabel?.[t]?e.priceLabel[t]:e.basePriceCents?M(e.basePriceCents,t):e.productoPrice?`$${e.productoPrice.toFixed(2)}`:null,U=s(e.primaryCategory?.name,t),T=s(e.primaryCategory?.slug,t)||"todas",I=s(e.shortDescription||e.description||e.productoDescription,t),D=Array.isArray(e.tags)?e.tags.join(" "):"",q=`${l} ${I} ${D}`.toLowerCase();return`
+            <div class="product-item-wrapper w-full sm:w-[280px] md:w-[300px] xl:w-[320px] flex-shrink-0" data-category="${T}" data-search="${q}">
+              <article class="bg-brand-cream border border-brand-gold/30 rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-hover transition-all duration-300 flex flex-col group h-full">
+                <a href="${m}" class="relative block overflow-hidden aspect-[4/3] bg-brand-cream-dark">
+                  ${a?`
+                    <img src="${a}" alt="${g}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  `:`
+                    <div class="w-full h-full flex items-center justify-center text-4xl text-brand-gold-secondary">🍞</div>
+                  `}
+                </a>
+                <div class="p-5 flex flex-col flex-grow space-y-2">
+                  <div class="flex flex-wrap items-center justify-between gap-1">
+                    <span class="text-xs font-semibold text-brand-gold-secondary uppercase tracking-wider">${U}</span>
+                    <span class="flex items-center gap-1 bg-brand-brown text-brand-gold text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">🚚 Delivery</span>
+                  </div>
+                  <h3 class="font-serif font-bold text-xl text-brand-brown group-hover:text-brand-brown-dark transition-colors line-clamp-1">
+                    <a href="${m}" class="focus:outline-none focus:underline">${l}</a>
+                  </h3>
+                  <p class="text-xs sm:text-sm text-brand-brown/75 line-clamp-2 leading-relaxed flex-grow">${I}</p>
+                  <div class="pt-2 flex items-center justify-between border-t border-brand-gold/20">
+                    ${S?`
+                      <span class="font-serif font-extrabold text-xl text-brand-brown">${S}</span>
+                    `:`
+                      <span class="text-xs text-brand-brown/50 italic">${t==="es"?"Consultar precio":"Ask for price"}</span>
+                    `}
+                    <a href="${m}" class="text-xs font-bold text-brand-brown/60 hover:text-brand-brown underline-offset-2 hover:underline transition-colors">
+                      ${t==="es"?"Ver más →":"View →"}
+                    </a>
+                  </div>
+                </div>
+              </article>
+            </div>
+          `});$&&($.innerHTML=j.join("")),f=Array.from(document.querySelectorAll(".product-item-wrapper"));const x=document.querySelectorAll(".category-pill"),b=()=>{const e=(n?.value||"").trim().toLowerCase();let r=0;u&&u.classList.toggle("hidden",e.length===0),f.forEach(a=>{const l=a.getAttribute("data-category")||"",g=a.getAttribute("data-search")||"",d=i==="todas"||l===i,m=e===""||g.includes(e);d&&m?(a.classList.remove("hidden"),r++):a.classList.add("hidden")}),p&&(p.textContent=`Showing ${r} of ${f.length} products`),E&&E.classList.toggle("hidden",r>0)};x.forEach(e=>{e.addEventListener("click",()=>{const r=e.getAttribute("data-category")||"todas";i=r,x.forEach(a=>{a.getAttribute("data-category")===r?a.className="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill":a.className="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer"}),b()})}),n&&n.addEventListener("input",b),u&&u.addEventListener("click",()=>{n&&(n.value="",b())}),v&&v.addEventListener("click",()=>{n&&(n.value=""),i="todas",x.forEach(e=>{e.getAttribute("data-category")==="todas"?e.className="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill":e.className="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer"}),b()});const k=new URLSearchParams(window.location.search),h=k.get("category"),A=k.get("search");h&&(i=h,x.forEach(e=>{e.getAttribute("data-category")===h?e.className="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill":e.className="category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer"})),A&&n&&(n.value=A),b()}catch(o){console.error("Error fetching products:",o),p&&(p.textContent="Error loading products.")}}w();document.addEventListener("DOMContentLoaded",w);document.addEventListener("astro:page-load",w);

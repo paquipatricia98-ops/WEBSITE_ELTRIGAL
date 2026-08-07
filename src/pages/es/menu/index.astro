@@ -100,12 +100,13 @@ const breadcrumbs = [
       }).format(cents / 100);
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
+    async function loadCatalog() {
       const container = document.getElementById('menu-container');
       if (!container) return;
 
       const locale = container.dataset.locale as string;
-      const apiUrl = container.dataset.api;
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiUrl = isLocalhost ? '/api/v1' : (container.dataset.api || '/api/v1');
 
       const searchInput = document.getElementById('product-search-input') as HTMLInputElement | null;
       const clearBtn = document.getElementById('clear-search-btn');
@@ -335,6 +336,10 @@ const breadcrumbs = [
         console.error('Error fetching products:', error);
         if (countLabel) countLabel.textContent = 'Error al cargar los productos.';
       }
-    });
+    }
+
+    loadCatalog();
+    document.addEventListener('DOMContentLoaded', loadCatalog);
+    document.addEventListener('astro:page-load', loadCatalog);
   </script>
 </BaseLayout>
