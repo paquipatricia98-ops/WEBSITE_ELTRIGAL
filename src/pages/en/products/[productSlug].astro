@@ -72,7 +72,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
       
       <!-- Gallery Column -->
       <div class="lg:col-span-6 space-y-4">
-        <div class="rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-gold/40 bg-brand-cream-dark aspect-[4/3]">
+        <div class="rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-gold/40 bg-brand-cream-dark aspect-[4/3] flex items-center justify-center p-4">
           {
             primaryImage ? (
               <CloudinaryImage
@@ -81,7 +81,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
                 width={1000}
                 height={750}
                 priority={true}
-                class="w-full h-full object-cover"
+                class="max-w-full max-h-full object-contain drop-shadow-md"
               />
             ) : (
               <div class="w-full h-full flex items-center justify-center text-6xl text-brand-gold">🍞</div>
@@ -93,8 +93,8 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
           product.media.length > 1 && (
             <div class="grid grid-cols-4 gap-3">
               {product.media.map((med) => (
-                <div class="rounded-xl overflow-hidden border border-brand-gold/30 aspect-square">
-                  <CloudinaryImage src={med.secureUrl} alt={med.altText[locale]} width={200} height={200} class="w-full h-full object-cover" />
+                <div class="rounded-xl overflow-hidden border border-brand-gold/30 aspect-square flex items-center justify-center p-1 bg-brand-cream-dark">
+                  <CloudinaryImage src={med.secureUrl} alt={med.altText[locale]} width={200} height={200} class="max-w-full max-h-full object-contain" />
                 </div>
               ))}
             </div>
