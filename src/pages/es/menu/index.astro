@@ -118,6 +118,13 @@ const breadcrumbs = [
       let activeCategory = 'todas';
       let allItems: any[] = [];
 
+      const getStr = (val: any, lang: string) => {
+        if (!val) return '';
+        if (typeof val === 'string') return val;
+        if (typeof val === 'object') return val[lang] || val.es || val.en || '';
+        return String(val);
+      };
+
       try {
         const response = await fetch(`${apiUrl}/public/products?limit=100`);
         if (!response.ok) throw new Error('API Error');
@@ -125,16 +132,18 @@ const breadcrumbs = [
         const products = data.data || [];
 
         // Generate Categories
-        const uniqueCatIds = Array.from(new Set(products.map((p: any) => p.primaryCategory?.id))).filter(Boolean);
+        const uniqueCatIds = Array.from(new Set(products.map((p: any) => p.primaryCategory?.id || p.primaryCategory?._id))).filter(Boolean);
         const dynamicCategories = [
-          { id: 'todas', label: 'Todas las Categorías', icon: '✨' },
+          { id: 'todas', label: locale === 'es' ? 'Todas las Categorías' : 'All Categories', icon: '✨' },
           ...uniqueCatIds.map((catId: any) => {
-            const prod = products.find((p: any) => p.primaryCategory?.id === catId);
-            const slug = prod?.primaryCategory?.slug?.[locale] || catId;
+            const prod = products.find((p: any) => p.primaryCategory?.id === catId || p.primaryCategory?._id === catId);
+            const slugStr = getStr(prod?.primaryCategory?.slug, locale) || String(catId);
+            const catLabel = getStr(prod?.primaryCategory?.name, locale) || (locale === 'es' ? 'Categoría' : 'Category');
+            const icon = (slugStr.includes('pastel') || slugStr.includes('cake') || slugStr.includes('dulce') || slugStr.includes('sweet')) ? '🍰' : '🥖';
             return {
-              id: slug,
-              label: prod?.primaryCategory?.name?.[locale] || 'Categoría',
-              icon: slug.includes('pastel') || slug.includes('dulce') ? '🍰' : '🥖'
+              id: slugStr,
+              label: catLabel,
+              icon: icon
             };
           })
         ];
@@ -160,24 +169,26 @@ const breadcrumbs = [
         // Generate Products HTML
         const productsHtml = products.map((product: any) => {
           const primaryImage = product.media?.find((m: any) => m.isPrimary) || product.media?.[0];
-          const imageUrl = primaryImage ? primaryImage.secureUrl : '';
-          const altText = primaryImage ? ((primaryImage.alt?.[locale]) || (primaryImage.altText?.[locale]) || (product.name?.[locale]) || '') : '';
+          const imageUrl = primaryImage ? (primaryImage.secureUrl || primaryImage.url || '') : (product.productoImage || '');
+          const prodName = getStr(product.name || product.productoName, locale);
+          const altText = primaryImage ? (getStr(primaryImage.altText || primaryImage.alt, locale) || prodName) : prodName;
           
+          const prodSlug = getStr(product.slug || product.productoSlug, locale);
           const productUrl = locale === 'es'
-            ? `/es/productos/${product.slug[locale] || product.slug.es}`
-            : `/en/products/${product.slug[locale] || product.slug.en}`;
+            ? `/es/productos/${prodSlug}`
+            : `/en/products/${prodSlug}`;
 
           const formattedPrice = product.priceLabel?.[locale]
             ? product.priceLabel[locale]
-            : product.basePriceCents
-            ? formatPriceCents(product.basePriceCents, locale)
-            : null;
+            : (product.basePriceCents
+              ? formatPriceCents(product.basePriceCents, locale)
+              : (product.productoPrice ? `$${product.productoPrice.toFixed(2)}` : null));
 
-          const catName = product.primaryCategory?.name[locale] || '';
-          const catKey = product.primaryCategory?.slug?.[locale] || 'todas';
-          const desc = product.shortDescription?.[locale] || '';
-          const tags = product.tags?.join(' ') || '';
-          const searchText = `${product.name[locale]} ${desc} ${tags}`.toLowerCase();
+          const catName = getStr(product.primaryCategory?.name, locale);
+          const catKey = getStr(product.primaryCategory?.slug, locale) || 'todas';
+          const desc = getStr(product.shortDescription || product.description || product.productoDescription, locale);
+          const tags = Array.isArray(product.tags) ? product.tags.join(' ') : '';
+          const searchText = `${prodName} ${desc} ${tags}`.toLowerCase();
 
           return `
             <div class="product-item-wrapper w-full sm:w-[280px] md:w-[300px] xl:w-[320px] flex-shrink-0" data-category="${catKey}" data-search="${searchText}">
@@ -195,7 +206,7 @@ const breadcrumbs = [
                     <span class="flex items-center gap-1 bg-brand-brown text-brand-gold text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">🚚 Delivery</span>
                   </div>
                   <h3 class="font-serif font-bold text-xl text-brand-brown group-hover:text-brand-brown-dark transition-colors line-clamp-1">
-                    <a href="${productUrl}" class="focus:outline-none focus:underline">${product.name[locale]}</a>
+                    <a href="${productUrl}" class="focus:outline-none focus:underline">${prodName}</a>
                   </h3>
                   <p class="text-xs sm:text-sm text-brand-brown/75 line-clamp-2 leading-relaxed flex-grow">${desc}</p>
                   <div class="pt-2 flex items-center justify-between border-t border-brand-gold/20">
