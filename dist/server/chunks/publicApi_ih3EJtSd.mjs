@@ -127,7 +127,7 @@ const GoogleReviewSchema = z.object({
   }).optional(),
   publishTime: z.string().optional()
 });
-const GoogleReviewsResponseSchema = z.object({
+z.object({
   rating: z.number().optional(),
   userRatingCount: z.number().optional(),
   reviews: z.array(GoogleReviewSchema)
@@ -1371,14 +1371,6 @@ async function getFaqs(locale = "es") {
   );
   return res.success ? res.data : MOCK_FAQS;
 }
-async function getGoogleReviews(locale = "es") {
-  const res = await fetchApi(
-    "public/reviews",
-    GoogleReviewsResponseSchema,
-    { query: { locale } }
-  );
-  return res.success ? res.data : null;
-}
 async function getGallery(page = 1, limit = 24) {
   const res = await fetchApi(
     "public/gallery",
@@ -1389,4 +1381,4 @@ async function getGallery(page = 1, limit = 24) {
   return res.success ? res.data : MOCK_GALLERY;
 }
 
-export { getImportedProducts as a, getFaqs as b, getGallery as c, getCategoryBySlug as d, getProducts as e, getProductBySlug as f, getLocalProducts as g, getRelatedProducts as h, getCategories as i, getGoogleReviews as j };
+export { getImportedProducts as a, getFaqs as b, getGallery as c, getCategoryBySlug as d, getProducts as e, getProductBySlug as f, getLocalProducts as g, getRelatedProducts as h, getCategories as i };

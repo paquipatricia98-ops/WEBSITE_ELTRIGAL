@@ -1,4 +1,4 @@
-import { S as SITE_CONFIG } from './BaseLayout_CmgIPuhw.mjs';
+import { S as SITE_CONFIG } from './BaseLayout_DtHrG7ZJ.mjs';
 
 function getBakeryJsonLd(locale) {
   return {

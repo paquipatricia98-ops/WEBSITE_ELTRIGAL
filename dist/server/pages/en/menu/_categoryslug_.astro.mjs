@@ -1,9 +1,9 @@
 import { e as createAstro, f as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../../chunks/astro/server_DYzyEL0a.mjs';
 import 'piccolore';
-import { $ as $$BaseLayout, u as useTranslations } from '../../../chunks/BaseLayout_CmgIPuhw.mjs';
+import { $ as $$BaseLayout, u as useTranslations } from '../../../chunks/BaseLayout_DtHrG7ZJ.mjs';
 import { $ as $$Breadcrumbs } from '../../../chunks/Breadcrumbs_sYitnpyE.mjs';
 import { $ as $$ProductCard } from '../../../chunks/ProductCard_BS--r9Mz.mjs';
-import { d as getCategoryBySlug, e as getProducts } from '../../../chunks/publicApi_BrKjFmYz.mjs';
+import { d as getCategoryBySlug, e as getProducts } from '../../../chunks/publicApi_ih3EJtSd.mjs';
 export { renderers } from '../../../renderers.mjs';
 
 const $$Astro = createAstro("https://eltrigalbakery.com");
