@@ -11,7 +11,12 @@ import { SITE_CONFIG } from '../../../config/site';
 import DoorDashButton from '../../../components/ui/DoorDashButton.astro';
 import UberEatsButton from '../../../components/ui/UberEatsButton.astro';
 
-export const prerender = false;
+export async function getStaticPaths() {
+  const { products } = await getProducts({ limit: 100 });
+  return products.map((product) => ({
+    params: { productSlug: product.slug.es || product.slug.en || product.id },
+  }));
+}
 
 const locale = 'es';
 const t = useTranslations(locale);
