@@ -42,20 +42,33 @@ const breadcrumbs = [
     <Breadcrumbs items={breadcrumbs} locale={locale} />
 
     <!-- PAGE HEADER -->
-    <div class="space-y-4 text-center sm:text-left">
-      <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
-        🇪🇨 Lo Mejor de Nuestra Tierra
-      </span>
-      <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-brown">
-        Productos Importados 🇪🇨
-      </h1>
-      <p class="text-brand-brown/85 text-base sm:text-lg max-w-3xl leading-relaxed">
-        Encuentra tus favoritos de Ecuador: productos lácteos frescos (yogur, queso manaba), dulces tradicionales (manjar, cocadas, chocolates), panadería ambateña, café gourmet y snacks.
-      </p>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="space-y-4 text-center md:text-left">
+        <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
+          🇪🇨 Lo Mejor de Nuestra Tierra
+        </span>
+        <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-brown">
+          Productos Importados 🇪🇨
+        </h1>
+        <p class="text-brand-brown/85 text-base sm:text-lg max-w-3xl leading-relaxed">
+          Encuentra tus favoritos de Ecuador: productos lácteos frescos (yogur, queso manaba), dulces tradicionales (manjar, cocadas, chocolates), panadería ambateña, café gourmet y snacks.
+        </p>
+      </div>
+      <div class="flex justify-center md:justify-end md:self-end pb-1.5">
+        <button 
+          id="share-catalog-btn"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-brand-gold bg-[#fdfdfb] text-brand-brown font-bold text-sm shadow-sm hover:bg-brand-gold/15 transition-all cursor-pointer whitespace-nowrap"
+        >
+          <svg class="w-4 h-4 fill-current text-brand-gold-secondary" viewBox="0 0 24 24">
+            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92zM18 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM6 13c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm12 7.02c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+          </svg>
+          <span id="share-btn-text">Compartir Catálogo</span>
+        </button>
+      </div>
     </div>
 
     <!-- SEARCH & CATEGORY FILTER CONTROL BAR -->
-    <div class="w-full bg-brand-cream p-4 sm:p-6 rounded-3xl border-2 border-brand-gold/40 shadow-xl space-y-5">
+    <div class="w-full bg-[#fdfdfb]/90 p-6 md:p-8 rounded-[24px] border border-brand-gold/40 shadow-sm space-y-6">
       
       <!-- Real-Time Search Bar (Centered with oval pill borders) -->
       <div class="relative w-full max-w-xl mx-auto">
@@ -67,7 +80,7 @@ const breadcrumbs = [
         <input
           type="text"
           id="product-search-input"
-          class="w-full pl-12 pr-10 py-3.5 rounded-full bg-brand-cream-dark/60 border border-brand-gold/40 text-brand-brown font-semibold placeholder:text-brand-brown/50 focus:outline-none focus:ring-2 focus:ring-brand-gold focus:border-brand-gold transition-all text-sm sm:text-base shadow-inner"
+          class="w-full pl-12 pr-10 py-3 rounded-full bg-[#FAF7F2] border border-brand-gold/35 text-brand-brown font-semibold placeholder:text-brand-brown/40 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold/50 transition-all text-sm shadow-inner"
           placeholder="Buscar yogur, queso, manjar, chocolates, café, allullas, chifles..."
         />
         <button
@@ -81,15 +94,15 @@ const breadcrumbs = [
       </div>
 
       <!-- Category Filter Pills (Centered) -->
-      <div class="flex flex-wrap items-center justify-center gap-2 pt-2 border-t border-brand-gold/20" id="category-pills-container">
+      <div class="flex flex-wrap items-center justify-center gap-2.5 pt-4 border-t border-brand-gold/15" id="category-pills-container">
         {dynamicCategories.map((c) => (
           <button
             type="button"
             data-category={c.id}
-            class={`category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm flex items-center space-x-1.5 cursor-pointer ${
+            class={`category-pill px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer ${
               c.id === 'todas'
-                ? 'bg-brand-brown text-brand-gold border-brand-gold shadow-md active-pill'
-                : 'bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20'
+                ? 'bg-brand-brown text-brand-gold border-brand-brown active-pill'
+                : 'bg-[#FAF7F2] text-brand-brown border-brand-gold/25 hover:bg-brand-gold/10'
             }`}
           >
             <span>{c.icon}</span>
@@ -186,9 +199,9 @@ const breadcrumbs = [
 
         pills.forEach((p) => {
           if (p.getAttribute('data-category') === cat) {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+            p.className = 'category-pill px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-brand-brown text-brand-gold border-brand-brown active-pill';
           } else {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+            p.className = 'category-pill px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-[#FAF7F2] text-brand-brown border-brand-gold/25 hover:bg-brand-gold/10';
           }
         });
 
@@ -219,12 +232,46 @@ const breadcrumbs = [
         pills.forEach((p) => {
           const cat = p.getAttribute('data-category');
           if (cat === 'todas') {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-md bg-brand-brown text-brand-gold border-brand-gold cursor-pointer active-pill';
+            p.className = 'category-pill px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-brand-brown text-brand-gold border-brand-brown active-pill';
           } else {
-            p.className = 'category-pill px-4 py-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all border shadow-sm bg-brand-cream-dark text-brand-brown border-brand-gold/30 hover:bg-brand-gold/20 cursor-pointer';
+            p.className = 'category-pill px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-[#FAF7F2] text-brand-brown border-brand-gold/25 hover:bg-brand-gold/10';
           }
         });
         filterProducts();
+      });
+    }
+
+    // Share Button Event
+    const shareBtn = document.getElementById('share-catalog-btn');
+    const shareBtnText = document.getElementById('share-btn-text');
+
+    if (shareBtn && shareBtnText) {
+      shareBtn.addEventListener('click', async () => {
+        const shareData = {
+          title: document.title || 'Catálogo - El Trigal',
+          text: 'Echa un vistazo a las delicias del catálogo de El Trigal.',
+          url: window.location.href
+        };
+
+        try {
+          if (navigator.share) {
+            await navigator.share(shareData);
+          } else {
+            await navigator.clipboard.writeText(window.location.href);
+            shareBtnText.textContent = '¡Enlace Copiado! 📋';
+            setTimeout(() => {
+              shareBtnText.textContent = 'Compartir Catálogo';
+            }, 2500);
+          }
+        } catch (err) {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            shareBtnText.textContent = '¡Enlace Copiado! 📋';
+            setTimeout(() => {
+              shareBtnText.textContent = 'Compartir Catálogo';
+            }, 2500);
+          } catch (e) {}
+        }
       });
     }
   </script>

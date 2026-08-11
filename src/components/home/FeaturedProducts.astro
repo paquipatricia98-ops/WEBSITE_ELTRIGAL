@@ -11,37 +11,37 @@ const t = useTranslations(locale);
 const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend-nun9.onrender.com/api/v1';
 ---
 
-<section class="py-16 lg:py-24 bg-brand-cream">
+<section class="py-16 lg:py-24 bg-brand-cream overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-12 space-y-3">
       <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
-        ⭐ {locale === 'es' ? 'Los Preferidos de Orange, NJ' : 'Orange, NJ Favorites'}
+        🇪🇨 {locale === 'es' ? 'Lo Mejor de Nuestra Tierra' : 'Best of Our Land'}
       </span>
       <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">
-        {t('home.featuredTitle')}
+        {locale === 'es' ? 'Productos Importados 🇪🇨' : 'Imported Products 🇪🇨'}
       </h2>
       <p class="text-brand-brown/80 text-base sm:text-lg">
-        {t('home.featuredSubtitle')}
+        {locale === 'es' ? 'Los auténticos sabores de Ecuador directamente a tu mesa' : 'Authentic flavors of Ecuador directly to your table'}
       </p>
     </div>
 
-    <!-- Product Grid (Dynamic) -->
-    <div id="featured-products-grid" data-locale={locale} data-api={apiUrl} class="flex flex-wrap justify-center gap-8 min-h-[300px]">
-      <!-- Loading Skeleton -->
-      <div class="w-full text-center text-brand-brown/50 animate-pulse">
-        {locale === 'es' ? 'Cargando los productos más deliciosos...' : 'Loading the most delicious products...'}
+    <!-- Centered Pinterest Grid for Imported Products -->
+    <div id="featured-products-pinterest-grid" data-locale={locale} data-api={apiUrl} class="w-full mx-auto py-4">
+      <!-- Loading state -->
+      <div class="w-full text-center py-12 text-brand-brown/50 italic animate-pulse">
+        {locale === 'es' ? 'Cargando productos importados...' : 'Loading imported products...'}
       </div>
     </div>
 
     <!-- View All Button -->
     <div class="mt-12 text-center">
       <a
-        href={locale === 'es' ? '/es/catalogo' : '/en/catalog'}
+        href={locale === 'es' ? '/es/productos-ecuatorianos' : '/en/ecuadorian-products'}
         class="inline-flex items-center space-x-2 px-8 py-3.5 rounded-full bg-brand-brown text-brand-gold font-bold text-sm hover:bg-brand-brown-dark border-2 border-brand-gold shadow-md transition-all"
       >
-        <span>{locale === 'es' ? 'Ver Todo el Catálogo' : 'View Full Catalog'}</span>
+        <span>{locale === 'es' ? 'Ver Todos los Productos Importados' : 'View All Imported Products'}</span>
         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
         </svg>
@@ -59,30 +59,32 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
     }).format(cents / 100);
   }
 
-  async function loadFeaturedProducts() {
-    const grid = document.getElementById('featured-products-grid');
+  async function loadImportedProducts() {
+    const grid = document.getElementById('featured-products-pinterest-grid');
     if (!grid) return;
 
     const locale = grid.dataset.locale as string;
     const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const apiUrl = isLocalhost ? '/api/v1' : (grid.dataset.api || '/api/v1');
 
-    async function fetchProductsData() {
-      const res = await fetch(`${apiUrl}/public/products?featured=true&limit=6`);
+    async function fetchImportedProductsData() {
+      // Query the imported products endpoint directly
+      const res = await fetch(`${apiUrl}/public/products/imported?limit=6`);
       if (!res.ok) throw new Error('API Error');
       return await res.json();
     }
 
     try {
-      const data = await fetchProductsData();
+      const data = await fetchImportedProductsData();
       const products = data.data || [];
 
       if (products.length === 0) {
-        grid.innerHTML = `<div class="w-full text-center text-brand-brown/50">${locale === 'es' ? 'No hay productos destacados por ahora.' : 'No featured products at the moment.'}</div>`;
+        grid.className = 'w-full';
+        grid.innerHTML = `<div class="w-full text-center text-brand-brown/50 py-12">${locale === 'es' ? 'No hay productos importados por ahora.' : 'No imported products at the moment.'}</div>`;
         return;
       }
 
-      grid.innerHTML = products.map((product: any) => {
+      function renderProductCard(product: any) {
         const primaryImage = product.media?.find((m: any) => m.isPrimary) || product.media?.[0];
         const imageUrl = primaryImage ? (primaryImage.secureUrl || primaryImage.url || '') : '';
         const altText = primaryImage ? ((primaryImage.alt?.[locale]) || (primaryImage.altText?.[locale]) || (product.name?.[locale]) || '') : '';
@@ -104,47 +106,82 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
         const desc = product.shortDescription?.[locale] || product.shortDescription?.es || product.description?.[locale] || '';
 
         return `
-          <div class="w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm">
-            <article class="bg-brand-cream border border-brand-gold/30 rounded-2xl overflow-hidden shadow-warm hover:shadow-warm-hover transition-all duration-300 flex flex-col group h-full">
-              <a href="${productUrl}" class="relative block overflow-hidden aspect-[4/3] bg-brand-cream-dark">
+          <div class="pinterest-card w-full rounded-3xl overflow-hidden bg-brand-cream border-2 border-brand-gold/30 hover:border-brand-gold hover:shadow-lg hover:scale-[1.01] transition-all duration-300 shadow-sm p-4 text-left block">
+            <div>
+              <a href="${productUrl}" class="relative block overflow-hidden rounded-2xl mb-4 border border-brand-gold/15 bg-brand-cream-dark">
                 ${imageUrl ? `
-                  <img src="${imageUrl}" alt="${altText}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <img src="${imageUrl}" alt="${altText}" class="w-full h-auto object-cover rounded-xl hover:scale-105 transition-transform duration-500" loading="lazy" />
                 ` : `
-                  <div class="w-full h-full flex items-center justify-center text-4xl text-brand-gold-secondary">🍞</div>
+                  <div class="w-full h-48 flex items-center justify-center text-4xl text-brand-gold-secondary bg-brand-cream-dark rounded-xl">🇪🇨</div>
                 `}
               </a>
-              <div class="p-5 flex flex-col flex-grow space-y-2">
+              <div class="space-y-2">
                 <div class="flex flex-wrap items-center justify-between gap-1">
                   <span class="text-xs font-semibold text-brand-gold-secondary uppercase tracking-wider">${catName}</span>
                   <span class="flex items-center gap-1 bg-brand-brown text-brand-gold text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">🚚 Delivery</span>
                 </div>
-                <h3 class="font-serif font-bold text-xl text-brand-brown group-hover:text-brand-brown-dark transition-colors line-clamp-1">
+                <h3 class="font-serif font-bold text-xl text-brand-brown hover:text-brand-brown-dark transition-colors text-left">
                   <a href="${productUrl}" class="focus:outline-none focus:underline">${prodName}</a>
                 </h3>
-                <p class="text-xs sm:text-sm text-brand-brown/75 line-clamp-2 leading-relaxed flex-grow">${desc}</p>
-                <div class="pt-2 flex items-center justify-between border-t border-brand-gold/20">
-                  ${formattedPrice ? `
-                    <span class="font-serif font-extrabold text-xl text-brand-brown">${formattedPrice}</span>
-                  ` : `
-                    <span class="text-xs text-brand-brown/50 italic">${locale === 'es' ? 'Consultar precio' : 'Ask for price'}</span>
-                  `}
-                  <a href="${productUrl}" class="text-xs font-bold text-brand-brown/60 hover:text-brand-brown underline-offset-2 hover:underline transition-colors">
-                    ${locale === 'es' ? 'Ver más →' : 'View →'}
-                  </a>
-                </div>
+                <p class="text-xs sm:text-sm text-brand-brown/75 leading-relaxed text-left">${desc}</p>
               </div>
-            </article>
+            </div>
+            <div class="pt-3 mt-4 flex items-center justify-between border-t border-brand-gold/20 flex-wrap gap-2">
+              ${formattedPrice ? `
+                <span class="font-serif font-extrabold text-lg text-brand-brown">${formattedPrice}</span>
+              ` : `
+                <span class="text-xs text-brand-brown/50 italic">${locale === 'es' ? 'Consultar precio' : 'Ask for price'}</span>
+              `}
+              <a href="${productUrl}" class="text-xs font-bold text-brand-brown-light hover:text-brand-brown flex items-center gap-1">
+                <span>${locale === 'es' ? 'Ver más' : 'View'}</span>
+                <span>→</span>
+              </a>
+            </div>
           </div>
         `;
-      }).join('');
+      }
+
+      // Configure dynamic grid columns and max-width based on the number of items to prevent empty columns
+      const numItems = products.length;
+      const numColumns = Math.min(numItems, 4);
+      let gridClass = "grid gap-6 items-start justify-center";
+      let maxWClass = "max-w-7xl";
+      if (numColumns === 1) {
+        gridClass += " grid-cols-1";
+        maxWClass = "max-w-sm";
+      } else if (numColumns === 2) {
+        gridClass += " grid-cols-1 sm:grid-cols-2";
+        maxWClass = "max-w-3xl";
+      } else if (numColumns === 3) {
+        gridClass += " grid-cols-1 sm:grid-cols-2 md:grid-cols-3";
+        maxWClass = "max-w-5xl";
+      } else {
+        gridClass += " grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
+        maxWClass = "max-w-7xl";
+      }
+      grid.className = `${gridClass} ${maxWClass} w-full mx-auto py-4`;
+
+      let columnsHtml = "";
+      for (let i = 0; i < numColumns; i++) {
+        columnsHtml += `<div class="flex flex-col gap-6 w-full" id="prod-col-${i}"></div>`;
+      }
+      grid.innerHTML = columnsHtml;
+
+      products.forEach((product: any, index: number) => {
+        const colIndex = index % numColumns;
+        const colDiv = grid.querySelector(`#prod-col-${colIndex}`);
+        if (colDiv) {
+          colDiv.innerHTML += renderProductCard(product);
+        }
+      });
 
     } catch (error) {
-      console.error('Error fetching featured products:', error);
-      grid.innerHTML = `<div class="w-full text-center text-red-500/80">${locale === 'es' ? 'Error al cargar los productos.' : 'Error loading products.'}</div>`;
+      console.error('Error fetching imported products:', error);
+      grid.innerHTML = `<div class="w-full text-center text-red-500/80 py-12">${locale === 'es' ? 'Error al cargar los productos.' : 'Error loading products.'}</div>`;
     }
   }
 
-  loadFeaturedProducts();
-  document.addEventListener('DOMContentLoaded', loadFeaturedProducts);
-  document.addEventListener('astro:page-load', loadFeaturedProducts);
+  loadImportedProducts();
+  document.addEventListener('DOMContentLoaded', loadImportedProducts);
+  document.addEventListener('astro:page-load', loadImportedProducts);
 </script>

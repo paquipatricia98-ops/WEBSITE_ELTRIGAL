@@ -99,5 +99,6 @@ export interface Product {
   bestSeller: boolean;
   newProduct: boolean;
   seo: PublicSeo;
+  type?: 'local' | 'imported';
   updatedAt: string;
 }

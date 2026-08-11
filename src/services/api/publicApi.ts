@@ -86,13 +86,14 @@ function mapRenderProductToFrontend(raw: any): Product {
       altText: typeof m.altText === 'object' && m.altText ? m.altText : (typeof m.alt === 'object' && m.alt ? m.alt : { es: nameObj.es, en: nameObj.en }),
       isPrimary: m.isPrimary ?? idx === 0,
     })).filter((m: any) => !!m.secureUrl) : (raw.productImage ? [{ id: '1', publicId: '1', secureUrl: raw.productImage, altText: nameObj, isPrimary: true }] : []),
-    ingredients: typeof raw.ingredients === 'object' && raw.ingredients !== null ? raw.ingredients : (typeof raw.ingredients === 'string' ? { es: raw.ingredients, en: raw.ingredients } : (raw.productIngredients ? { es: raw.productIngredients, en: raw.productIngredients } : base.ingredients)),
-    allergens: raw.allergens || raw.productoAllergens || base.allergens || [],
+    ingredients: typeof raw.ingredients === 'object' && raw.ingredients !== null ? raw.ingredients : (typeof raw.ingredients === 'string' ? { es: raw.ingredients, en: raw.ingredients } : (raw.productIngredients ? { es: raw.productIngredients, en: raw.productIngredients } : null)),
+    allergens: raw.allergens || raw.productoAllergens || [],
     availability: {
       isAvailable,
       leadTimeDays: raw.availability?.leadTimeHours ? Math.ceil(raw.availability.leadTimeHours / 24) : 0,
     },
-    productType: raw.type || base.productType,
+    productType: raw.type || raw.productType || base.productType,
+    type: raw.type || 'local',
     primaryCategory: primaryCat,
     seo: seoObj,
   };
@@ -134,31 +135,86 @@ function mapCategoryToFrontend(raw: any): CategorySummary {
   };
 }
 
-export async function getCategories(locale: Locale = 'es', type?: 'local' | 'imported'): Promise<CategorySummary[]> {
+export async function getCategories(
+  optionsOrLocale: { locale?: Locale; type?: 'local' | 'imported'; featured?: boolean } | Locale = 'es',
+  typeParam?: 'local' | 'imported'
+): Promise<any[]> {
+  const options = typeof optionsOrLocale === 'object' && optionsOrLocale !== null
+    ? optionsOrLocale
+    : { locale: optionsOrLocale, type: typeParam || 'local' };
+
+  const { locale = 'es', type = 'local', featured } = options;
   const res = await fetchApi(
     'public/categories',
     z.any(),
-    { query: { locale, status: 'published', type } },
-    MOCK_CATEGORIES
+    { query: { locale, type, featured } },
+    []
   );
-  if (res.success && Array.isArray(res.data)) {
-    return res.data.map(mapCategoryToFrontend);
+
+  let list: any[] = [];
+  if (res.success && res.data) {
+    const raw = res.data;
+    list = Array.isArray(raw) ? raw : (Array.isArray(raw?.data) ? raw.data : []);
   }
-  return MOCK_CATEGORIES;
+
+  if (!list.length) {
+    const adminRes = await fetchApi(
+      'admin/categories',
+      z.any(),
+      { query: { type } },
+      []
+    );
+    if (adminRes.success && adminRes.data) {
+      const rawAdmin = adminRes.data;
+      list = Array.isArray(rawAdmin) ? rawAdmin : (Array.isArray(rawAdmin?.data) ? rawAdmin.data : []);
+    }
+  }
+
+  const mapped = list.map((cat: any) => {
+    const nameEs = typeof cat.name === 'object' ? cat.name.es : cat.name;
+    const nameEn = typeof cat.name === 'object' ? cat.name.en : cat.name;
+    const slugEs = typeof cat.slug === 'object' ? cat.slug.es : cat.slug;
+    const slugEn = typeof cat.slug === 'object' ? cat.slug.en : cat.slug;
+    const descEs = typeof cat.description === 'object' ? cat.description?.es : (cat.description || cat.descriptionShort || '');
+    const descEn = typeof cat.description === 'object' ? cat.description?.en : (cat.description || cat.descriptionShort || '');
+
+    const images = Array.isArray(cat.images) && cat.images.length > 0 
+      ? cat.images 
+      : (cat.image ? [cat.image] : []);
+
+    return {
+      id: cat._id || cat.id,
+      name: { es: nameEs || '', en: nameEn || nameEs || '' },
+      slug: { es: slugEs || '', en: slugEn || slugEs || '' },
+      description: { es: descEs || '', en: descEn || descEs || '' },
+      featured: cat.featured === true,
+      allergens: cat.allergens || [],
+      type: cat.type || 'local',
+      images: images.map((img: any) => ({
+        url: img.secureUrl || img.url || '',
+        alt: img.alt?.es || nameEs || 'Categoría'
+      }))
+    };
+  });
+
+  const filteredByType = mapped.filter(c => c.type === type);
+  if (featured !== undefined) {
+    return filteredByType.filter(c => c.featured === featured);
+  }
+  return filteredByType;
 }
 
 export async function getCategoryBySlug(slug: string, locale: Locale = 'es'): Promise<CategorySummary | null> {
-  const mockMatch = MOCK_CATEGORIES.find((c) => c.slug[locale] === slug || c.slug.es === slug || c.slug.en === slug) || null;
   const res = await fetchApi(
     `public/categories/${slug}`,
     z.any(),
     { query: { locale } },
-    mockMatch
+    null
   );
   if (res.success && res.data) {
     return mapCategoryToFrontend(res.data);
   }
-  return mockMatch;
+  return MOCK_CATEGORIES.find((c) => c.slug[locale] === slug || c.slug.es === slug || c.slug.en === slug || c.id === slug) || null;
 }
 
 export interface GetProductsParams {
@@ -175,28 +231,6 @@ export interface GetProductsParams {
 export async function getProducts(params: GetProductsParams = {}): Promise<{ products: Product[]; total: number }> {
   const { locale = 'es', page = 1, limit = 24, categorySlug, search, featured, availability, type } = params;
 
-  // Local filter for mock fallback
-  let filteredMock = [...MOCK_PRODUCTS];
-  if (categorySlug) {
-    filteredMock = filteredMock.filter((p) =>
-      p.primaryCategory.slug[locale] === categorySlug ||
-      p.primaryCategory.slug.es === categorySlug ||
-      p.primaryCategory.slug.en === categorySlug
-    );
-  }
-  if (search) {
-    const q = search.toLowerCase();
-    filteredMock = filteredMock.filter(
-      (p) =>
-        p.name[locale].toLowerCase().includes(q) ||
-        p.description[locale].toLowerCase().includes(q) ||
-        p.tags.some((t) => t.toLowerCase().includes(q))
-    );
-  }
-  if (featured !== undefined) {
-    filteredMock = filteredMock.filter((p) => p.featured === featured);
-  }
-
   const res = await fetchApi(
     'public/products',
     z.any(),
@@ -204,7 +238,7 @@ export async function getProducts(params: GetProductsParams = {}): Promise<{ pro
       query: {
         locale,
         page,
-        limit,
+        limit: Math.max(limit, 100),
         categorySlug,
         search,
         type,
@@ -212,67 +246,71 @@ export async function getProducts(params: GetProductsParams = {}): Promise<{ pro
         availability: availability !== undefined ? (availability ? 'true' : 'false') : undefined,
       },
     },
-    []
+    null
   );
 
+  let products: Product[] = [];
   if (res.success && Array.isArray(res.data)) {
-    const products = flattenProductsResponse(res.data);
-    return {
-      products,
-      total: res.meta?.totalItems ?? products.length,
-    };
+    products = flattenProductsResponse(res.data);
+  } else {
+    // Fallback to mock products only if API request failed completely
+    products = MOCK_PRODUCTS;
   }
 
-  return { products: [], total: 0 };
+  if (categorySlug) {
+    products = products.filter((p) =>
+      p.primaryCategory.slug[locale] === categorySlug ||
+      p.primaryCategory.slug.es === categorySlug ||
+      p.primaryCategory.slug.en === categorySlug ||
+      p.categories.some((c) => c.slug[locale] === categorySlug || c.slug.es === categorySlug || c.slug.en === categorySlug)
+    );
+  }
+  if (search) {
+    const q = search.toLowerCase();
+    products = products.filter(
+      (p) =>
+        p.name[locale].toLowerCase().includes(q) ||
+        p.description[locale].toLowerCase().includes(q) ||
+        p.tags.some((t) => t.toLowerCase().includes(q))
+    );
+  }
+  if (featured !== undefined) {
+    products = products.filter((p) => p.featured === featured);
+  }
+
+  return {
+    products,
+    total: products.length,
+  };
 }
 
 export async function getLocalProducts(locale: Locale = 'es', limit = 24): Promise<{ products: Product[]; total: number }> {
-  const res = await fetchApi(
-    'public/products',
-    z.any(),
-    { query: { locale, limit, type: 'local' } },
-    []
-  );
-
-  if (res.success && Array.isArray(res.data)) {
-    const products = flattenProductsResponse(res.data);
-    return {
-      products,
-      total: res.meta?.totalItems ?? products.length,
-    };
-  }
-
-  return { products: [], total: 0 };
+  const { products } = await getProducts({ locale, limit, type: 'local' });
+  return { products, total: products.length };
 }
 
 export async function getImportedProducts(locale: Locale = 'es', limit = 24): Promise<{ products: Product[]; total: number }> {
-  const res = await fetchApi(
-    'public/products',
-    z.any(),
-    { query: { locale, limit, type: 'imported' } },
-    []
-  );
-
-  if (res.success && Array.isArray(res.data)) {
-    const products = flattenProductsResponse(res.data);
-    return {
-      products,
-      total: res.meta?.totalItems ?? products.length,
-    };
-  }
-
-  return { products: [], total: 0 };
+  const { products } = await getProducts({ locale, limit, type: 'imported' });
+  return { products, total: products.length };
 }
 
 export async function getProductBySlug(slug: string, locale: Locale = 'es'): Promise<Product | null> {
+  const mockMatch = MOCK_PRODUCTS.find(
+    (p) => p.slug[locale] === slug || p.slug.es === slug || p.slug.en === slug || p.id === slug
+  ) || null;
+
   const res = await fetchApi(
     `public/products/${slug}`,
     z.any(),
     { query: { locale } },
-    null
+    mockMatch
   );
 
-  return res.success && res.data ? mapRenderProductToFrontend(res.data) : null;
+  if (res.success && res.data) {
+    return mapRenderProductToFrontend(res.data);
+  }
+
+  return mockMatch;
 }
 
 export async function getRelatedProducts(slug: string, locale: Locale = 'es', limit = 4): Promise<Product[]> {
@@ -283,11 +321,35 @@ export async function getRelatedProducts(slug: string, locale: Locale = 'es', li
     []
   );
 
-  if (!res.success || !res.data) return [];
+  if (res.success && res.data) {
+    const dataObj: any = res.data;
+    const rawItems: any[] = Array.isArray(dataObj) ? dataObj : (Array.isArray(dataObj?.data) ? dataObj.data : []);
+    if (rawItems.length > 0) {
+      return rawItems.map((raw: any) => mapRenderProductToFrontend(raw));
+    }
+  }
 
-  // The endpoint returns { success, data: [...] } where data is an array of products
-  const rawItems: any[] = Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
-  return rawItems.map((raw: any) => mapRenderProductToFrontend(raw));
+  const [localRes, importedRes] = await Promise.all([
+    getProducts({ locale, type: 'local', limit: 100 }),
+    getProducts({ locale, type: 'imported', limit: 100 })
+  ]);
+  const allProds = [...localRes.products, ...importedRes.products];
+  const currentProduct = allProds.find((p) => p.slug.es === slug || p.slug.en === slug || p.id === slug);
+
+  if (currentProduct) {
+    const related = allProds.filter(
+      (p) =>
+        p.id !== currentProduct.id &&
+        p.type === currentProduct.type &&
+        (p.primaryCategory.id === currentProduct.primaryCategory.id ||
+          p.primaryCategory.slug.es === currentProduct.primaryCategory.slug.es)
+    );
+    if (related.length > 0) return related.slice(0, limit);
+
+    return allProds.filter((p) => p.id !== currentProduct.id && p.type === currentProduct.type).slice(0, limit);
+  }
+
+  return allProds.filter((p) => p.slug.es !== slug && p.slug.en !== slug).slice(0, limit);
 }
 
 export async function getFaqs(locale: Locale = 'es'): Promise<FaqItem[]> {
@@ -345,4 +407,45 @@ export async function submitCustomCakeRequest(data: CustomCakeFormData) {
     { method: 'POST', body: data },
     { id: 'cake-req-mock-123', status: 'received' }
   );
+}
+
+export async function getFeaturedCatalogs(locale: Locale = 'es'): Promise<any[]> {
+  const res = await fetchApi(
+    'public/catalogs/featured',
+    z.any(),
+    { query: { locale } },
+    []
+  );
+
+  let list: any[] = [];
+  if (res.success && res.data) {
+    const raw = res.data;
+    list = Array.isArray(raw) ? raw : (Array.isArray(raw?.data) ? raw.data : []);
+  }
+
+  return list.map((cat: any) => {
+    const nameEs = typeof cat.name === 'object' ? cat.name.es : cat.name;
+    const nameEn = typeof cat.name === 'object' ? cat.name.en : cat.name;
+    const slugEs = typeof cat.slug === 'object' ? cat.slug.es : cat.slug;
+    const slugEn = typeof cat.slug === 'object' ? cat.slug.en : cat.slug;
+    const descEs = typeof cat.description === 'object' ? cat.description?.es : (cat.description || '');
+    const descEn = typeof cat.description === 'object' ? cat.description?.en : (cat.description || '');
+
+    const images = Array.isArray(cat.images) && cat.images.length > 0 
+      ? cat.images 
+      : (cat.image ? [cat.image] : []);
+
+    return {
+      id: cat._id || cat.id,
+      name: { es: nameEs || '', en: nameEn || nameEs || '' },
+      slug: { es: slugEs || '', en: slugEn || slugEs || '' },
+      description: { es: descEs || '', en: descEn || descEs || '' },
+      featured: cat.featured === true,
+      type: cat.type || 'local',
+      images: images.map((img: any) => ({
+        url: img.secureUrl || img.url || '',
+        alt: img.alt?.es || nameEs || 'Catálogo'
+      }))
+    };
+  });
 }

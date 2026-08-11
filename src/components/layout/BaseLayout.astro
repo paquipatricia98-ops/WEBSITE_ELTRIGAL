@@ -17,9 +17,10 @@ interface Props {
   noindex?: boolean;
   alternateEsRoute?: string;
   alternateEnRoute?: string;
+  activeNav?: 'home' | 'menu' | 'products' | 'catering' | 'story' | 'contact';
 }
 
-const { title, description, locale = 'es', ogImage, jsonLd, noindex, alternateEsRoute, alternateEnRoute } = Astro.props;
+const { title, description, locale = 'es', ogImage, jsonLd, noindex, alternateEsRoute, alternateEnRoute, activeNav } = Astro.props;
 const currentPath = Astro.url.pathname;
 ---
 
@@ -44,8 +45,8 @@ const currentPath = Astro.url.pathname;
       {locale === 'es' ? 'Saltar al contenido principal' : 'Skip to main content'}
     </a>
 
-    <Header locale={locale} alternateEsRoute={alternateEsRoute} alternateEnRoute={alternateEnRoute} />
-    <MobileMenu locale={locale} currentPath={currentPath} alternateEsRoute={alternateEsRoute} alternateEnRoute={alternateEnRoute} />
+    <Header locale={locale} alternateEsRoute={alternateEsRoute} alternateEnRoute={alternateEnRoute} activeNav={activeNav} />
+    <MobileMenu locale={locale} currentPath={currentPath} alternateEsRoute={alternateEsRoute} alternateEnRoute={alternateEnRoute} activeNav={activeNav} />
 
     <main id="main-content" class="w-full max-w-full overflow-x-hidden flex-grow focus:outline-none pb-16 md:pb-0">
       <slot />

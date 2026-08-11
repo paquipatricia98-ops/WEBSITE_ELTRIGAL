@@ -13,8 +13,14 @@ import UberEatsButton from '../../../components/ui/UberEatsButton.astro';
 
 export async function getStaticPaths() {
   const { products } = await getProducts({ limit: 100 });
-  return products.map((product) => ({
-    params: { productSlug: product.slug.en || product.slug.es || product.id },
+  const pathsSet = new Set<string>();
+  products.forEach((product) => {
+    if (product.slug.en) pathsSet.add(product.slug.en);
+    if (product.slug.es) pathsSet.add(product.slug.es);
+    if (product.id) pathsSet.add(product.id);
+  });
+  return Array.from(pathsSet).map((slug) => ({
+    params: { productSlug: slug },
   }));
 }
 
@@ -63,6 +69,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
   jsonLd={combinedSchema}
   alternateEsRoute={`/es/productos/${product.slug.es || product.slug.en}`}
   alternateEnRoute={`/en/products/${product.slug.en}`}
+  activeNav="products"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <Breadcrumbs items={breadcrumbs} locale={locale} />

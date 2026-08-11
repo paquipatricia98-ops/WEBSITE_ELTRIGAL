@@ -10,19 +10,20 @@ interface Props {
   locale: Locale;
   alternateEsRoute?: string;
   alternateEnRoute?: string;
+  activeNav?: 'home' | 'menu' | 'products' | 'catering' | 'story' | 'contact';
 }
 
-const { locale, alternateEsRoute, alternateEnRoute } = Astro.props;
+const { locale, alternateEsRoute, alternateEnRoute, activeNav } = Astro.props;
 const t = useTranslations(locale);
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { label: t('nav.home'), href: `/${locale}/` },
-  { label: t('nav.menu'), href: locale === 'es' ? '/es/catalogo' : '/en/catalog' },
-  { label: t('nav.ecuadorianProducts'), href: locale === 'es' ? '/es/productos-ecuatorianos' : '/en/ecuadorian-products' },
-  { label: t('nav.catering'), href: locale === 'es' ? '/es/catering-eventos' : '/en/catering-events' },
-  { label: t('nav.ourStory'), href: locale === 'es' ? '/es/nuestra-historia' : '/en/our-story' },
-  { label: t('nav.contact'), href: locale === 'es' ? '/es/contacto' : '/en/contact' },
+  { id: 'home', label: t('nav.home'), href: `/${locale}/` },
+  { id: 'menu', label: t('nav.menu'), href: locale === 'es' ? '/es/catalogo' : '/en/catalog' },
+  { id: 'products', label: t('nav.ecuadorianProducts'), href: locale === 'es' ? '/es/productos-ecuatorianos' : '/en/ecuadorian-products' },
+  { id: 'catering', label: t('nav.catering'), href: locale === 'es' ? '/es/catering-eventos' : '/en/catering-events' },
+  { id: 'story', label: t('nav.ourStory'), href: locale === 'es' ? '/es/nuestra-historia' : '/en/our-story' },
+  { id: 'contact', label: t('nav.contact'), href: locale === 'es' ? '/es/contacto' : '/en/contact' },
 ];
 
 const esRoute = alternateEsRoute || getEquivalentRoute(currentPath, 'es');
@@ -42,7 +43,9 @@ const enRoute = alternateEnRoute || getEquivalentRoute(currentPath, 'en');
       <nav class="hidden lg:flex items-center space-x-1 xl:space-x-1.5 shrink" aria-label="Main Navigation">
         {
           navLinks.map((link) => {
-            const isActive = currentPath === link.href || (link.href !== `/${locale}/` && currentPath.startsWith(link.href));
+            const isActive = activeNav
+              ? activeNav === link.id
+              : currentPath === link.href || (link.href !== `/${locale}/` && currentPath.startsWith(link.href));
             return (
               <a
                 href={link.href}

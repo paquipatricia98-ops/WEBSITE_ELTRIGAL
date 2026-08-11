@@ -2,6 +2,7 @@
 import BaseLayout from '../components/layout/BaseLayout.astro';
 
 const locale = 'es';
+const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend-nun9.onrender.com/api/v1';
 ---
 
 <BaseLayout
@@ -10,27 +11,201 @@ const locale = 'es';
   locale={locale}
   noindex={true}
 >
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center space-y-6">
-    <div class="text-7xl">🥐</div>
-    <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
-      404 - Página No Encontrada
-    </h1>
-    <p class="text-brand-brown/80 text-base sm:text-lg max-w-md mx-auto">
-      Parece que esta página no existe o ha sido movida. ¡Regresa al menú para encontrar tu pan recién horneado favorito!
-    </p>
-    <div class="pt-4 flex justify-center space-x-4">
-      <a
-        href="/es/"
-        class="px-8 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow transition-all"
-      >
-        Ir al Inicio
-      </a>
-      <a
-        href="/es/catalogo"
-        class="px-8 py-3.5 rounded-full bg-brand-brown text-brand-cream font-bold text-sm hover:bg-brand-brown-dark transition-all border border-brand-gold"
-      >
-        Ver Catálogo
-      </a>
+  <div id="dynamic-fallback-container" data-api={apiUrl}>
+    <!-- Standard 404 UI by default, hidden if loading dynamic product -->
+    <div id="standard-404" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center space-y-6">
+      <div class="text-7xl">🥐</div>
+      <h1 class="font-serif text-4xl sm:text-5xl font-extrabold text-brand-brown">
+        404 - Página No Encontrada
+      </h1>
+      <p class="text-brand-brown/80 text-base sm:text-lg max-w-md mx-auto">
+        Parece que esta página no existe o ha sido movida. ¡Regresa al menú para encontrar tu pan recién horneado favorito!
+      </p>
+      <div class="pt-4 flex justify-center space-x-4">
+        <a
+          href="/es/"
+          class="px-8 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow transition-all"
+        >
+          Ir al Inicio
+        </a>
+        <a
+          href="/es/catalogo"
+          class="px-8 py-3.5 rounded-full bg-brand-brown text-brand-cream font-bold text-sm hover:bg-brand-brown-dark transition-all border border-brand-gold"
+        >
+          Ver Catálogo
+        </a>
+      </div>
+    </div>
+
+    <!-- Dynamic Loading UI Container -->
+    <div id="dynamic-loading" class="hidden text-center py-24 space-y-4">
+      <div class="text-5xl animate-bounce">🍞</div>
+      <h2 class="font-serif text-2xl font-bold text-brand-brown">Cargando producto de El Trigal...</h2>
+      <p class="text-sm text-brand-brown/70">Un momento por favor</p>
+    </div>
+
+    <!-- Dynamic Product Content Container -->
+    <div id="dynamic-product-content" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <!-- Injected via JS -->
     </div>
   </div>
+
+  <script>
+    async function checkDynamicFallback() {
+      const container = document.getElementById('dynamic-fallback-container');
+      if (!container) return;
+
+      const path = window.location.pathname.replace(/\/$/, '');
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiUrl = isLocalhost ? '/api/v1' : (container.dataset.api || '/api/v1');
+
+      const isEsProduct = path.startsWith('/es/productos/');
+      const isEnProduct = path.startsWith('/en/products/');
+
+      if (!isEsProduct && !isEnProduct) return;
+
+      const locale = isEnProduct ? 'en' : 'es';
+      const parts = path.split('/');
+      const slug = decodeURIComponent(parts[parts.length - 1]);
+
+      if (!slug) return;
+
+      const standard404 = document.getElementById('standard-404');
+      const dynamicLoading = document.getElementById('dynamic-loading');
+      const dynamicContent = document.getElementById('dynamic-product-content');
+
+      if (standard404) standard404.classList.add('hidden');
+      if (dynamicLoading) dynamicLoading.classList.remove('hidden');
+
+      try {
+        const response = await fetch(`${apiUrl}/public/products/${encodeURIComponent(slug)}?locale=${locale}`);
+        if (!response.ok) throw new Error('Product not found in API');
+
+        const resData = await response.json();
+        const product = resData.data;
+        if (!product) throw new Error('No product data');
+
+        const getStr = (val: any, lang: string) => {
+          if (!val) return '';
+          if (typeof val === 'string') return val;
+          if (typeof val === 'object') return val[lang] || val.es || val.en || '';
+          return String(val);
+        };
+
+        const prodName = getStr(product.name || product.productoName, locale);
+        const prodDesc = getStr(product.description || product.productoDescription || product.shortDescription, locale);
+        const catName = getStr(product.primaryCategory?.name, locale) || (locale === 'es' ? 'Panadería' : 'Bakery');
+        const catSlug = getStr(product.primaryCategory?.slug, locale) || '';
+        
+        const media = product.media || [];
+        const primaryImg = media.find((m: any) => m.isPrimary) || media[0];
+        const imageUrl = primaryImg ? (primaryImg.secureUrl || primaryImg.url || '') : (product.productoImage || '');
+        const altText = primaryImg ? (getStr(primaryImg.altText || primaryImg.alt, locale) || prodName) : prodName;
+
+        const basePriceCents = product.basePriceCents || (product.productoPrice ? Math.round(product.productoPrice * 100) : 0);
+        const formattedPrice = product.priceLabel?.[locale]
+          ? product.priceLabel[locale]
+          : (basePriceCents ? new Intl.NumberFormat(locale === 'es' ? 'es-US' : 'en-US', { style: 'currency', currency: 'USD' }).format(basePriceCents / 100) : '');
+
+        const ingredients = getStr(product.ingredients || product.productoIngredients, locale);
+        const rawAllergens = product.allergens || product.productoAllergens || [];
+        const allergens = Array.isArray(rawAllergens) ? rawAllergens.join(', ') : String(rawAllergens);
+
+        document.title = `${prodName} | El Trigal Bakery`;
+
+        if (dynamicContent) {
+          dynamicContent.innerHTML = `
+            <div class="mb-6 flex items-center space-x-2 text-xs sm:text-sm font-semibold text-brand-brown/70">
+              <a href="/${locale}/" class="hover:underline">${locale === 'es' ? 'Inicio' : 'Home'}</a>
+              <span>/</span>
+              <a href="/${locale}/catalogo" class="hover:underline">${locale === 'es' ? 'Catálogo' : 'Catalog'}</a>
+              <span>/</span>
+              ${catSlug ? `<a href="/${locale}/menu/${catSlug}" class="hover:underline">${catName}</a><span>/</span>` : ''}
+              <span class="text-brand-brown font-bold">${prodName}</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-2">
+              <div class="lg:col-span-6 space-y-4">
+                <div class="rounded-3xl overflow-hidden shadow-2xl border-2 border-brand-gold/40 bg-brand-cream-dark w-full flex items-center justify-center">
+                  ${imageUrl ? `
+                    <img src="${imageUrl}" alt="${altText}" width="1000" height="1200" class="w-full h-auto block rounded-3xl" />
+                  ` : `
+                    <div class="w-full h-64 flex items-center justify-center text-6xl text-brand-gold">🍞</div>
+                  `}
+                </div>
+              </div>
+
+              <div class="lg:col-span-6 space-y-6">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="px-3 py-1 text-xs font-bold uppercase tracking-wider rounded-full bg-brand-brown text-brand-gold">
+                    ${catName}
+                  </span>
+                  <span class="px-3 py-1 text-xs font-bold rounded-full bg-green-100 text-green-800 border border-green-300">
+                    ✓ ${locale === 'es' ? 'Disponible' : 'Available'}
+                  </span>
+                </div>
+
+                <div>
+                  <h1 class="font-serif text-3xl sm:text-4xl font-extrabold text-brand-brown leading-tight">
+                    ${prodName}
+                  </h1>
+                  <div class="mt-3 flex items-baseline space-x-3">
+                    <span class="font-serif text-3xl font-extrabold text-brand-brown">
+                      ${formattedPrice}
+                    </span>
+                  </div>
+                </div>
+
+                <p class="text-base text-brand-brown/85 leading-relaxed border-t border-brand-brown/10 pt-4">
+                  ${prodDesc}
+                </p>
+
+                ${ingredients ? `
+                  <div class="bg-brand-cream-dark/50 border border-brand-gold/25 rounded-2xl px-5 py-4 space-y-1">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-brand-brown/60">🌾 ${locale === 'es' ? 'Ingredientes' : 'Ingredients'}</h3>
+                    <p class="text-sm text-brand-brown/85 leading-relaxed">${ingredients}</p>
+                  </div>
+                ` : ''}
+
+                ${allergens ? `
+                  <div class="bg-brand-cream-dark/50 border border-brand-gold/25 rounded-2xl px-5 py-4 space-y-1">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-brand-brown/60">⚠️ ${locale === 'es' ? 'Alérgenos' : 'Allergens'}</h3>
+                    <p class="text-sm text-brand-brown/85 leading-relaxed">${allergens}</p>
+                  </div>
+                ` : ''}
+
+                <div class="space-y-3 pt-2 border-t border-brand-brown/10">
+                  <div class="flex items-center gap-2">
+                    <span class="text-lg">🚚</span>
+                    <h3 class="font-serif font-bold text-base text-brand-brown">${locale === 'es' ? 'Delivery disponible' : 'Delivery available'}</h3>
+                  </div>
+                  <p class="text-xs text-brand-brown/60">${locale === 'es' ? 'Ordena en línea a través de nuestras plataformas de entrega:' : 'Order online through our delivery platforms:'}</p>
+                  <div class="flex flex-wrap items-center gap-3">
+                    <a href="https://www.doordash.com/store/el-trigal-bakery-orange-24754778/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#FF3008] text-white font-bold text-xs hover:opacity-90 shadow">
+                      Order on DoorDash
+                    </a>
+                    <a href="https://www.ubereats.com/store/el-trigal-bakery/gW2X-fJWSd-QZlR7t3e8Xg" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2.5 rounded-xl bg-[#06C167] text-white font-bold text-xs hover:opacity-90 shadow">
+                      Order on Uber Eats
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        if (dynamicLoading) dynamicLoading.classList.add('hidden');
+        if (dynamicContent) dynamicContent.classList.remove('hidden');
+
+      } catch (err) {
+        console.warn('Dynamic fallback check failed:', err);
+        if (dynamicLoading) dynamicLoading.classList.add('hidden');
+        if (standard404) standard404.classList.remove('hidden');
+      }
+    }
+
+    checkDynamicFallback();
+    document.addEventListener('DOMContentLoaded', checkDynamicFallback);
+    document.addEventListener('astro:page-load', checkDynamicFallback);
+  </script>
 </BaseLayout>

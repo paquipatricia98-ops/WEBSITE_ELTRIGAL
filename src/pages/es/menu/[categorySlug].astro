@@ -7,8 +7,14 @@ import { useTranslations } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
   const categories = await getCategories('es');
-  return categories.map((cat) => ({
-    params: { categorySlug: cat.slug.es || cat.slug.en || cat.id },
+  const pathsSet = new Set<string>();
+  categories.forEach((cat) => {
+    if (cat.slug.es) pathsSet.add(cat.slug.es);
+    if (cat.slug.en) pathsSet.add(cat.slug.en);
+    if (cat.id) pathsSet.add(cat.id);
+  });
+  return Array.from(pathsSet).map((slug) => ({
+    params: { categorySlug: slug },
   }));
 }
 
