@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
-import { getCategories } from '../../../services/api/publicApi';
 import { useTranslations } from '../../../i18n/utils';
 
 const locale = 'en';
@@ -11,25 +10,6 @@ const breadcrumbs = [
   { name: t('nav.home'), url: '/en/' },
   { name: 'Catalog', url: '/en/catalog' },
 ];
-
-const categories = await getCategories({ locale, type: 'local' });
-
-function getCategoryIcon(name: string, slug: string): string {
-  const n = (name || '').toLowerCase();
-  const s = (slug || '').toLowerCase();
-  
-  if (s.includes('pan') || n.includes('pan')) return '🥐';
-  if (s.includes('pastel') || n.includes('pastel') || s.includes('cake') || n.includes('cake')) return '🎂';
-  if (s.includes('postre') || n.includes('postre') || s.includes('dulce') || n.includes('sweet') || s.includes('dessert') || n.includes('dessert')) return '🧁';
-  if (s.includes('bocadito') || n.includes('bocadito') || s.includes('snack') || n.includes('snack') || s.includes('fiesta') || n.includes('party')) return '🍢';
-  if (s.includes('paisaje') || n.includes('paisaje') || s.includes('land') || n.includes('land')) return '🖼️';
-  if (s.includes('kitty') || n.includes('kitty') || s.includes('kity') || n.includes('kity')) return '🐱';
-  if (s.includes('lacteo') || n.includes('lácteo') || s.includes('cheese') || n.includes('queso') || s.includes('dairy')) return '🧀';
-  if (s.includes('bebida') || n.includes('bebida') || s.includes('drink') || n.includes('drink') || s.includes('caf') || n.includes('caf')) return '🥤';
-  if (s.includes('personalizado') || n.includes('personalizado') || s.includes('custom') || n.includes('custom')) return '🎨';
-  
-  return '🍰';
-}
 ---
 
 <BaseLayout
@@ -46,182 +26,72 @@ function getCategoryIcon(name: string, slug: string): string {
     <!-- PAGE HEADER -->
     <div id="catalog-page-header" class="text-center space-y-3 max-w-3xl mx-auto">
       <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">
-        🥐 Fresh Local Flavors
+        🥐 Local Artisanal Flavors
       </span>
       <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-brown">
         Product Catalog
       </h1>
       <p class="text-brand-brown/85 text-base sm:text-lg">
-        Discover our variety of handcrafted products made fresh daily using premium ingredients.
+        Explore our selection of products baked daily with premium ingredients.
       </p>
     </div>
 
     <!-- SEARCH & CATEGORY FILTER CONTROL BAR -->
-    {categories.length > 0 && (
-      <div id="catalog-filter-bar" class="w-full bg-[#fdfdfb]/90 p-6 md:p-8 rounded-[24px] border border-brand-gold/40 shadow-sm space-y-6">
-        
-        <!-- Real-Time Search Bar -->
-        <div class="relative w-full max-w-xl mx-auto">
-          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-gold-secondary">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-            </svg>
-          </div>
-          <input
-            type="text"
-            id="product-search-input"
-            class="w-full pl-12 pr-10 py-3 rounded-full bg-[#FAF7F2] border border-brand-gold/35 text-brand-brown font-semibold placeholder:text-brand-brown/40 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold/50 transition-all text-sm shadow-inner"
-            placeholder="Search breads, cakes, desserts, empanadas, party snacks..."
-          />
-          <button
-            type="button"
-            id="clear-search-btn"
-            class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-brand-brown/60 hover:text-brand-brown"
-            aria-label="Clear search"
-          >
-            ✕
-          </button>
+    <div id="catalog-filter-bar" class="w-full bg-[#fdfdfb]/90 p-6 md:p-8 rounded-[24px] border border-brand-gold/40 shadow-sm space-y-6 hidden">
+      
+      <!-- Real-Time Search Bar -->
+      <div class="relative w-full max-w-xl mx-auto">
+        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-brand-gold-secondary">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
         </div>
-
-        <!-- Category Filter Pills (Centered with Dynamic Icons and Rounded Full) -->
-        <div class="flex flex-wrap items-center justify-center gap-3.5 pt-5 border-t border-brand-gold/15" id="category-pills-container">
-          <button
-            type="button"
-            data-category="todas"
-            class="category-pill px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-brand-brown text-brand-gold border-brand-gold active-pill"
-          >
-            <span>✨</span>
-            <span>All Categories</span>
-          </button>
-          {categories.map((c: any) => {
-            const icon = getCategoryIcon(c.name[locale] || c.name.en || c.name.es, c.slug?.[locale] || c.id);
-            return (
-              <button
-                type="button"
-                data-category={c.slug?.[locale] || c.id}
-                class="category-pill px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-[#FAF7F2] text-brand-brown border-brand-gold/25 hover:bg-brand-gold/10"
-              >
-                <span>{icon}</span>
-                <span>{c.name[locale] || c.name.en || c.name.es}</span>
-              </button>
-            );
-          })}
-        </div>
+        <input
+          type="text"
+          id="product-search-input"
+          class="w-full pl-12 pr-10 py-3 rounded-full bg-[#FAF7F2] border border-brand-gold/35 text-brand-brown font-semibold placeholder:text-brand-brown/40 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 focus:border-brand-gold/50 transition-all text-sm shadow-inner"
+          placeholder="Search bread, cake, desserts, empanada, snacks..."
+        />
+        <button
+          type="button"
+          id="clear-search-btn"
+          class="hidden absolute inset-y-0 right-0 pr-4 flex items-center text-brand-brown/60 hover:text-brand-brown"
+          aria-label="Clear search"
+        >
+          ✕
+        </button>
       </div>
-    )}
 
-    <!-- CATALOG CATEGORIES LIST -->
-    {categories.length > 0 ? (
-      <div class="space-y-16" id="catalog-sections-container">
-        {categories.map((cat: any) => (
-          <section 
-            class="category-section break-inside-avoid mb-8 bg-brand-cream border-2 border-brand-gold/30 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6"
-            data-category={cat.slug?.[locale] || cat.id}
-          >
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-gold/20 pb-4">
-              <div>
-                <h2 class="font-serif text-lg sm:text-xl md:text-2xl font-bold text-brand-brown flex flex-wrap items-center gap-2">
-                  <span>{getCategoryIcon(cat.name[locale] || cat.name.en || cat.name.es, cat.slug?.[locale] || cat.id)}</span>
-                  <span>{cat.name[locale] || cat.name.en || cat.name.es}</span>
-                  {cat.featured && (
-                    <span class="flex-shrink-0 whitespace-nowrap text-[10px] sm:text-xs bg-brand-gold text-brand-brown font-extrabold px-2.5 py-0.5 rounded-full shadow-sm">
-                      ⭐ Featured
-                    </span>
-                  )}
-                </h2>
-                {cat.description && (cat.description[locale] || cat.description.en || cat.description.es) && (
-                  <p class="category-desc-block text-xs sm:text-sm text-brand-brown/80 mt-1 max-w-3xl">
-                    <span class="desc-truncated line-clamp-1">{cat.description[locale] || cat.description.en || cat.description.es}</span>
-                    <span class="desc-full hidden">{cat.description[locale] || cat.description.en || cat.description.es}</span>
-                    {(cat.description[locale] || cat.description.en || cat.description.es).length > 60 && (
-                      <button type="button" class="btn-toggle-desc text-xs text-brand-gold-secondary font-bold hover:underline ml-1 inline-block cursor-pointer">
-                        Read more
-                      </button>
-                    )}
-                  </p>
-                )}
-              </div>
-
-              <div class="flex flex-wrap items-center gap-3 sm:justify-end">
-                <!-- Share Category Button -->
-                <button 
-                  class="share-category-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-brand-gold bg-[#fdfdfb] text-brand-brown font-extrabold text-xs shadow-xs hover:bg-brand-gold/15 transition-all cursor-pointer"
-                  data-category-slug={cat.slug?.[locale] || cat.id}
-                  data-category-name={cat.name[locale] || cat.name.en || cat.name.es}
-                >
-                  <svg class="w-3.5 h-3.5 fill-current text-brand-gold-secondary" viewBox="0 0 24 24">
-                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/>
-                  </svg>
-                  <span>Share</span>
-                </button>
-
-                <!-- Allergens Badges -->
-                {cat.allergens && cat.allergens.length > 0 && (
-                  <div class="flex flex-wrap items-center gap-1.5">
-                    <span class="text-xs font-semibold text-brand-brown/60">Allergens:</span>
-                    {cat.allergens.map((allergen: string) => (
-                      <span class="text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                        ⚠️ {allergen}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <!-- Photos Gallery Grid (Responsive Flex items starting centered) -->
-            {cat.images && cat.images.length > 0 ? (
-              <div class="flex flex-wrap justify-center gap-5 items-start">
-                {cat.images.map((img: any) => (
-                  <div 
-                    class="product-gallery-item w-[120px] sm:w-[150px] md:w-[180px] mb-5 relative overflow-hidden rounded-[24px] border border-brand-gold/30 bg-white p-2 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer"
-                    data-search={(img.alt || cat.name[locale] || cat.name.es).toLowerCase()}
-                  >
-                    <img
-                      src={img.url}
-                      alt={img.alt || cat.name.es}
-                      class="w-full h-auto object-cover rounded-[18px]"
-                      loading="lazy"
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div class="text-center py-8 text-brand-brown/50 text-sm italic">
-                Coming soon images for this category.
-              </div>
-            )}
-
-            <!-- VIEW FULL CATALOG OPTION INSIDE EACH CATALOG BLOCK (Visible only in shared view mode) -->
-            <div class="shared-view-footer-block hidden pt-6 text-center border-t border-brand-gold/15 mt-8">
-              <button 
-                type="button"
-                class="btn-view-full-catalog-action inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-brand-gold bg-[#fdfdfb] text-brand-brown font-extrabold text-sm shadow hover:bg-brand-gold hover:text-brand-brown transition-all cursor-pointer"
-              >
-                <span>View Full Catalog</span>
-              </button>
-            </div>
-          </section>
-        ))}
+      <!-- Category Filter Pills (Centered with Dynamic Icons and Rounded Full) -->
+      <div class="flex flex-wrap items-center justify-center gap-3.5 pt-5 border-t border-brand-gold/15" id="category-pills-container">
+        <button
+          type="button"
+          data-category="todas"
+          class="category-pill px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-brand-brown text-brand-gold border-brand-brown active-pill"
+        >
+          <span>✨</span>
+          <span>All Categories</span>
+        </button>
       </div>
-    ) : (
-      <div class="text-center py-16 bg-brand-cream rounded-3xl border-2 border-dashed border-brand-gold/40 p-8 space-y-4">
-        <div class="text-4xl">🧁</div>
-        <h3 class="font-serif text-xl font-bold text-brand-brown">Catalog Updating</h3>
-        <p class="text-sm text-brand-brown/70 max-w-md mx-auto">
-          We are adding new delicacies to our local catalog. Come back soon!
-        </p>
+    </div>
+
+    <!-- CATALOG CATEGORIES LIST CONTAINER -->
+    <div class="space-y-16 animate-fade-in" id="catalog-sections-container">
+      <div id="catalog-loading-state" class="text-center py-16 space-y-4">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-brand-gold"></div>
+        <p class="text-sm text-brand-brown/70">Loading catalog...</p>
       </div>
-    )}
+    </div>
 
     <!-- NO RESULTS EMPTY STATE -->
-    <div id="no-results-state" class="hidden text-center py-16 bg-brand-cream rounded-3xl border-2 border-dashed border-brand-gold/40 p-8 space-y-4">
+    <div id="no-results-state" class="hidden text-center py-16 bg-[#fdfdfb]/90 rounded-[24px] border border-brand-gold/45 p-8 space-y-4 shadow-sm">
       <div class="text-4xl">🔍</div>
       <h3 class="font-serif text-xl font-bold text-brand-brown">No products match your search</h3>
       <p class="text-xs sm:text-sm text-brand-brown/70 max-w-md mx-auto">
-        Try searching for another term or click on "All Categories" to see the full catalog.
+        Try searching for another term or click "All Categories" to see the full catalog.
       </p>
     </div>
+
     <!-- Lightbox Modal Container -->
     <div 
       id="image-lightbox" 
@@ -278,11 +148,220 @@ function getCategoryIcon(name: string, slug: string): string {
     </div>
   </div>
 
-  <!-- Real-Time Client-Side Filtering Script -->
+  <!-- Real-Time Client-Side Filtering & CSR Script -->
   <script>
     let handleKeyDownGlobal: ((e: KeyboardEvent) => void) | null = null;
 
-    function initCatalog() {
+    function getCategoryIcon(name: string, slug: string) {
+      const n = (name || '').toLowerCase();
+      const s = (slug || '').toLowerCase();
+      
+      if (s.includes('pan') || n.includes('pan')) return '🥐';
+      if (s.includes('pastel') || n.includes('pastel') || s.includes('cake') || n.includes('cake')) return '🎂';
+      if (s.includes('postre') || n.includes('postre') || s.includes('dulce') || n.includes('sweet') || s.includes('dessert') || n.includes('dessert')) return '🧁';
+      if (s.includes('bocadito') || n.includes('bocadito') || s.includes('snack') || n.includes('snack') || s.includes('fiesta') || n.includes('party')) return '🍢';
+      if (s.includes('paisaje') || n.includes('paisaje') || s.includes('land') || n.includes('land')) return '🖼️';
+      if (s.includes('kitty') || n.includes('kitty') || s.includes('kity') || n.includes('kity')) return '🐱';
+      if (s.includes('lacteo') || n.includes('lácteo') || s.includes('cheese') || n.includes('queso') || s.includes('dairy')) return '🧀';
+      if (s.includes('bebida') || n.includes('bebida') || s.includes('drink') || n.includes('drink') || s.includes('caf') || n.includes('caf')) return '🥤';
+      if (s.includes('personalizado') || n.includes('personalizado') || s.includes('custom') || n.includes('custom')) return '🎨';
+      
+      return '🍰';
+    }
+
+    async function initCatalog() {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiUrl = isLocalhost ? '/api/v1' : 'https://el-trigal-backend-nun9.onrender.com/api/v1';
+      const locale = 'en';
+
+      const filterBar = document.getElementById('catalog-filter-bar');
+      const pillsContainer = document.getElementById('category-pills-container');
+      const sectionsContainer = document.getElementById('catalog-sections-container');
+
+      if (!sectionsContainer || !pillsContainer) return;
+
+      try {
+        const res = await fetch(`${apiUrl}/public/categories?locale=${locale}&type=local`);
+        if (!res.ok) throw new Error('Error fetching categories from Render API');
+        const resData = await res.json();
+        const categories = resData.data || [];
+
+        if (categories.length === 0) {
+          sectionsContainer.innerHTML = `
+            <div class="text-center py-16 bg-brand-cream rounded-3xl border-2 border-dashed border-brand-gold/40 p-8 space-y-4">
+              <div class="text-4xl">🧁</div>
+              <h3 class="font-serif text-xl font-bold text-brand-brown">Catalog Updating</h3>
+              <p class="text-sm text-brand-brown/70 max-w-md mx-auto">
+                We are adding new delights to our local catalog. Check back soon!
+              </p>
+            </div>
+          `;
+          return;
+        }
+
+        // 1. Render pills
+        // Remove existing dynamic pills
+        const existingPills = pillsContainer.querySelectorAll('.category-pill');
+        existingPills.forEach(pill => {
+          if (pill.getAttribute('data-category') !== 'todas') {
+            pill.remove();
+          }
+        });
+
+        categories.forEach((c: any) => {
+          const slug = c.slug?.[locale] || c.id;
+          const name = c.name?.[locale] || c.name?.es || '';
+          const icon = getCategoryIcon(name, slug);
+
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.setAttribute('data-category', slug);
+          pill.className = 'category-pill px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-[#FAF7F2] text-brand-brown border-brand-gold/25 hover:bg-brand-gold/10';
+          pill.innerHTML = `<span>${icon}</span><span>${name}</span>`;
+          pillsContainer.appendChild(pill);
+        });
+
+        // 2. Render dynamic sections
+        sectionsContainer.innerHTML = '';
+        categories.forEach((cat: any) => {
+          const slug = cat.slug?.[locale] || cat.id;
+          const name = cat.name?.[locale] || cat.name?.es || '';
+          const desc = cat.description?.[locale] || cat.description?.es || '';
+          const allergens = cat.allergens || [];
+          const images = cat.images || [];
+          const icon = getCategoryIcon(name, slug);
+
+          const section = document.createElement('section');
+          section.className = 'category-section break-inside-avoid mb-8 bg-brand-cream border-2 border-brand-gold/30 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6';
+          section.setAttribute('data-category', slug);
+
+          // Allergens template
+          let allergensHtml = '';
+          if (allergens.length > 0) {
+            allergensHtml = `
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="text-xs font-semibold text-brand-brown/60">Allergens:</span>
+                ${allergens.map((alg: string) => `
+                  <span class="text-xs font-bold bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                    ⚠️ ${alg}
+                  </span>
+                `).join('')}
+              </div>
+            `;
+          }
+
+          // Description template
+          let descHtml = '';
+          if (desc) {
+            descHtml = `
+              <p class="category-desc-block text-xs sm:text-sm text-brand-brown/80 mt-1 max-w-3xl">
+                <span class="desc-truncated line-clamp-1">${desc}</span>
+                <span class="desc-full hidden">${desc}</span>
+                ${desc.length > 60 ? `
+                  <button type="button" class="btn-toggle-desc text-xs text-brand-gold-secondary font-bold hover:underline ml-1 inline-block cursor-pointer">
+                    Read more
+                  </button>
+                ` : ''}
+              </p>
+            `;
+          }
+
+          // Images gallery template
+          let galleryHtml = '';
+          if (images.length > 0) {
+            galleryHtml = `
+              <div class="flex flex-wrap justify-center gap-5 items-start">
+                ${images.map((img: any) => `
+                  <div 
+                    class="product-gallery-item w-[120px] sm:w-[150px] md:w-[180px] mb-5 relative overflow-hidden rounded-[24px] border border-brand-gold/30 bg-white p-2 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer"
+                    data-search="${(img.alt || name).toLowerCase()}"
+                  >
+                    <img
+                      src="${img.secureUrl || img.url}"
+                      alt="${img.alt || name}"
+                      class="w-full h-auto object-cover rounded-[18px]"
+                      loading="lazy"
+                    />
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          } else {
+            galleryHtml = `
+              <div class="text-center py-8 text-brand-brown/50 text-sm italic">
+                Images for this category coming soon.
+              </div>
+            `;
+          }
+
+          section.innerHTML = `
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-gold/20 pb-4">
+              <div>
+                <h2 class="font-serif text-lg sm:text-xl md:text-2xl font-bold text-brand-brown flex flex-wrap items-center gap-2">
+                  <span>${icon}</span>
+                  <span>${name}</span>
+                  ${cat.featured ? `
+                    <span class="flex-shrink-0 whitespace-nowrap text-[10px] sm:text-xs bg-brand-gold text-brand-brown font-extrabold px-2.5 py-0.5 rounded-full shadow-sm">
+                      ⭐ Featured
+                    </span>
+                  ` : ''}
+                </h2>
+                ${descHtml}
+              </div>
+
+              <div class="flex flex-wrap items-center gap-3 sm:justify-end">
+                <!-- Share Category Button -->
+                <button 
+                  class="share-category-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-brand-gold bg-[#fdfdfb] text-brand-brown font-extrabold text-xs shadow-xs hover:bg-brand-gold/15 transition-all cursor-pointer"
+                  data-category-slug="${slug}"
+                  data-category-name="${name}"
+                >
+                  <svg class="w-3.5 h-3.5 fill-current text-brand-gold-secondary" viewBox="0 0 24 24">
+                    <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/>
+                  </svg>
+                  <span>Share</span>
+                </button>
+
+                ${allergensHtml}
+              </div>
+            </div>
+
+            ${galleryHtml}
+
+            <!-- VIEW FULL CATALOG OPTION INSIDE EACH CATALOG BLOCK (Visible only in shared view mode) -->
+            <div class="shared-view-footer-block hidden pt-6 text-center border-t border-brand-gold/15 mt-8">
+              <button 
+                type="button"
+                class="btn-view-full-catalog-action inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-brand-gold bg-[#fdfdfb] text-brand-brown font-extrabold text-sm shadow hover:bg-brand-gold hover:text-brand-brown transition-all cursor-pointer"
+              >
+                <span>View Full Catalog</span>
+              </button>
+            </div>
+          `;
+
+          sectionsContainer.appendChild(section);
+        });
+
+        // Show filter bar
+        filterBar?.classList.remove('hidden');
+
+        // Setup Interactions
+        setupCatalogInteractions();
+      } catch (err) {
+        console.error(err);
+        sectionsContainer.innerHTML = `
+          <div class="text-center py-16 bg-brand-cream rounded-3xl border-2 border-dashed border-brand-gold/40 p-8 space-y-4">
+            <div class="text-4xl">⚠️</div>
+            <h3 class="font-serif text-xl font-bold text-brand-brown">Error loading catalog</h3>
+            <p class="text-sm text-brand-brown/70 max-w-md mx-auto">
+              We could not connect to the server. Please try again later.
+            </p>
+          </div>
+        `;
+      }
+    }
+
+    function setupCatalogInteractions() {
       const searchInput = document.getElementById('product-search-input') as HTMLInputElement | null;
       const clearBtn = document.getElementById('clear-search-btn');
       const pills = document.querySelectorAll<HTMLButtonElement>('.category-pill');
@@ -453,14 +532,11 @@ function getCategoryIcon(name: string, slug: string): string {
           const labelSpan = btn.querySelector('span');
           const originalText = labelSpan ? labelSpan.textContent : 'Share';
 
-          // 1. Update shared view states immediately
           activeCategory = slug;
           isSharedViewMode = true;
 
-          // 2. Sync browser URL bar so the user sees the shared parameter immediately
           window.history.pushState({ path: shareUrl }, '', shareUrl);
 
-          // 3. Highlight the correct pill corresponding to this shared category
           pills.forEach((p) => {
             if (p.getAttribute('data-category') === slug) {
               p.className = 'category-pill px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all border shadow-xs flex items-center space-x-1.5 cursor-pointer bg-brand-brown text-brand-gold border-brand-gold active-pill';
@@ -469,10 +545,8 @@ function getCategoryIcon(name: string, slug: string): string {
             }
           });
 
-          // 4. Trigger the UI layout filter immediately (hiding headers and only showing this category)
           filterCatalog();
 
-          // 5. Native/clipboard sharing (Only share the URL to avoid concatenation bugs in macOS share sheet)
           const shareData = {
             title: `El Trigal - ${catName}`,
             url: shareUrl
@@ -528,7 +602,6 @@ function getCategoryIcon(name: string, slug: string): string {
       const urlParams = new URLSearchParams(window.location.search);
       let categoryParam = urlParams.get('category');
       if (categoryParam) {
-        // Sanitize category parameter to extract only the slug in case text was appended in clipboard
         categoryParam = categoryParam.trim().split(' ')[0];
         activeCategory = categoryParam;
         isSharedViewMode = true; // Enable Shared View Mode on page load
@@ -541,7 +614,7 @@ function getCategoryIcon(name: string, slug: string): string {
         });
       }
 
-      // LIGHTBOX IMAGE GALLERY
+      // LIGHTBOX GALERÍA DE IMÁGENES
       const lightbox = document.getElementById('image-lightbox');
       const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
       const lightboxCaption = document.getElementById('lightbox-caption');
@@ -566,7 +639,6 @@ function getCategoryIcon(name: string, slug: string): string {
         if (lightbox) {
           lightbox.classList.remove('hidden');
           lightbox.classList.add('flex');
-          // Add opacity transition classes
           setTimeout(() => {
             lightbox.classList.remove('opacity-0');
           }, 50);
@@ -579,7 +651,6 @@ function getCategoryIcon(name: string, slug: string): string {
         const imgEl = activeItem.querySelector('img');
         if (!imgEl) return;
 
-        // Smooth transition effect
         lightboxImg.classList.remove('scale-100', 'opacity-100');
         lightboxImg.classList.add('scale-95', 'opacity-0');
 
@@ -590,7 +661,7 @@ function getCategoryIcon(name: string, slug: string): string {
             lightboxCaption.textContent = imgEl.alt || '';
           }
           if (lightboxCounter) {
-            lightboxCounter.textContent = `Image ${currentActiveIndex + 1} of ${currentGalleryItems.length}`;
+            lightboxCounter.textContent = `Photo ${currentActiveIndex + 1} of ${currentGalleryItems.length}`;
           }
 
           if (currentGalleryItems.length <= 1) {
@@ -644,7 +715,7 @@ function getCategoryIcon(name: string, slug: string): string {
       if (nextBtn) nextBtn.addEventListener('click', showNext);
       if (prevBtn) prevBtn.addEventListener('click', showPrev);
 
-      // Close when clicking overlay background (outside image and buttons)
+      // Close when clicking overlay background
       if (lightbox) {
         lightbox.addEventListener('click', (e) => {
           if (e.target === lightbox) {
@@ -668,8 +739,9 @@ function getCategoryIcon(name: string, slug: string): string {
       filterCatalog();
     }
 
-    // Bind to both page load and transition events (Astro View Transitions support)
+    // Run catalog load on page transitions and document ready
     document.addEventListener('DOMContentLoaded', initCatalog);
     document.addEventListener('astro:page-load', initCatalog);
+    initCatalog();
   </script>
 </BaseLayout>
