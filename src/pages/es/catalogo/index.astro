@@ -269,24 +269,36 @@ const breadcrumbs = [
           // Images gallery template
           let galleryHtml = '';
           if (images.length > 0) {
+            const colsCount = window.innerWidth < 640 ? 2 : 3;
+            const cols: any[][] = Array.from({ length: colsCount }, () => []);
+            images.forEach((img: any, idx: number) => {
+              cols[idx % colsCount].push(img);
+            });
+
             galleryHtml = `
-              <div class="flex flex-wrap justify-center gap-5 items-start">
-                ${images.map((img: any) => {
-                  const altText = (typeof img.alt === 'object' && img.alt ? (img.alt[locale] || img.alt.es || img.alt.en || '') : img.alt) || name;
-                  return `
-                    <div 
-                      class="product-gallery-item w-[120px] sm:w-[150px] md:w-[180px] mb-5 relative overflow-hidden rounded-[24px] border border-brand-gold/30 bg-white p-2 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer"
-                      data-search="${altText.toLowerCase()}"
-                    >
-                      <img
-                        src="${img.secureUrl || img.url}"
-                        alt="${altText}"
-                        class="w-full h-auto object-cover rounded-[18px]"
-                        loading="lazy"
-                      />
-                    </div>
-                  `;
-                }).join('')}
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 items-start w-full">
+                ${cols.map((colImages: any[]) => `
+                  <div class="flex flex-col gap-4 w-full">
+                    ${colImages.map((img: any) => {
+                      const altDb = (typeof img.alt === 'object' && img.alt ? (img.alt[locale] || img.alt.es || img.alt.en || '') : img.alt) || '';
+                      const isGeneric = !altDb || altDb.toLowerCase().includes('imagen de producto') || altDb.toLowerCase().includes('product image') || altDb.toLowerCase() === 'imagen' || altDb.toLowerCase() === 'image';
+                      const altText = isGeneric ? `${name} - Panadería El Trigal Orange NJ` : `${name} - ${altDb}`;
+                      return `
+                        <div 
+                          class="product-gallery-item w-full relative overflow-hidden rounded-[24px] border border-brand-gold/30 bg-white p-2 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300 cursor-pointer"
+                          data-search="${altText.toLowerCase()}"
+                        >
+                          <img
+                            src="${img.secureUrl || img.url}"
+                            alt="${altText}"
+                            class="w-full h-auto object-cover rounded-[18px]"
+                            loading="lazy"
+                          />
+                        </div>
+                      `;
+                    }).join('')}
+                  </div>
+                `).join('')}
               </div>
             `;
           } else {

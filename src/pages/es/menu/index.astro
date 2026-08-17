@@ -93,12 +93,7 @@ const breadcrumbs = [
   </div>
 
   <script>
-    function formatPriceCents(cents: any, locale: any) {
-      return new Intl.NumberFormat(locale === 'es' ? 'es-US' : 'en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(cents / 100);
-    }
+
 
     async function loadCatalog() {
       const container = document.getElementById('menu-container');
@@ -179,11 +174,7 @@ const breadcrumbs = [
             ? `/es/productos/${prodSlug}`
             : `/en/products/${prodSlug}`;
 
-          const formattedPrice = product.priceLabel?.[locale]
-            ? product.priceLabel[locale]
-            : (product.basePriceCents
-              ? formatPriceCents(product.basePriceCents, locale)
-              : (product.productoPrice ? `$${product.productoPrice.toFixed(2)}` : null));
+
 
           const catName = getStr(product.primaryCategory?.name, locale);
           const catKey = getStr(product.primaryCategory?.slug, locale) || 'todas';
@@ -210,12 +201,7 @@ const breadcrumbs = [
                     <a href="${productUrl}" class="focus:outline-none focus:underline">${prodName}</a>
                   </h3>
                   <p class="text-xs sm:text-sm text-brand-brown/75 line-clamp-2 leading-relaxed flex-grow">${desc}</p>
-                  <div class="pt-2 flex items-center justify-between border-t border-brand-gold/20">
-                    ${formattedPrice ? `
-                      <span class="font-serif font-extrabold text-xl text-brand-brown">${formattedPrice}</span>
-                    ` : `
-                      <span class="text-xs text-brand-brown/50 italic">${locale === 'es' ? 'Consultar precio' : 'Ask for price'}</span>
-                    `}
+                  <div class="pt-2 flex items-center justify-end border-t border-brand-gold/20">
                     <a href="${productUrl}" class="text-xs font-bold text-brand-brown/60 hover:text-brand-brown underline-offset-2 hover:underline transition-colors">
                       ${locale === 'es' ? 'Ver más →' : 'View →'}
                     </a>

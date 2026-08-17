@@ -23,8 +23,8 @@ function mapRenderProductToFrontend(raw: any): Product {
     id: '', sku: null, name: { es: '', en: '' }, slug: { es: '', en: '' },
     shortDescription: { es: '', en: '' }, description: { es: '', en: '' },
     primaryCategory: { id: '', name: { es: '', en: '' }, slug: { es: '', en: '' } },
-    categories: [], productType: 'simple', basePriceCents: 0, compareAtPriceCents: null,
-    currency: 'USD', priceLabel: null, variants: [], options: [], media: [],
+    categories: [], productType: 'simple',
+    variants: [], options: [], media: [],
     ingredients: null, allergens: [], dietaryTags: [],
     availability: { isAvailable: false, leadTimeDays: 0 },
     ordering: { allowDirectCall: true, allowDoorDash: false, allowCustomQuote: false },
@@ -78,7 +78,7 @@ function mapRenderProductToFrontend(raw: any): Product {
     slug: slugObj,
     shortDescription: shortDescObj,
     description: descObj,
-    basePriceCents: raw.basePriceCents !== undefined ? raw.basePriceCents : (raw.productPrice !== undefined ? Math.round(raw.productPrice * 100) : (raw.priceCents || base.basePriceCents)),
+
     media: (raw.media && raw.media.length > 0) ? raw.media.map((m: any, idx: number) => ({
       id: m.id || m._id || String(idx),
       publicId: m.publicId || String(idx),

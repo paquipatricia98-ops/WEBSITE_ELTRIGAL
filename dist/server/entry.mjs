@@ -1,6 +1,6 @@
 import { renderers } from './renderers.mjs';
 import { c as createExports, s as serverEntrypointModule } from './chunks/_@astrojs-ssr-adapter_CAvzTAn1.mjs';
-import { manifest } from './manifest_CRPpmk18.mjs';
+import { manifest } from './manifest_BxNpfyQu.mjs';
 
 const serverIslandMap = new Map();;
 
@@ -16,28 +16,34 @@ const _page8 = () => import('./pages/en/faq.astro.mjs');
 const _page9 = () => import('./pages/en/gallery.astro.mjs');
 const _page10 = () => import('./pages/en/menu/_categoryslug_.astro.mjs');
 const _page11 = () => import('./pages/en/menu.astro.mjs');
-const _page12 = () => import('./pages/en/our-story.astro.mjs');
-const _page13 = () => import('./pages/en/privacy.astro.mjs');
-const _page14 = () => import('./pages/en/products/_productslug_.astro.mjs');
-const _page15 = () => import('./pages/en/terms.astro.mjs');
-const _page16 = () => import('./pages/en.astro.mjs');
-const _page17 = () => import('./pages/es/catalogo.astro.mjs');
-const _page18 = () => import('./pages/es/catering-eventos.astro.mjs');
-const _page19 = () => import('./pages/es/contacto.astro.mjs');
-const _page20 = () => import('./pages/es/galeria.astro.mjs');
-const _page21 = () => import('./pages/es/menu/_categoryslug_.astro.mjs');
-const _page22 = () => import('./pages/es/menu.astro.mjs');
-const _page23 = () => import('./pages/es/nuestra-historia.astro.mjs');
-const _page24 = () => import('./pages/es/panaderia-ecuatoriana.astro.mjs');
-const _page25 = () => import('./pages/es/pasteles-personalizados.astro.mjs');
-const _page26 = () => import('./pages/es/preguntas-frecuentes.astro.mjs');
-const _page27 = () => import('./pages/es/privacidad.astro.mjs');
-const _page28 = () => import('./pages/es/productos/_productslug_.astro.mjs');
-const _page29 = () => import('./pages/es/productos-ecuatorianos.astro.mjs');
-const _page30 = () => import('./pages/es/terminos.astro.mjs');
-const _page31 = () => import('./pages/es.astro.mjs');
-const _page32 = () => import('./pages/robots.txt.astro.mjs');
-const _page33 = () => import('./pages/index.astro.mjs');
+const _page12 = () => import('./pages/en/orange-nj/custom-cakes.astro.mjs');
+const _page13 = () => import('./pages/en/orange-nj/ecuadorian-bakery.astro.mjs');
+const _page14 = () => import('./pages/en/orange-nj.astro.mjs');
+const _page15 = () => import('./pages/en/our-story.astro.mjs');
+const _page16 = () => import('./pages/en/privacy.astro.mjs');
+const _page17 = () => import('./pages/en/products/_productslug_.astro.mjs');
+const _page18 = () => import('./pages/en/terms.astro.mjs');
+const _page19 = () => import('./pages/en.astro.mjs');
+const _page20 = () => import('./pages/es/catalogo.astro.mjs');
+const _page21 = () => import('./pages/es/catering-eventos.astro.mjs');
+const _page22 = () => import('./pages/es/contacto.astro.mjs');
+const _page23 = () => import('./pages/es/galeria.astro.mjs');
+const _page24 = () => import('./pages/es/menu/_categoryslug_.astro.mjs');
+const _page25 = () => import('./pages/es/menu.astro.mjs');
+const _page26 = () => import('./pages/es/nuestra-historia.astro.mjs');
+const _page27 = () => import('./pages/es/orange-nj/panaderia-ecuatoriana.astro.mjs');
+const _page28 = () => import('./pages/es/orange-nj/pasteles-personalizados.astro.mjs');
+const _page29 = () => import('./pages/es/orange-nj.astro.mjs');
+const _page30 = () => import('./pages/es/panaderia-ecuatoriana.astro.mjs');
+const _page31 = () => import('./pages/es/pasteles-personalizados.astro.mjs');
+const _page32 = () => import('./pages/es/preguntas-frecuentes.astro.mjs');
+const _page33 = () => import('./pages/es/privacidad.astro.mjs');
+const _page34 = () => import('./pages/es/productos/_productslug_.astro.mjs');
+const _page35 = () => import('./pages/es/productos-ecuatorianos.astro.mjs');
+const _page36 = () => import('./pages/es/terminos.astro.mjs');
+const _page37 = () => import('./pages/es.astro.mjs');
+const _page38 = () => import('./pages/robots.txt.astro.mjs');
+const _page39 = () => import('./pages/index.astro.mjs');
 const pageMap = new Map([
     ["src/pages/404.astro", _page0],
     ["src/pages/500.astro", _page1],
@@ -51,28 +57,34 @@ const pageMap = new Map([
     ["src/pages/en/gallery.astro", _page9],
     ["src/pages/en/menu/[categorySlug].astro", _page10],
     ["src/pages/en/menu/index.astro", _page11],
-    ["src/pages/en/our-story.astro", _page12],
-    ["src/pages/en/privacy.astro", _page13],
-    ["src/pages/en/products/[productSlug].astro", _page14],
-    ["src/pages/en/terms.astro", _page15],
-    ["src/pages/en/index.astro", _page16],
-    ["src/pages/es/catalogo/index.astro", _page17],
-    ["src/pages/es/catering-eventos.astro", _page18],
-    ["src/pages/es/contacto.astro", _page19],
-    ["src/pages/es/galeria.astro", _page20],
-    ["src/pages/es/menu/[categorySlug].astro", _page21],
-    ["src/pages/es/menu/index.astro", _page22],
-    ["src/pages/es/nuestra-historia.astro", _page23],
-    ["src/pages/es/panaderia-ecuatoriana.astro", _page24],
-    ["src/pages/es/pasteles-personalizados.astro", _page25],
-    ["src/pages/es/preguntas-frecuentes.astro", _page26],
-    ["src/pages/es/privacidad.astro", _page27],
-    ["src/pages/es/productos/[productSlug].astro", _page28],
-    ["src/pages/es/productos-ecuatorianos.astro", _page29],
-    ["src/pages/es/terminos.astro", _page30],
-    ["src/pages/es/index.astro", _page31],
-    ["src/pages/robots.txt.ts", _page32],
-    ["src/pages/index.astro", _page33]
+    ["src/pages/en/orange-nj/custom-cakes.astro", _page12],
+    ["src/pages/en/orange-nj/ecuadorian-bakery.astro", _page13],
+    ["src/pages/en/orange-nj/index.astro", _page14],
+    ["src/pages/en/our-story.astro", _page15],
+    ["src/pages/en/privacy.astro", _page16],
+    ["src/pages/en/products/[productSlug].astro", _page17],
+    ["src/pages/en/terms.astro", _page18],
+    ["src/pages/en/index.astro", _page19],
+    ["src/pages/es/catalogo/index.astro", _page20],
+    ["src/pages/es/catering-eventos.astro", _page21],
+    ["src/pages/es/contacto.astro", _page22],
+    ["src/pages/es/galeria.astro", _page23],
+    ["src/pages/es/menu/[categorySlug].astro", _page24],
+    ["src/pages/es/menu/index.astro", _page25],
+    ["src/pages/es/nuestra-historia.astro", _page26],
+    ["src/pages/es/orange-nj/panaderia-ecuatoriana.astro", _page27],
+    ["src/pages/es/orange-nj/pasteles-personalizados.astro", _page28],
+    ["src/pages/es/orange-nj/index.astro", _page29],
+    ["src/pages/es/panaderia-ecuatoriana.astro", _page30],
+    ["src/pages/es/pasteles-personalizados.astro", _page31],
+    ["src/pages/es/preguntas-frecuentes.astro", _page32],
+    ["src/pages/es/privacidad.astro", _page33],
+    ["src/pages/es/productos/[productSlug].astro", _page34],
+    ["src/pages/es/productos-ecuatorianos.astro", _page35],
+    ["src/pages/es/terminos.astro", _page36],
+    ["src/pages/es/index.astro", _page37],
+    ["src/pages/robots.txt.ts", _page38],
+    ["src/pages/index.astro", _page39]
 ]);
 
 const _manifest = Object.assign(manifest, {

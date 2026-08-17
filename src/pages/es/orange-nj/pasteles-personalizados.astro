@@ -1,0 +1,446 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
+import { SITE_CONFIG } from '../../../config/site';
+
+const locale = 'es';
+
+const breadcrumbs = [
+  { name: 'Inicio', url: '/es/' },
+  { name: 'Orange, NJ', url: '/es/orange-nj/' },
+  { name: 'Pasteles Personalizados', url: '/es/orange-nj/pasteles-personalizados/' },
+];
+---
+
+<BaseLayout
+  title="Pasteles Personalizados en Orange, NJ | El Trigal"
+  description="Ordena pasteles personalizados en Orange, NJ para cumpleaños, bodas, bautizos y celebraciones. Tres leches, chocolate, vainilla, maracuyá y diseños a tu gusto."
+  locale={locale}
+  alternateEsRoute="/es/orange-nj/pasteles-personalizados/"
+  alternateEnRoute="/en/orange-nj/custom-cakes/"
+>
+  <div class="bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Breadcrumbs items={breadcrumbs} locale={locale} />
+      
+      <!-- H1 Header Hero Component -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold-secondary border border-brand-gold/30 text-xs font-bold uppercase tracking-wider">
+            <span>🎂</span>
+            <span>Alta Pastelería en Orange, NJ</span>
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-brown leading-tight">
+            Pasteles Personalizados en Orange, NJ para Toda Ocasión
+          </h1>
+          <h2 class="font-serif text-xl sm:text-2xl font-bold text-brand-gold-secondary">
+            Haz de tu celebración un momento todavía más especial
+          </h2>
+          <p class="text-base sm:text-lg text-brand-brown/85 leading-relaxed">
+            Cada celebración tiene una historia y un pastel espectacular ayuda a construir ese recuerdo. En <strong>Panadería y Pastelería El Trigal</strong> elaboramos <strong>pasteles personalizados en Orange, New Jersey</strong>, combinando sabor artesanal con diseños únicos para cumpleaños, bodas, bautizos, aniversarios y reuniones familiares.
+          </p>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            Personaliza tu pastel seleccionando el sabor del bizcocho, el relleno, el tamaño y el estilo de decoración que mejor se adapte a tu evento. Contamos con deliciosas opciones de bizcochos de tres leches, maracuyá, chocolate y vainilla, rellenos gourmet de manjar, frutos rojos o crema diplomática, y acabados profesionales en fondant o merengue italiano.
+          </p>
+          <p class="text-base font-bold text-brand-brown pt-2">
+            ¡Cuéntanos tu idea y cotiza hoy mismo el pastel perfecto para tu evento!
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href="/es/catalogo"
+              class="inline-flex items-center justify-center px-6 py-3.5 rounded-full border-2 border-brand-brown text-brand-brown font-bold text-sm sm:text-base hover:bg-brand-brown hover:text-brand-gold transition-all text-center w-full sm:w-auto"
+            >
+              Ver Catálogo
+            </a>
+            <a
+              href="#cotizar"
+              class="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm sm:text-base hover:bg-brand-gold-secondary shadow-lg transition-all text-center w-full sm:w-auto"
+            >
+              Cotizar mi Pastel
+            </a>
+          </div>
+        </div>
+        
+        <div class="lg:col-span-5 relative">
+          <div class="absolute -inset-2 rounded-3xl bg-brand-gold/20 blur-xl"></div>
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
+            <CloudinaryImage
+              src="/images/pastel-cumpleanos-infantil-multinivel-personalizado.jpg"
+              alt="Pastel de cumpleaños multinivel personalizado en Orange NJ"
+              width={600}
+              height={700}
+              class="w-full h-[480px] object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout Grid -->
+      <div class="mt-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Text Content Column -->
+        <div class="lg:col-span-6 space-y-16 text-brand-brown">
+          
+          <!-- Section 1 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Pasteles de Cumpleaños Personalizados en Orange, NJ
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              Un cumpleaños merece un pastel único que refleje la personalidad de quien celebra. En El Trigal adaptamos los colores, temática, sabores y detalles decorativos de tu pastel según lo que necesites.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              Podemos recrear un diseño que ya tengas en mente o trabajar a partir de imágenes de referencia. Nuestro proceso te permite indicarnos la fecha del evento, la cantidad de porciones, la temática y los sabores de tu preferencia para ofrecerte una cotización rápida y personalizada.
+            </p>
+            <p class="text-sm font-semibold text-brand-brown/90 bg-brand-gold/10 p-3 rounded-lg border border-brand-gold/20">
+              🎂 <strong>Creamos pasteles para:</strong> Cumpleaños infantiles, fiestas de adultos, quinceañeras, aniversarios, graduaciones, baby showers, bautizos y reuniones familiares especiales.
+            </p>
+            <div class="pt-4">
+              <a
+                href="#cotizar"
+                class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all"
+              >
+                Solicitar Cotización
+              </a>
+            </div>
+          </div>
+
+          <!-- Section 2 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Pastel de Tres Leches en Orange, New Jersey
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              El <strong>pastel de tres leches</strong> es una de las grandes recetas estrella de nuestra pastelería y el favorito indiscutible de la comunidad. Destaca por su consistencia perfectamente húmeda, suavidad y dulzura equilibrada.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              Preparamos pasteles de tres leches tradicionales decorados con frutas frescas, crema chantilly ligera o merengue. También puedes personalizarlo seleccionando rellenos especiales para convertir este postre clásico en el centro de atención de tu mesa de celebración.
+            </p>
+          </div>
+
+          <!-- Section 3 -->
+          <div class="space-y-6">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Elige el Sabor de Tu Pastel
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              El bizcocho es la base de todo gran pastel. Combina nuestros sabores según tus preferencias:
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Tres Leches</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">Húmedo, tradicional y extremadamente suave. Decorado con frutas frescas o merengue.</p>
+              </div>
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Maracuyá</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">Una opción exótica y refrescante con el inconfundible sabor cítrico de la fruta de la pasión.</p>
+              </div>
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Chocolate</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">Intenso, húmedo y chocolatoso, ideal para los amantes del chocolate y celebraciones infantiles.</p>
+              </div>
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Vainilla</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">El bizcocho clásico, versátil y suave, que combina con cualquier tipo de relleno y decoración.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Elige el Relleno que Más Te Guste
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              El sabor del interior define la experiencia de cada bocado. Combina tu bizcocho con nuestras cremas y rellenos:
+            </p>
+            <ul class="space-y-3 text-sm text-brand-brown/85 pb-2">
+              <li class="flex items-start space-x-2">
+                <span class="text-brand-gold mt-0.5">✓</span>
+                <span><strong>Manjar o dulce de leche:</strong> El relleno tradicional latino por excelencia, dulce y cremoso.</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-brand-gold mt-0.5">✓</span>
+                <span><strong>Frutos rojos:</strong> Una deliciosa compota frutal que añade frescura y un toque ácido al pastel.</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-brand-gold mt-0.5">✓</span>
+                <span><strong>Crema diplomática:</strong> Una crema ligera, suave y refinada para los paladares más delicados.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Section 5 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Diseños de Pasteles Personalizados
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              La apariencia de tu pastel es el centro de atención de la mesa de dulces. En El Trigal decoramos tu pastel utilizando **fondant** para lograr figuras limpias y temáticas estructuradas, o **merengue italiano** para acabados tradicionales y clásicos.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              Puedes enviarnos imágenes de referencia, colores corporativos o ideas de la temática de tu fiesta para que nuestro equipo de pasteleros le dé vida a tu visión con total fidelidad.
+            </p>
+          </div>
+
+          <!-- Section 6 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Pasteles para Bodas y Celebraciones Especiales
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              Para eventos de etiqueta que requieren una presentación impecable, elaboramos pasteles de boda multinivel, pasteles para bautizos, quinceañeras y aniversarios corporativos.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              Recomendamos iniciar tu consulta y reservar tu fecha con suficiente anticipación. Cuéntanos la temática, la cantidad aproximada de invitados y los sabores que prefieres, y te ayudaremos a diseñar un pastel a la altura de tu gran día.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Pinterest Masonry Layout Column -->
+        <div class="lg:col-span-6 flex gap-4 items-start lg:sticky lg:top-24">
+          
+          <!-- Column 1 - Tall & Medium images -->
+          <div class="flex-1 space-y-4">
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-cumpleanos-infantil-multinivel-personalizado.jpg"
+                alt="Pastel de cumpleaños multinivel infantil en Orange NJ"
+                width={300}
+                height={500}
+                class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/porciones-pasteles-postres-gourmet-el-trigal.jpg"
+                alt="Porciones de pasteles y postres gourmet en Orange NJ"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+          
+          <!-- Column 2 - Small images stacked -->
+          <div class="flex-1 space-y-4">
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-cumpleanos-personalizado-dibujos-orange-nj.jpg"
+                alt="Pastel personalizado de feliz cumpleaños en Orange NJ"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-tres-leches-personalizado-cumpleanos-orange.jpg"
+                alt="Pastel de tres leches personalizado de cumpleaños en Orange NJ"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-personalizado-messi-argentina-butterflies.jpg"
+                alt="Pastel personalizado de Messi y la selección argentina"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Section 7: Process Steps -->
+      <div id="cotizar" class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl relative overflow-hidden">
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+          <span class="text-xs font-bold text-brand-gold uppercase tracking-wider">Pasos Sencillos</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">¿Cómo Ordenar tu Pastel Personalizado?</h2>
+          <p class="text-brand-cream/80 text-sm sm:text-base">Nuestro proceso de cotización es muy ágil y directo:</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-brand-cream/10 p-6 rounded-2xl border border-brand-gold/20 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xl font-bold font-serif">1</div>
+            <h3 class="font-serif font-bold text-lg text-brand-gold">Elige la Fecha y Porciones</h3>
+            <p class="text-xs text-brand-cream/80 leading-relaxed">
+              Define la fecha de tu evento y la cantidad de invitados para estimar las porciones ideales de tu pastel.
+            </p>
+          </div>
+          <div class="bg-brand-cream/10 p-6 rounded-2xl border border-brand-gold/20 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xl font-bold font-serif">2</div>
+            <h3 class="font-serif font-bold text-lg text-brand-gold">Escoge Sabor, Relleno y Diseño</h3>
+            <p class="text-xs text-brand-cream/80 leading-relaxed">
+              Elige tu combinación favorita de bizcocho y relleno, y compártenos tus fotos o ideas de temática.
+            </p>
+          </div>
+          <div class="bg-brand-cream/10 p-6 rounded-2xl border border-brand-gold/20 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xl font-bold font-serif">3</div>
+            <h3 class="font-serif font-bold text-lg text-brand-gold">Recibe tu Cotización</h3>
+            <p class="text-xs text-brand-cream/80 leading-relaxed">
+              Revisamos los detalles del diseño y nos pondremos en contacto contigo para confirmar el precio y agendar tu pedido.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <a
+            href="/es/contacto"
+            class="inline-flex items-center justify-center px-8 py-4 sm:px-12 rounded-full bg-brand-gold text-brand-brown font-bold text-sm sm:text-base hover:bg-brand-gold-secondary shadow-lg transition-all text-center w-full sm:w-auto max-w-full"
+          >
+            Empezar mi Cotización →
+          </a>
+        </div>
+      </div>
+
+      <!-- Section 8: Local SEO Cerca de ti -->
+      <div class="mt-28 bg-brand-cream-dark/50 rounded-3xl p-8 lg:p-12 border border-brand-gold/25 text-brand-brown grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-6">
+          <h2 class="font-serif text-3xl font-bold text-brand-brown">¿Buscas Pasteles Personalizados Cerca de Ti?</h2>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            Ofrecemos servicio personalizado y entrega de pasteles en las áreas de <strong>Orange, East Orange, West Orange, South Orange</strong> y comunidades vecinas dentro de Essex County, Nueva Jersey.
+          </p>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            Nuestra pastelería se ubica convenientemente en el centro de Orange. Puedes visitarnos directamente para hablar con nuestros diseñadores de pasteles, planificar la decoración de bodas o quinceañeras, o simplemente degustar nuestras especialidades de panadería ecuatoriana fresca.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href={SITE_CONFIG.address.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-brand-brown text-brand-brown font-bold text-sm hover:bg-brand-brown hover:text-brand-gold transition-all text-center w-full sm:w-auto"
+            >
+              📍 Cómo Llegar
+            </a>
+            <a
+              href="#cotizar"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              Cotizar Pastel
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-4 p-6 bg-brand-brown text-brand-cream rounded-2xl border-2 border-brand-gold/30 text-center space-y-4">
+          <h3 class="font-serif font-bold text-lg text-brand-gold">Nuestra Ubicación</h3>
+          <address class="not-italic text-sm space-y-2 text-brand-cream/90 leading-relaxed">
+            <p class="font-bold">Panadería y Pastelería El Trigal</p>
+            <p>23 S Essex Ave</p>
+            <p>Orange, NJ 07050</p>
+          </address>
+          <p class="text-xs text-brand-gold">¡Visítanos para conversar sobre tu diseño!</p>
+        </div>
+      </div>
+
+      <!-- Section 9: FAQ -->
+      <div class="mt-28 space-y-8">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-bold text-brand-gold-secondary uppercase tracking-widest">Respuestas Rápidas</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">Preguntas Frecuentes sobre Pasteles en Orange, NJ</h2>
+          <div class="w-16 h-1 bg-brand-gold mx-auto rounded-full mt-2"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-6">
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿Dónde puedo ordenar un pastel personalizado en Orange, NJ?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Puedes solicitar tu pastel directamente en nuestra pastelería ubicada en <strong>23 S Essex Ave, Orange, NJ 07050</strong>, o iniciar el proceso de cotización por internet especificando la fecha, porciones y diseño.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿El Trigal prepara pasteles de cumpleaños?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Elaboramos pasteles temáticos de cumpleaños para niños y adultos adaptados a cualquier temática o diseño que desees.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿Puedo pedir un pastel de tres leches?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Nuestro tradicional bizcocho de tres leches se puede preparar como base para pasteles personalizados y decorarse según el estilo de tu evento.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿Qué sabores de pastel tienen?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Ofrecemos bizcochos de **tres leches, maracuyá, chocolate húmedo y vainilla clásica**.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿Qué rellenos puedo elegir?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Disponemos de rellenos de **manjar (dulce de leche), compota artesanal de frutos rojos y crema diplomática suave**.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿Puedo enviar una foto del pastel que quiero?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Puedes enviarnos cualquier imagen de referencia de internet, Pinterest o redes sociales para usarla como base del diseño de tu pastel.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿Preparan pasteles para bodas?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Diseñamos y horneamos pasteles elegantes para bodas, bautizos, comuniones y aniversarios especiales.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">¿Con cuánto tiempo de anticipación debo ordenar?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Para pasteles sencillos recomendamos 3 a 5 días. Para pasteles de boda o de gran tamaño, aconsejamos cotizar con al menos 2 semanas de anticipación para asegurar disponibilidad de fecha.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 10: Final CTA -->
+      <div class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 text-center space-y-6 relative overflow-hidden">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Tu Próxima Celebración Merece un Pastel Especial</h2>
+        <p class="text-base sm:text-lg text-brand-cream/90 max-w-3xl mx-auto leading-relaxed">
+          Cumpleaños, bodas, bautizos, aniversarios y reuniones familiares se convierten en recuerdos que permanecen durante años. Queremos que tu pastel también forme parte de esos recuerdos. En <strong>El Trigal</strong> combinamos ingredientes premium y diseños únicos para crear una obra de arte deliciosa adaptada a tu evento.
+        </p>
+        <p class="text-sm text-brand-gold font-semibold">📍 23 S Essex Ave, Orange, NJ 07050</p>
+        <p class="text-base font-bold text-brand-cream">
+          Cuéntanos tu idea, envíanos una fotografía de referencia y comienza hoy la cotización de tu pastel personalizado.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 pt-4">
+          <a
+            href="/es/catalogo"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-brand-gold text-brand-gold font-bold text-sm hover:bg-brand-gold hover:text-brand-brown transition-all text-center w-full sm:w-auto"
+          >
+            Ver Catálogo
+          </a>
+          <a
+            href="#cotizar"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+          >
+            Cotizar mi Pastel
+          </a>
+          <a
+            href={SITE_CONFIG.address.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-cream-dark/10 border border-brand-cream/35 text-brand-cream font-bold text-sm hover:bg-brand-cream/20 transition-all text-center w-full sm:w-auto"
+          >
+            📍 Cómo Llegar
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

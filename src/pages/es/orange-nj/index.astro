@@ -1,0 +1,371 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
+import { SITE_CONFIG } from '../../../config/site';
+
+const locale = 'es';
+
+const breadcrumbs = [
+  { name: 'Inicio', url: '/es/' },
+  { name: 'Orange, NJ', url: '/es/orange-nj/' },
+];
+---
+
+<BaseLayout
+  title="Panadería y Pastelería Ecuatoriana en Orange, NJ | El Trigal"
+  description="Visita El Trigal en Orange, NJ. Panadería ecuatoriana, pastelería, pasteles personalizados y productos importados de Ecuador en un solo lugar."
+  locale={locale}
+  alternateEsRoute="/es/orange-nj/"
+  alternateEnRoute="/en/orange-nj/"
+>
+  <div class="bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Breadcrumbs items={breadcrumbs} locale={locale} />
+      
+      <!-- H1 Header Hero Component -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold-secondary border border-brand-gold/30 text-xs font-bold uppercase tracking-wider">
+            <span>🇪🇨</span>
+            <span>Tradición de Ambato en NJ</span>
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-brown leading-tight">
+            Panadería, Pastelería y Productos Ecuatorianos en Orange, NJ
+          </h1>
+          <h2 class="font-serif text-xl sm:text-2xl font-bold text-brand-gold-secondary">
+            Sabores de Ecuador en el corazón de Orange, New Jersey
+          </h2>
+          <p class="text-base sm:text-lg text-brand-brown/85 leading-relaxed">
+            Si estás buscando una panadería ecuatoriana en Orange, NJ, una pastelería donde encontrar postres y pasteles para tus celebraciones o un lugar donde comprar productos importados de Ecuador, en <strong>El Trigal Panadería & Pastelería</strong> encontrarás diferentes sabores y productos ecuatorianos en un mismo lugar.
+          </p>
+          <p class="text-sm text-brand-brown/80">
+            📍 Estamos ubicados en: <strong>23 S Essex Ave, Orange, NJ 07050</strong>
+          </p>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            Ofrecemos a nuestra comunidad una combinación de tradición ecuatoriana, pan recién horneado, productos de pastelería, pasteles personalizados, postres, bebidas y productos que nos conectan con el Ecuador. Nuestra historia está inspirada en la tradición panadera de Ambato, y hoy continúa en Orange, NJ, atendiendo a familias ecuatorianas, latinas y a todas las personas que desean descubrir nuestros sabores.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href="/es/orange-nj/panaderia-ecuatoriana/"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              Ver Panadería
+            </a>
+            <a
+              href="/es/orange-nj/pasteles-personalizados/"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-brown text-brand-gold font-bold text-sm hover:bg-brand-brown-dark shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              Ver Pastelería
+            </a>
+            <a
+              href="/es/productos-ecuatorianos"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-brand-brown text-brand-brown font-bold text-sm hover:bg-brand-brown hover:text-brand-gold transition-all text-center w-full sm:w-auto"
+            >
+              Ver Productos Ecuatorianos
+            </a>
+          </div>
+        </div>
+        
+        <div class="lg:col-span-5 relative">
+          <div class="absolute -inset-2 rounded-3xl bg-brand-gold/20 blur-xl"></div>
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
+            <CloudinaryImage
+              src="/images/pan-ecuatoriano-fresco-el-trigal-orange-nj.jpg"
+              alt="Panadería El Trigal en Orange, New Jersey"
+              width={600}
+              height={500}
+              class="w-full h-[400px] object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Todo el sabor de Ecuador section -->
+      <div class="mt-28 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">Todo el sabor de Ecuador en Orange, NJ</h2>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            En El Trigal reunimos tres de nuestras principales especialidades: panadería tradicional, pastelería creativa y productos importados. Puedes visitarnos para comprar pan fresco por la mañana, llevar algo dulce para compartir, ordenar un pastel para una celebración o encontrar productos ecuatorianos para disfrutar en casa. Nuestro objetivo es que encuentres sabores que te recuerden a Ecuador sin salir de New Jersey.
+          </p>
+          <div class="w-24 h-1 bg-brand-gold mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Three specialties grid -->
+        <div class="space-y-20 mt-16">
+          
+          <!-- Specialty 1: Panaderia -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="lg:col-span-7 space-y-4 order-2 lg:order-1">
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown flex items-center space-x-2">
+                <span>🥐</span>
+                <span>Panadería Ecuatoriana en Orange, NJ</span>
+              </h3>
+              <h4 class="font-serif text-lg font-bold text-brand-gold-secondary">Pan ecuatoriano fresco para disfrutar todos los días</h4>
+              <p class="text-sm sm:text-base text-brand-brown/85 leading-relaxed">
+                El aroma del pan recién horneado forma parte de nuestra tradición. En El Trigal ofrecemos una gran variedad de panes y productos horneados artesanalmente, ideales para acompañar el desayuno o tu café de la tarde.
+              </p>
+              <div class="bg-brand-cream-dark p-4 rounded-xl border border-brand-gold/20">
+                <p class="text-xs font-bold text-brand-brown mb-2">🍞 Algunas de nuestras variedades horneadas diariamente:</p>
+                <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-brand-brown/80">
+                  <span>• Empanadas de queso</span>
+                  <span>• Cachitos</span>
+                  <span>• Enrollados</span>
+                  <span>• Pan de maíz</span>
+                  <span>• Pan integral</span>
+                  <span>• Pan de leche</span>
+                  <span>• Pan dulce</span>
+                  <span>• Pan de chocolate</span>
+                </div>
+              </div>
+              <p class="text-xs text-brand-brown/80 leading-relaxed">
+                Nuestro horario de atención comienza a las 6:00 AM, por lo que puedes encontrarnos listos con pan caliente temprano por la mañana y en varias tandas a lo largo del día.
+              </p>
+              <div class="pt-2">
+                <a
+                  href="/es/orange-nj/panaderia-ecuatoriana/"
+                  class="inline-flex items-center text-brand-gold-secondary font-bold text-sm hover:text-brand-brown transition-colors"
+                >
+                  Conoce nuestra Panadería Ecuatoriana en Orange, NJ →
+                </a>
+              </div>
+            </div>
+            <div class="lg:col-span-5 order-1 lg:order-2">
+              <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-brand-gold/30">
+                <CloudinaryImage
+                  src="/images/pan-dulce-tradicional-ecuatoriano-el-trigal.jpg"
+                  alt="Pan dulce ecuatoriano en El Trigal"
+                  width={400}
+                  height={300}
+                  class="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Specialty 2: Pasteleria -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="lg:col-span-5">
+              <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-brand-gold/30">
+                <CloudinaryImage
+                  src="/images/pasteles-personalizados-cumpleanos-boda-orange-nj.jpg"
+                  alt="Pasteles personalizados en El Trigal Orange NJ"
+                  width={400}
+                  height={300}
+                  class="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+            <div class="lg:col-span-7 space-y-4">
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown flex items-center space-x-2">
+                <span>🎂</span>
+                <span>Pastelería Ecuatoriana en Orange, NJ</span>
+              </h3>
+              <h4 class="font-serif text-lg font-bold text-brand-gold-secondary">Pasteles, postres y creaciones para momentos especiales</h4>
+              <p class="text-sm sm:text-base text-brand-brown/85 leading-relaxed">
+                El Trigal también es una pastelería artesanal donde preparamos pasteles clásicos y personalizados para bodas, cumpleaños, bautizos, aniversarios y todo tipo de reuniones familiares.
+              </p>
+              <p class="text-sm text-brand-brown/85 leading-relaxed">
+                Elige el tamaño, número de porciones, bizcocho (tres leches, maracuyá, chocolate, vainilla), relleno (manjar, frutos rojos, crema diplomática) y la temática de decoración para crear el pastel perfecto.
+              </p>
+              <div class="pt-2">
+                <a
+                  href="/es/orange-nj/pasteles-personalizados/"
+                  class="inline-flex items-center text-brand-gold-secondary font-bold text-sm hover:text-brand-brown transition-colors"
+                >
+                  Descubre nuestra Pastelería Ecuatoriana en Orange, NJ →
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Specialty 3: Productos Importados -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="lg:col-span-7 space-y-4 order-2 lg:order-1">
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown flex items-center space-x-2">
+                <span>🇪🇨</span>
+                <span>Productos Ecuatorianos Importados en Orange, NJ</span>
+              </h3>
+              <h4 class="font-serif text-lg font-bold text-brand-gold-secondary">Un pedacito de Ecuador más cerca de casa</h4>
+              <p class="text-sm sm:text-base text-brand-brown/85 leading-relaxed">
+                Hay sabores y marcas que inmediatamente nos transportan a nuestras raíces. Por eso, en El Trigal ofrecemos una cuidada selección de productos alimenticios ecuatorianos importados.
+              </p>
+              <p class="text-sm text-brand-brown/85 leading-relaxed">
+                Nuestra sección de abarrotes y productos importados complementa tu visita: ven por tu pan caliente, compra un postre y lleva a casa las marcas ecuatorianas que más extrañas.
+              </p>
+              <div class="pt-2">
+                <a
+                  href="/es/productos-ecuatorianos"
+                  class="inline-flex items-center text-brand-gold-secondary font-bold text-sm hover:text-brand-brown transition-colors"
+                >
+                  Ver Productos Ecuatorianos Importados en Orange, NJ →
+                </a>
+              </div>
+            </div>
+            <div class="lg:col-span-5 order-1 lg:order-2">
+              <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-brand-gold/30">
+                <CloudinaryImage
+                  src="/images/productos-ecuatorianos-importados-el-trigal.jpg"
+                  alt="Productos alimenticios ecuatorianos en El Trigal"
+                  width={400}
+                  height={300}
+                  class="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tradition section -->
+      <div class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl relative overflow-hidden">
+        <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-12 translate-y-12">
+          <span class="text-9xl">🌾</span>
+        </div>
+        <div class="max-w-4xl space-y-6">
+          <span class="text-xs font-bold text-brand-gold uppercase tracking-wider">Nuestra Identidad</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Una tradición ecuatoriana que continúa en New Jersey</h2>
+          <p class="text-base sm:text-lg text-brand-cream/90 leading-relaxed">
+            El Trigal está inspirado en una tradición familiar vinculada con Ambato, Ecuador. Para muchas personas, visitar una panadería ecuatoriana significa mucho más que simplemente comprar comida; significa reencontrarse con un sabor de la infancia, compartir costumbres familiares con los hijos o encontrar ese producto nostálgico que hace tiempo no veían. Queremos ser ese punto de encuentro en Orange.
+          </p>
+        </div>
+      </div>
+
+      <!-- Highlights blocks -->
+      <div class="mt-28 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">Más que una panadería en Orange, NJ</h2>
+          <p class="text-sm sm:text-base text-brand-brown/80">Todo lo que puedes disfrutar en El Trigal en una sola parada:</p>
+          <div class="w-16 h-1 bg-brand-gold mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-brand-cream border border-brand-gold/20 p-6 rounded-2xl shadow-sm space-y-3">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Panadería Artesanal</h3>
+            <p class="text-xs text-brand-brown/85 leading-relaxed">Pan tradicional horneado en varias tandas diarias a partir de las 6:00 AM.</p>
+          </div>
+          <div class="bg-brand-cream border border-brand-gold/20 p-6 rounded-2xl shadow-sm space-y-3">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Pastelería y Eventos</h3>
+            <p class="text-xs text-brand-brown/85 leading-relaxed">Pasteles personalizados para bodas, cumpleaños y postres finos para compartir.</p>
+          </div>
+          <div class="bg-brand-cream border border-brand-gold/20 p-6 rounded-2xl shadow-sm space-y-3">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Productos Nostálgicos</h3>
+            <p class="text-xs text-brand-brown/85 leading-relaxed">Amplia selección de productos de marcas tradicionales ecuatorianas importadas directamente.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orange and nearby communities -->
+      <div class="mt-28 bg-brand-cream-dark/40 rounded-3xl p-8 border border-brand-gold/20 text-brand-brown text-center space-y-4">
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown">Panadería y Pastelería cerca de East Orange, West Orange y South Orange</h2>
+        <p class="text-sm sm:text-base text-brand-brown/85 max-w-3xl mx-auto leading-relaxed">
+          Nuestra ubicación física está en Orange, New Jersey, pero también atendemos con orgullo a nuestros clientes provenientes de comunidades cercanas de Essex County, como <strong>East Orange, West Orange y South Orange</strong>. Si estás en una de estas áreas y buscas pan caliente o tus marcas favoritas de Ecuador, ¡estamos a solo minutos de distancia!
+        </p>
+      </div>
+
+      <!-- Visit Us Card -->
+      <div class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-6">
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Visita El Trigal en Orange, NJ</h2>
+          <p class="text-sm sm:text-base text-brand-cream/80">
+            📍 Dirección: <strong>23 S Essex Ave, Orange, NJ 07050</strong>
+          </p>
+          <div class="space-y-2 text-sm">
+            <p class="font-bold text-brand-gold">Horario de Atención:</p>
+            <p>• Lunes a Sábado: 6:00 AM – 9:00 PM</p>
+            <p>• Domingo: 6:00 AM – 6:00 PM</p>
+          </div>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href={SITE_CONFIG.address.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              📍 Cómo Llegar
+            </a>
+            <a
+              href="/es/catalogo"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-brand-gold text-brand-gold font-bold text-sm hover:bg-brand-gold hover:text-brand-brown transition-all text-center w-full sm:w-auto"
+            >
+              Ver Catálogo
+            </a>
+            <a
+              href="/es/contacto"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-cream-dark/10 border border-brand-cream/35 text-brand-cream font-bold text-sm hover:bg-brand-cream/20 transition-all text-center w-full sm:w-auto"
+            >
+              Hacer un Pedido
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-4 rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.54422833083!2d-74.231511!3d40.7720481!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3ab663134e079%3A0x17530e951245c19f!2sPanaderia%20Y%20Pasteleria%20El%20Trigal!5e0!3m2!1sen!2sus!4v1785854235239!5m2!1sen!2sus"
+            width="100%"
+            height="250"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="w-full rounded-2xl"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="mt-28 space-y-8">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-bold text-brand-gold-secondary uppercase tracking-widest">Preguntas Frecuentes</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">Preguntas Frecuentes sobre El Trigal</h2>
+          <div class="w-16 h-1 bg-brand-gold mx-auto rounded-full mt-2"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-4">
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">¿Dónde puedo encontrar una panadería ecuatoriana en Orange, NJ?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Puedes visitar El Trigal Panadería & Pastelería en <strong>23 S Essex Ave, Orange, NJ 07050</strong>. Encontrarás pan ecuatoriano, pastelería y productos importados.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">¿El Trigal vende pan ecuatoriano?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Ofrecemos empanadas de queso, cachitos, enrollados, pan de maíz, pan integral, pan de leche, pan dulce y pan de chocolate horneado frescos diariamente.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-brown">¿El Trigal tiene pastelería?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Contamos con una amplia sección de pastelería, ofreciendo postres finos y pasteles para todo tipo de celebraciones.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">¿Preparan pasteles personalizados?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Hacemos pasteles personalizados para cumpleaños, bodas, bautizos, aniversarios y reuniones familiares con sabores a elección.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">¿Dónde puedo comprar productos ecuatorianos en Orange, NJ?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              En El Trigal disponemos de una sección exclusiva de productos ecuatorianos importados para llevar tus marcas y sabores preferidos a casa.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">¿El Trigal abre temprano?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Sí. Abrimos nuestras puertas a las <strong>6:00 AM todos los días</strong> para que comiences el día con pan recién horneado.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

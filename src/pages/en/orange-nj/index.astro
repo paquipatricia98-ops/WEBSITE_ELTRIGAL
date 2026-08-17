@@ -1,0 +1,371 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
+import { SITE_CONFIG } from '../../../config/site';
+
+const locale = 'en';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Orange, NJ', url: '/en/orange-nj/' },
+];
+---
+
+<BaseLayout
+  title="Ecuadorian Bakery & Pastry Shop in Orange, NJ | El Trigal"
+  description="Visit El Trigal in Orange, NJ for fresh Ecuadorian bread, custom cakes, pastries and imported Ecuadorian products all in one convenient location."
+  locale={locale}
+  alternateEsRoute="/es/orange-nj/"
+  alternateEnRoute="/en/orange-nj/"
+>
+  <div class="bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Breadcrumbs items={breadcrumbs} locale={locale} />
+      
+      <!-- H1 Header Hero Component -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold-secondary border border-brand-gold/30 text-xs font-bold uppercase tracking-wider">
+            <span>🇪🇨</span>
+            <span>Ambato Baking Tradition in NJ</span>
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-brown leading-tight">
+            Ecuadorian Bakery, Pastry Shop & Imported Products in Orange, NJ
+          </h1>
+          <h2 class="font-serif text-xl sm:text-2xl font-bold text-brand-gold-secondary">
+            Authentic Ecuadorian flavors in Orange, New Jersey
+          </h2>
+          <p class="text-base sm:text-lg text-brand-brown/85 leading-relaxed">
+            Looking for an <strong>Ecuadorian bakery in Orange, NJ</strong>, a local pastry shop for custom cakes and desserts, or a place to shop for **imported Ecuadorian groceries**? Welcome to <strong>El Trigal Bakery & Pastry Shop</strong>, bringing familiar tastes and baking traditions to our New Jersey community.
+          </p>
+          <p class="text-sm text-brand-brown/80 font-semibold">
+            📍 Visit Us: <strong>23 S Essex Ave, Orange, NJ 07050</strong>
+          </p>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            We bring together freshly baked artisanal breads, pastries, custom celebration cakes, desserts, and imported brands from Ecuador. Our history is deeply rooted in the baking traditions of Ambato, Ecuador, serving Ecuadorian and Latino families as well as anyone looking to discover our rich flavors.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href="/en/orange-nj/ecuadorian-bakery/"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              Explore Our Bakery
+            </a>
+            <a
+              href="/en/orange-nj/custom-cakes/"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-brown text-brand-gold font-bold text-sm hover:bg-brand-brown-dark shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              Explore Our Pastry Shop
+            </a>
+            <a
+              href="/en/ecuadorian-products"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-brand-brown text-brand-brown font-bold text-sm hover:bg-brand-brown hover:text-brand-gold transition-all text-center w-full sm:w-auto"
+            >
+              Shop Ecuadorian Products
+            </a>
+          </div>
+        </div>
+        
+        <div class="lg:col-span-5 relative">
+          <div class="absolute -inset-2 rounded-3xl bg-brand-gold/20 blur-xl"></div>
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
+            <CloudinaryImage
+              src="/images/pan-ecuatoriano-fresco-el-trigal-orange-nj.jpg"
+              alt="El Trigal Bakery in Orange, New Jersey"
+              width={600}
+              height={500}
+              class="w-full h-[400px] object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Specialties section -->
+      <div class="mt-28 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">A Taste of Ecuador in Orange, NJ</h2>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            El Trigal brings together three of our main specialties: traditional bakery, custom cake design, and imported Ecuadorian products. Stop by for fresh daily bread, pick up a sweet pastry to share, order a custom cake for a celebration, or find ingredients from Ecuador to enjoy at home.
+          </p>
+          <div class="w-24 h-1 bg-brand-gold mx-auto rounded-full"></div>
+        </div>
+
+        <!-- Specialties detailed grid -->
+        <div class="space-y-20 mt-16">
+          
+          <!-- Specialty 1: Bakery -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="lg:col-span-7 space-y-4 order-2 lg:order-1">
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown flex items-center space-x-2">
+                <span>🥐</span>
+                <span>Ecuadorian Bakery in Orange, NJ</span>
+              </h3>
+              <h4 class="font-serif text-lg font-bold text-brand-gold-secondary">Fresh Ecuadorian bread and baked goods</h4>
+              <p class="text-sm sm:text-base text-brand-brown/85 leading-relaxed">
+                The aroma of freshly baked bread is a vital part of our daily routine. We bake classic Ecuadorian breads and pastries from scratch, perfect for pairing with your morning coffee.
+              </p>
+              <div class="bg-brand-cream-dark p-4 rounded-xl border border-brand-gold/20">
+                <p class="text-xs font-bold text-brand-brown mb-2">🍞 Freshly baked every day:</p>
+                <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-brand-brown/80">
+                  <span>• Cheese empanadas</span>
+                  <span>• Cachitos</span>
+                  <span>• Enrollados</span>
+                  <span>• Corn bread (pan de maíz)</span>
+                  <span>• Whole wheat bread</span>
+                  <span>• Milk bread (pan de leche)</span>
+                  <span>• Sweet bread (pan dulce)</span>
+                  <span>• Chocolate bread</span>
+                </div>
+              </div>
+              <p class="text-xs text-brand-brown/80 leading-relaxed">
+                We open early at 6:00 AM daily, making it convenient to grab warm bread on your morning commute. Hot batches of bread are pulled fresh from the oven throughout the day.
+              </p>
+              <div class="pt-2">
+                <a
+                  href="/en/orange-nj/ecuadorian-bakery/"
+                  class="inline-flex items-center text-brand-gold-secondary font-bold text-sm hover:text-brand-brown transition-colors"
+                >
+                  Explore Our Ecuadorian Bakery in Orange, NJ →
+                </a>
+              </div>
+            </div>
+            <div class="lg:col-span-5 order-1 lg:order-2">
+              <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-brand-gold/30">
+                <CloudinaryImage
+                  src="/images/pan-dulce-tradicional-ecuatoriano-el-trigal.jpg"
+                  alt="Traditional sweet bread at El Trigal"
+                  width={400}
+                  height={300}
+                  class="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Specialty 2: Pastry -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="lg:col-span-5">
+              <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-brand-gold/30">
+                <CloudinaryImage
+                  src="/images/pasteles-personalizados-cumpleanos-boda-orange-nj.jpg"
+                  alt="Custom cakes pastry shop El Trigal Orange NJ"
+                  width={400}
+                  height={300}
+                  class="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+            <div class="lg:col-span-7 space-y-4">
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown flex items-center space-x-2">
+                <span>🎂</span>
+                <span>Ecuadorian Pastry Shop in Orange, NJ</span>
+              </h3>
+              <h4 class="font-serif text-lg font-bold text-brand-gold-secondary">Cakes and desserts for everyday moments and special celebrations</h4>
+              <p class="text-sm sm:text-base text-brand-brown/85 leading-relaxed">
+                El Trigal is also a custom cake studio where we craft beautiful tiered creations for weddings, birthdays, baptisms, and anniversaries.
+              </p>
+              <p class="text-sm text-brand-brown/85 leading-relaxed">
+                Choose the size, servings, sponge flavor (tres leches, passionfruit, chocolate, vanilla), filling (manjar/dulce de leche, mixed berries, diplomat cream), and design style to create your dream dessert.
+              </p>
+              <div class="pt-2">
+                <a
+                  href="/en/orange-nj/custom-cakes/"
+                  class="inline-flex items-center text-brand-gold-secondary font-bold text-sm hover:text-brand-brown transition-colors"
+                >
+                  Explore Our Ecuadorian Pastry Shop in Orange, NJ →
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Specialty 3: Imported grocer -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div class="lg:col-span-7 space-y-4 order-2 lg:order-1">
+              <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown flex items-center space-x-2">
+                <span>🇪🇨</span>
+                <span>Imported Ecuadorian Products in Orange, NJ</span>
+              </h3>
+              <h4 class="font-serif text-lg font-bold text-brand-gold-secondary">Familiar flavors from Ecuador closer to home</h4>
+              <p class="text-sm sm:text-base text-brand-brown/85 leading-relaxed">
+                Certain flavors instantly bring back warm memories of home. In addition to our bakery and cake services, we maintain a dedicated section of imported Ecuadorian pantry staples and goods.
+              </p>
+              <p class="text-sm text-brand-brown/85 leading-relaxed">
+                Pick up fresh rolls, select a dessert, order your birthday cake, and grab classic imported products and grocery brands from Ecuador during the same convenient visit.
+              </p>
+              <div class="pt-2">
+                <a
+                  href="/en/ecuadorian-products"
+                  class="inline-flex items-center text-brand-gold-secondary font-bold text-sm hover:text-brand-brown transition-colors"
+                >
+                  Explore Imported Ecuadorian Products in Orange, NJ →
+                </a>
+              </div>
+            </div>
+            <div class="lg:col-span-5 order-1 lg:order-2">
+              <div class="rounded-2xl overflow-hidden shadow-lg border-2 border-brand-gold/30">
+                <CloudinaryImage
+                  src="/images/productos-ecuatorianos-importados-el-trigal.jpg"
+                  alt="Ecuadorian grocery products in Orange NJ"
+                  width={400}
+                  height={300}
+                  class="w-full h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tradition section -->
+      <div class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl relative overflow-hidden">
+        <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-12 translate-y-12">
+          <span class="text-9xl">🌾</span>
+        </div>
+        <div class="max-w-4xl space-y-6">
+          <span class="text-xs font-bold text-brand-gold uppercase tracking-wider">Our Heritage</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Ecuadorian baking tradition in New Jersey</h2>
+          <p class="text-base sm:text-lg text-brand-cream/90 leading-relaxed">
+            El Trigal's identity is connected to Ecuadorian family baking traditions and the local heritage of Ambato, Ecuador. For many Latino families, finding familiar foods is about more than buying a meal; it brings back childhood memories, keeps heritage alive for younger generations, and provides comfort. We are proud to be that local community bridge in Orange, NJ.
+          </p>
+        </div>
+      </div>
+
+      <!-- Highlights blocks -->
+      <div class="mt-28 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">More than a bakery in Orange, NJ</h2>
+          <p class="text-sm sm:text-base text-brand-brown/80 font-semibold">Everything you need in one single shop:</p>
+          <div class="w-16 h-1 bg-brand-gold mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-brand-cream border border-brand-gold/20 p-6 rounded-2xl shadow-sm space-y-3">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Artisanal Bakery</h3>
+            <p class="text-xs text-brand-brown/85 leading-relaxed">Traditional rolls, breads, and buns baked in hot batches starting at 6:00 AM daily.</p>
+          </div>
+          <div class="bg-brand-cream border border-brand-gold/20 p-6 rounded-2xl shadow-sm space-y-3">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Cakes and Events</h3>
+            <p class="text-xs text-brand-brown/85 leading-relaxed">Elegant custom wedding cakes, birthday cakes, and delicious pastry slices.</p>
+          </div>
+          <div class="bg-brand-cream border border-brand-gold/20 p-6 rounded-2xl shadow-sm space-y-3">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Imported Groceries</h3>
+            <p class="text-xs text-brand-brown/85 leading-relaxed">A dedicated grocery corner filled with imported snacks, sodas, and staples from Ecuador.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Local communities -->
+      <div class="mt-28 bg-brand-cream-dark/40 rounded-3xl p-8 border border-brand-gold/20 text-brand-brown text-center space-y-4">
+        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown">Serving Orange and nearby Essex County communities</h2>
+        <p class="text-sm sm:text-base text-brand-brown/85 max-w-3xl mx-auto leading-relaxed">
+          While our shop is located in Orange, NJ, we regularly serve and deliver to neighbors in nearby Essex County towns, including <strong>East Orange, West Orange, and South Orange</strong>. If you are looking for authentic tres leches, cheese empanadas, or classic Ecuadorian brands, we are just a short drive away!
+        </p>
+      </div>
+
+      <!-- Visit Us Card -->
+      <div class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-6">
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Visit El Trigal in Orange, NJ</h2>
+          <p class="text-sm sm:text-base text-brand-cream/80">
+            📍 Address: <strong>23 S Essex Ave, Orange, NJ 07050</strong>
+          </p>
+          <div class="space-y-2 text-sm">
+            <p class="font-bold text-brand-gold">Hours of Operation:</p>
+            <p>• Monday to Saturday: 6:00 AM – 9:00 PM</p>
+            <p>• Sunday: 6:00 AM – 6:00 PM</p>
+          </div>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href={SITE_CONFIG.address.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              📍 Get Directions
+            </a>
+            <a
+              href="/en/catalog"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-brand-gold text-brand-gold font-bold text-sm hover:bg-brand-gold hover:text-brand-brown transition-all text-center w-full sm:w-auto"
+            >
+              View Catalog
+            </a>
+            <a
+              href="/en/contact"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-cream-dark/10 border border-brand-cream/35 text-brand-cream font-bold text-sm hover:bg-brand-cream/20 transition-all text-center w-full sm:w-auto"
+            >
+              Order Online
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-4 rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.54422833083!2d-74.231511!3d40.7720481!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3ab663134e079%3A0x17530e951245c19f!2sPanaderia%20Y%20Pasteleria%20El%20Trigal!5e0!3m2!1sen!2sus!4v1785854235239!5m2!1sen!2sus"
+            width="100%"
+            height="250"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            class="w-full rounded-2xl"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="mt-28 space-y-8">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-bold text-brand-gold-secondary uppercase tracking-widest">Frequently Asked Questions</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">Frequently Asked Questions about El Trigal</h2>
+          <div class="w-16 h-1 bg-brand-gold mx-auto rounded-full mt-2"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-4">
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">Where can I find an Ecuadorian bakery in Orange, NJ?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Visit El Trigal Bakery & Pastry Shop at <strong>23 S Essex Ave, Orange, NJ 07050</strong>. We offer traditional Ecuadorian bread, custom cakes, pastries, and imported Ecuadorian groceries.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">Does El Trigal sell Ecuadorian bread?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Yes, we bake fresh empanadas de queso, cachitos, enrollados, corn bread (pan de maíz), and other traditional rolls daily.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">Does El Trigal have a pastry shop?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Yes. We offer sweet puff pastries, desserts, pastry slices, and customized cakes for family events and formal celebrations.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">Can I order a custom birthday cake?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              Yes. We design and bake custom birthday cakes, wedding cakes, and baptism cakes customized with your favorite flavors and themes.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">Where can I buy imported Ecuadorian products in Orange, NJ?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              At El Trigal we maintain a dedicated shelf stocked with imported Ecuadorian foods, beverages, and pantry staples.
+            </p>
+          </div>
+
+          <div class="p-5 bg-brand-cream border border-brand-gold/20 rounded-xl space-y-2">
+            <h3 class="font-serif font-bold text-brand-brown">What time does El Trigal open?</h3>
+            <p class="text-xs sm:text-sm text-brand-brown/85 leading-relaxed">
+              We open at <strong>6:00 AM every day</strong> to serve you hot bread early in the morning.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

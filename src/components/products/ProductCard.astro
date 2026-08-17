@@ -2,7 +2,6 @@
 import CloudinaryImage from '../ui/CloudinaryImage.astro';
 import type { Locale } from '../../types/api';
 import type { Product } from '../../types/product';
-import { formatPriceCents } from '../../utils/formatters';
 
 interface Props {
   product: Product;
@@ -19,13 +18,6 @@ const slugVal = typeof product.slug === 'object' && product.slug
 const productUrl = locale === 'es'
   ? `/es/productos/${slugVal}`
   : `/en/products/${slugVal}`;
-
-// Format price
-const formattedPrice = product.priceLabel?.[locale]
-  ? product.priceLabel[locale]
-  : product.basePriceCents
-  ? formatPriceCents(product.basePriceCents, locale)
-  : null;
 
 ---
 
@@ -71,15 +63,8 @@ const formattedPrice = product.priceLabel?.[locale]
       {product.shortDescription[locale]}
     </p>
 
-    <!-- Price Row -->
-    <div class="pt-2 flex items-center justify-between border-t border-brand-gold/20">
-      {
-        formattedPrice ? (
-          <span class="font-serif font-extrabold text-xl text-brand-brown">{formattedPrice}</span>
-        ) : (
-          <span class="text-xs text-brand-brown/50 italic">{locale === 'es' ? 'Consultar precio' : 'Ask for price'}</span>
-        )
-      }
+    <!-- Action Row -->
+    <div class="pt-2 flex items-center justify-end border-t border-brand-gold/20">
       <a
         href={productUrl}
         class="text-xs font-bold text-brand-brown/60 hover:text-brand-brown underline-offset-2 hover:underline transition-colors"

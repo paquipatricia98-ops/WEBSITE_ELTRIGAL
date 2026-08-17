@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import ProductCard from '../../../components/products/ProductCard.astro';
+import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
+import { getProducts } from '../../../services/api/publicApi';
+
+const locale = 'es';
+const { products } = await getProducts({ locale, limit: 100, categorySlug: 'panaderia-ecuatoriana' });
+
+const breadcrumbs = [
+  { name: 'Inicio', url: '/es/' },
+  { name: 'Orange, NJ', url: '/es/orange-nj/' },
+  { name: 'Panadería Ecuatoriana', url: '/es/orange-nj/panaderia-ecuatoriana/' },
+];
+
+const featuredImages = [
+  {
+    src: '/images/pan-de-agua-ecuatoriano-recien-horneado.jpg',
+    alt: 'Pan de agua ecuatoriano caliente recién horneado en Orange NJ',
+    title: 'Pan de Agua Tradicional',
+    desc: 'Corteza crujiente y miga increíblemente suave, perfecto para acompañar el café de la mañana.'
+  },
+  {
+    src: '/images/empanadas-de-queso-panaderia-el-trigal.jpg',
+    alt: 'Empanadas de queso ecuatorianas al horno en Orange NJ',
+    title: 'Empanadas de Queso',
+    desc: 'Deliciosa masa artesanal horneada y rellena de abundante queso derretido.'
+  },
+  {
+    src: '/images/pan-roscon-con-guayaba-azucar.jpg',
+    alt: 'Roscones ecuatorianos de guayaba en Orange NJ',
+    title: 'Roscón con Dulce de Guayaba',
+    desc: 'Pan dulce tradicional en forma de rosca, relleno con dulce de guayaba y decorado con azúcar.'
+  },
+  {
+    src: '/images/pasteles-rellenos-de-guayaba-el-trigal.jpg',
+    alt: 'Pasteles de hojaldre rellenos de guayaba en Orange NJ',
+    title: 'Pasteles Hojaldrados',
+    desc: 'Capas finas y crujientes de hojaldre con un corazón dulce de guayaba tradicional.'
+  }
+];
+---
+
+<BaseLayout
+  title="Panadería Ecuatoriana en Orange, NJ | El Trigal"
+  description="Descubre El Trigal, panadería ecuatoriana en Orange, NJ. Pan fresco, tradición ambateña, pasteles personalizados, postres y sabores del Ecuador."
+  locale={locale}
+  alternateEsRoute="/es/orange-nj/panaderia-ecuatoriana/"
+  alternateEnRoute="/en/orange-nj/ecuadorian-bakery/"
+>
+  <div class="bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Breadcrumbs items={breadcrumbs} locale={locale} />
+      
+      <!-- H1 Header Hero Component -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold-secondary border border-brand-gold/30 text-xs font-bold uppercase tracking-wider">
+            <span>🇪🇨</span>
+            <span>Tradición de Ambato</span>
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-brown leading-tight">
+            Panadería Ecuatoriana en Orange, NJ
+          </h1>
+          <p class="text-base sm:text-lg text-brand-brown/85 leading-relaxed">
+            Cuando buscas una panadería ecuatoriana en Orange, New Jersey, quieres encontrar algo más que pan. Buscas esos aromas, sabores y recetas que recuerdan a Ecuador. En Panadería y Pastelería El Trigal mantenemos viva la tradición panadera ambateña preparando panes, productos horneados, pasteles, postres y otras delicias para nuestra comunidad en Orange, NJ.
+          </p>
+          <p class="text-base text-brand-brown/80 leading-relaxed">
+            Desde nuestra panadería ubicada en <strong class="text-brand-brown">23 S Essex Ave, Orange, NJ 07050</strong>, ofrecemos una variedad de productos inspirados en las recetas tradicionales ecuatorianas. Aquí puedes encontrar desde pan recién horneado para acompañar tu café hasta pasteles personalizados para cumpleaños, bodas, bautizos, aniversarios y otras celebraciones.
+          </p>
+        </div>
+        
+        <div class="lg:col-span-5 relative">
+          <div class="absolute -inset-2 rounded-3xl bg-brand-gold/20 blur-xl"></div>
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
+            <CloudinaryImage
+              src="/images/pan-de-agua-ecuatoriano-recien-horneado.jpg"
+              alt="Pan de agua caliente recién horneado en El Trigal"
+              width={600}
+              height={500}
+              class="w-full h-80 lg:h-96 object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- History and Heritage Section -->
+      <div class="bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl relative overflow-hidden" style="margin-top: 80px; margin-bottom: 60px;">
+        <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-12 translate-y-12">
+          <span class="text-9xl">🥐</span>
+        </div>
+        <div class="max-w-3xl space-y-4">
+          <span class="text-xs font-bold text-brand-gold uppercase tracking-wider">Tradición desde 1970</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Nuestra Tradición Familiar</h2>
+          <p class="text-base sm:text-lg text-brand-cream/90 leading-relaxed">
+            El Trigal nació de una tradición familiar que comenzó en Ambato, Ecuador, en 1970, cuando la familia Toroshina Iguiquitin comenzó a elaborar pan siguiendo recetas tradicionales que después fueron transmitidas de generación en generación.
+          </p>
+        </div>
+      </div>
+
+      <!-- Products & Details H2 Section -->
+      <div class="mt-24 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-brown leading-tight">
+            Pan ecuatoriano recién horneado en Orange
+          </h2>
+          <div class="w-24 h-1 bg-brand-gold mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-6 text-brand-brown/90 leading-relaxed text-base sm:text-lg">
+            <p>
+              El pan artesanal en el Ecuador es un pilar fundamental en la mesa diaria de las familias. Pensando en revivir esas experiencias, en El Trigal horneamos con el mismo cariño y dedicación panes emblemáticos como los <strong>enrollados</strong> dorados, los <strong>cachitos</strong> hojaldrados y esponjosos, y las inigualables <strong>empanadas de queso</strong> rellenas de sabor tradicional.
+            </p>
+            <p>
+              Para quienes prefieren la textura y dulzura autóctona, ofrecemos nuestro tradicional <strong>pan de maíz</strong>, el suave <strong>pan de leche</strong>, y el delicioso <strong>pan dulce</strong>. También satisfacemos los antojos dulces con un exquisito <strong>pan de chocolate</strong> y opciones saludables con nuestro crujiente <strong>pan integral</strong> preparado con ingredientes de primera.
+            </p>
+            <p>
+              Cada día preparamos una gran variedad de <strong>productos horneados del día</strong> que salen calientes directamente desde nuestros hornos a partir de las 6:00 AM. La frescura y la textura inconfundible de nuestras recetas son el sello de calidad que nos representa.
+            </p>
+          </div>
+          
+          <div class="flex gap-4 items-start">
+            {/* Column 1 - Large vertical image */}
+            <div class="flex-1 space-y-4">
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/empanadas-de-queso-panaderia-el-trigal.jpg"
+                  alt="Empanadas de queso calientes"
+                  width={300}
+                  height={400}
+                  class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            </div>
+            
+            {/* Column 2 - 3 smaller images */}
+            <div class="flex-1 space-y-4">
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/pan-roscon-con-guayaba-azucar.jpg"
+                  alt="Roscón de guayaba y azúcar"
+                  width={300}
+                  height={200}
+                  class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/pasteles-rellenos-de-guayaba-el-trigal.jpg"
+                  alt="Pasteles de hojaldre y guayaba"
+                  width={300}
+                  height={300}
+                  class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/pan-de-agua-ecuatoriano-recien-horneado.jpg"
+                  alt="Pan de agua ecuatoriano"
+                  width={300}
+                  height={220}
+                  class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Highlight Grid with 4 new images -->
+      <div class="mt-24">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">Especialidades del Día</span>
+          <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown">Nuestros Productos Estrella</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredImages.map((img) => (
+            <div class="bg-brand-cream-dark/40 rounded-2xl overflow-hidden border border-brand-gold/20 shadow-sm flex flex-col">
+              <div class="h-48 overflow-hidden relative group">
+                <CloudinaryImage
+                  src={img.src}
+                  alt={img.alt}
+                  width={400}
+                  height={300}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="p-5 flex-grow space-y-2">
+                <h4 class="font-serif font-bold text-brand-brown text-lg">{img.title}</h4>
+                <p class="text-xs text-brand-brown/80 leading-relaxed">{img.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      {products.length > 0 && (
+        <div class="mt-24">
+          <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">Menú Disponible</span>
+            <h3 class="font-serif text-3xl font-bold text-brand-brown">Explora en Nuestro Catálogo</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.slice(0, 6).map((p) => (
+              <ProductCard product={p} locale={locale} />
+            ))}
+          </div>
+          
+          <div class="mt-12 text-center">
+            <a
+              href="/es/catalogo"
+              class="inline-block px-8 py-4 rounded-full bg-brand-gold text-brand-brown font-bold text-base hover:bg-brand-gold-secondary shadow-lg transition-all"
+            >
+              Ver Todo el Catálogo →
+            </a>
+          </div>
+        </div>
+      )}
+
+    </div>
+  </div>
+</BaseLayout>

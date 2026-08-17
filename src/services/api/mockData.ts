@@ -64,7 +64,7 @@ export const MOCK_CATEGORIES: CategorySummary[] = [
   },
 ];
 
-export const MOCK_PRODUCTS: Product[] = [
+export const MOCK_PRODUCTS: any[] = [
   {
     id: 'prod-1',
     sku: 'PAN-AMB-01',

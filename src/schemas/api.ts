@@ -19,8 +19,6 @@ export const ProductVariantSchema = z.object({
   id: z.string(),
   sku: z.string().nullable(),
   name: LocalizedTextSchema,
-  priceCents: z.number().int(),
-  compareAtPriceCents: z.number().int().nullable(),
   servings: z.number().int().optional(),
   available: z.boolean(),
 });
@@ -28,7 +26,6 @@ export const ProductVariantSchema = z.object({
 export const ProductOptionValueSchema = z.object({
   id: z.string(),
   name: LocalizedTextSchema,
-  additionalPriceCents: z.number().int(),
 });
 
 export const ProductOptionSchema = z.object({
@@ -98,10 +95,7 @@ export const ProductSchema = z.object({
     })
   ),
   productType: z.enum(['simple', 'variable', 'custom', 'seasonal', 'retail']),
-  basePriceCents: z.number().int().nullable(),
-  compareAtPriceCents: z.number().int().nullable(),
-  currency: z.literal('USD'),
-  priceLabel: LocalizedTextSchema.nullable(),
+
   variants: z.array(ProductVariantSchema),
   options: z.array(ProductOptionSchema),
   media: z.array(MediaAssetSchema),

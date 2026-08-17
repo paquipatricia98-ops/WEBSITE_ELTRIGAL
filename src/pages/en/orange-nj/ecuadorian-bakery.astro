@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import ProductCard from '../../../components/products/ProductCard.astro';
+import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
+import { getProducts } from '../../../services/api/publicApi';
+
+const locale = 'en';
+const { products } = await getProducts({ locale, limit: 100, categorySlug: 'ecuadorian-bakery' });
+
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Orange, NJ', url: '/en/orange-nj/' },
+  { name: 'Ecuadorian Bakery', url: '/en/orange-nj/ecuadorian-bakery/' },
+];
+
+const featuredImages = [
+  {
+    src: '/images/pan-de-agua-ecuatoriano-recien-horneado.jpg',
+    alt: 'Freshly baked warm Ecuadorian water bread in Orange NJ',
+    title: 'Traditional Pan de Agua',
+    desc: 'Crispy crust and incredibly soft crumb, perfect for pairing with your morning coffee.'
+  },
+  {
+    src: '/images/empanadas-de-queso-panaderia-el-trigal.jpg',
+    alt: 'Baked Ecuadorian cheese empanadas in Orange NJ',
+    title: 'Cheese Empanadas',
+    desc: 'Delicious artisanal dough baked and filled with abundant melted cheese.'
+  },
+  {
+    src: '/images/pan-roscon-con-guayaba-azucar.jpg',
+    alt: 'Ecuadorian guava sweet ring bread in Orange NJ',
+    title: 'Guava Sweet Roscón',
+    desc: 'Traditional ring-shaped sweet bread filled with guava paste and dusted with sugar.'
+  },
+  {
+    src: '/images/pasteles-rellenos-de-guayaba-el-trigal.jpg',
+    alt: 'Guava filled puff pastry turnovers in Orange NJ',
+    title: 'Puff Pastry Turnovers',
+    desc: 'Flaky layers of puff pastry with a heart of sweet, traditional guava paste.'
+  }
+];
+---
+
+<BaseLayout
+  title="Ecuadorian Bakery in Orange, NJ | El Trigal"
+  description="Discover El Trigal, a traditional Ecuadorian bakery in Orange, NJ. Serving fresh bread, Ambato baking traditions, custom cakes, and sweets from Ecuador."
+  locale={locale}
+  alternateEsRoute="/es/orange-nj/panaderia-ecuatoriana/"
+  alternateEnRoute="/en/orange-nj/ecuadorian-bakery/"
+>
+  <div class="bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Breadcrumbs items={breadcrumbs} locale={locale} />
+      
+      <!-- H1 Header Hero Component -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold-secondary border border-brand-gold/30 text-xs font-bold uppercase tracking-wider">
+            <span>🇪🇨</span>
+            <span>Ambato Baking Tradition</span>
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-brown leading-tight">
+            Ecuadorian Bakery in Orange, NJ
+          </h1>
+          <p class="text-base sm:text-lg text-brand-brown/85 leading-relaxed">
+            When you are looking for an Ecuadorian bakery in Orange, New Jersey, you want to find more than just bread. You search for those aromas, flavors, and recipes that remind you of Ecuador. At El Trigal Bakery and Cake Design, we keep the Ambateña baking tradition alive, preparing breads, baked goods, custom cakes, desserts, and other delicacies for our community in Orange, NJ.
+          </p>
+          <p class="text-base text-brand-brown/80 leading-relaxed">
+            From our bakery located at <strong class="text-brand-brown">23 S Essex Ave, Orange, NJ 07050</strong>, we offer a variety of products inspired by traditional Ecuadorian recipes. Here you can find everything from freshly baked bread to accompany your coffee to custom cakes for birthdays, weddings, baptisms, anniversaries, and other celebrations.
+          </p>
+        </div>
+        
+        <div class="lg:col-span-5 relative">
+          <div class="absolute -inset-2 rounded-3xl bg-brand-gold/20 blur-xl"></div>
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
+            <CloudinaryImage
+              src="/images/pan-de-agua-ecuatoriano-recien-horneado.jpg"
+              alt="Fresh warm water bread at El Trigal"
+              width={600}
+              height={500}
+              class="w-full h-80 lg:h-96 object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- History and Heritage Section -->
+      <div class="bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl relative overflow-hidden" style="margin-top: 80px; margin-bottom: 60px;">
+        <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none translate-x-12 translate-y-12">
+          <span class="text-9xl">🥐</span>
+        </div>
+        <div class="max-w-3xl space-y-4">
+          <span class="text-xs font-bold text-brand-gold uppercase tracking-wider">Tradition since 1970</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Our Family Tradition</h2>
+          <p class="text-base sm:text-lg text-brand-cream/90 leading-relaxed">
+            El Trigal was born from a family tradition that began in Ambato, Ecuador, in 1970, when the Toroshina Iguiquitin family began making bread following traditional recipes that were later passed down from generation to generation.
+          </p>
+        </div>
+      </div>
+
+      <!-- Products & Details H2 Section -->
+      <div class="mt-24 space-y-12">
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-brown leading-tight">
+            Freshly Baked Ecuadorian Bread in Orange
+          </h2>
+          <div class="w-24 h-1 bg-brand-gold mx-auto rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-6 text-brand-brown/90 leading-relaxed text-base sm:text-lg">
+            <p>
+              Artisanal bread in Ecuador is a fundamental pillar of families' daily meals. Aiming to bring those experiences back to life, at El Trigal we bake iconic breads with the same care and dedication, such as golden <strong>enrollados</strong>, flaky and fluffy <strong>cachitos</strong> (horn-shaped rolls), and traditional <strong>cheese empanadas</strong> packed with flavor.
+            </p>
+            <p>
+              For those who prefer native sweetness and textures, we offer our traditional <strong>pan de maíz</strong> (corn bread), soft <strong>pan de leche</strong> (milk bread), and delicious <strong>pan dulce</strong> (sweet bread). We also satisfy sweet cravings with an exquisite <strong>pan de chocolate</strong> and healthy choices with our crispy <strong>pan integral</strong> (whole wheat bread) prepared with premium ingredients.
+            </p>
+            <p>
+              Every day we prepare a wide variety of **fresh daily baked goods** that come out warm straight from our ovens starting at 6:00 AM. The freshness and unmistakable texture of our recipes are the seal of quality that represents us.
+            </p>
+          </div>
+          
+          <div class="flex gap-4 items-start">
+            {/* Column 1 - Large vertical image */}
+            <div class="flex-1 space-y-4">
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/empanadas-de-queso-panaderia-el-trigal.jpg"
+                  alt="Hot cheese empanadas"
+                  width={300}
+                  height={400}
+                  class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            </div>
+            
+            {/* Column 2 - 3 smaller images */}
+            <div class="flex-1 space-y-4">
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/pan-roscon-con-guayaba-azucar.jpg"
+                  alt="Guava ring sweet bread"
+                  width={300}
+                  height={200}
+                  class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/pasteles-rellenos-de-guayaba-el-trigal.jpg"
+                  alt="Guava filled puff pastries"
+                  width={300}
+                  height={300}
+                  class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+                <CloudinaryImage
+                  src="/images/pan-de-agua-ecuatoriano-recien-horneado.jpg"
+                  alt="Ecuadorian pan de agua"
+                  width={300}
+                  height={220}
+                  class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Highlight Grid with 4 new images -->
+      <div class="mt-24">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">Daily Specialties</span>
+          <h3 class="font-serif text-2xl sm:text-3xl font-bold text-brand-brown">Our Signature Breads</h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {featuredImages.map((img) => (
+            <div class="bg-brand-cream-dark/40 rounded-2xl overflow-hidden border border-brand-gold/20 shadow-sm flex flex-col">
+              <div class="h-48 overflow-hidden relative group">
+                <CloudinaryImage
+                  src={img.src}
+                  alt={img.alt}
+                  width={400}
+                  height={300}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div class="p-5 flex-grow space-y-2">
+                <h4 class="font-serif font-bold text-brand-brown text-lg">{img.title}</h4>
+                <p class="text-xs text-brand-brown/80 leading-relaxed">{img.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      {products.length > 0 && (
+        <div class="mt-24">
+          <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-xs uppercase tracking-widest font-bold text-brand-gold-secondary">Available Menu</span>
+            <h3 class="font-serif text-3xl font-bold text-brand-brown">Explore Our Catalog</h3>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.slice(0, 6).map((p) => (
+              <ProductCard product={p} locale={locale} />
+            ))}
+          </div>
+          
+          <div class="mt-12 text-center">
+            <a
+              href="/en/catalog"
+              class="inline-block px-8 py-4 rounded-full bg-brand-gold text-brand-brown font-bold text-base hover:bg-brand-gold-secondary shadow-lg transition-all"
+            >
+              View Full Catalog →
+            </a>
+          </div>
+        </div>
+      )}
+
+    </div>
+  </div>
+</BaseLayout>

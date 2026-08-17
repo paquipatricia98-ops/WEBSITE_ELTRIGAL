@@ -61,7 +61,6 @@ export function getBakeryJsonLd(locale: Locale) {
 }
 
 export function getProductJsonLd(product: Product, locale: Locale) {
-  const price = product.basePriceCents ? (product.basePriceCents / 100).toFixed(2) : '0.00';
   const primaryImage = product.media.find((m) => m.isPrimary) || product.media[0];
 
   return {
@@ -74,21 +73,6 @@ export function getProductJsonLd(product: Product, locale: Locale) {
     'brand': {
       '@type': 'Brand',
       'name': SITE_CONFIG.name,
-    },
-    'offers': {
-      '@type': 'Offer',
-      'url': `https://eltrigalbakery.com/${locale === 'es' ? 'es/productos' : 'en/products'}/${product.slug[locale]}`,
-      'priceCurrency': 'USD',
-      'price': price,
-      'priceValidUntil': new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      'itemCondition': 'https://schema.org/NewCondition',
-      'availability': product.availability.isAvailable
-        ? 'https://schema.org/InStock'
-        : 'https://schema.org/OutOfStock',
-      'seller': {
-        '@type': 'Organization',
-        'name': SITE_CONFIG.name,
-      },
     },
   };
 }

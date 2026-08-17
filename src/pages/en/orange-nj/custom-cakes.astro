@@ -1,0 +1,446 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
+import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
+import { SITE_CONFIG } from '../../../config/site';
+
+const locale = 'en';
+
+const breadcrumbs = [
+  { name: 'Home', url: '/en/' },
+  { name: 'Orange, NJ', url: '/en/orange-nj/' },
+  { name: 'Custom Cakes', url: '/en/orange-nj/custom-cakes/' },
+];
+---
+
+<BaseLayout
+  title="Custom Cakes in Orange, NJ | El Trigal Bakery"
+  description="Order custom cakes in Orange, NJ for birthdays, weddings, baby showers, and family events. Choose three leches, chocolate, or vanilla cakes styled to your design."
+  locale={locale}
+  alternateEsRoute="/es/orange-nj/pasteles-personalizados/"
+  alternateEnRoute="/en/orange-nj/custom-cakes/"
+>
+  <div class="bg-gradient-to-b from-brand-cream-dark via-brand-cream to-brand-cream pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <Breadcrumbs items={breadcrumbs} locale={locale} />
+      
+      <!-- H1 Header Hero Component -->
+      <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold-secondary border border-brand-gold/30 text-xs font-bold uppercase tracking-wider">
+            <span>🎂</span>
+            <span>Fine Baking in Orange, NJ</span>
+          </div>
+          <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-brown leading-tight">
+            Custom Cakes in Orange, NJ for Every Celebration
+          </h1>
+          <h2 class="font-serif text-xl sm:text-2xl font-bold text-brand-gold-secondary">
+            Make your celebration an even more special moment
+          </h2>
+          <p class="text-base sm:text-lg text-brand-brown/85 leading-relaxed">
+            Every celebration has a story, and a spectacular cake helps build that memory. At <strong>El Trigal Bakery and Pastry Shop</strong>, we handcraft <strong>custom cakes in Orange, New Jersey</strong>, combining artisanal flavors with unique designs for birthdays, weddings, baptisms, anniversaries, and family reunions.
+          </p>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            Customize your cake by selecting the sponge flavor, filling, size, and decoration style that best fits your event. We offer delicious tres leches, passionfruit, chocolate, and vanilla cake sponge bases, with gourmet fillings like manjar (caramel spread), mixed berries, or diplomat cream, and professional finishes in fondant or Italian meringue.
+          </p>
+          <p class="text-base font-bold text-brand-brown pt-2">
+            Tell us your idea and request a quote today for the perfect cake for your event!
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href="/en/catalog"
+              class="inline-flex items-center justify-center px-6 py-3.5 rounded-full border-2 border-brand-brown text-brand-brown font-bold text-sm sm:text-base hover:bg-brand-brown hover:text-brand-gold transition-all text-center w-full sm:w-auto"
+            >
+              View Catalog
+            </a>
+            <a
+              href="#quote"
+              class="inline-flex items-center justify-center px-6 py-3.5 rounded-full bg-brand-gold text-brand-brown font-bold text-sm sm:text-base hover:bg-brand-gold-secondary shadow-lg transition-all text-center w-full sm:w-auto"
+            >
+              Quote My Cake
+            </a>
+          </div>
+        </div>
+        
+        <div class="lg:col-span-5 relative">
+          <div class="absolute -inset-2 rounded-3xl bg-brand-gold/20 blur-xl"></div>
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-brand-gold">
+            <CloudinaryImage
+              src="/images/pastel-cumpleanos-infantil-multinivel-personalizado.jpg"
+              alt="Custom birthday cake multinivel in Orange NJ"
+              width={600}
+              height={700}
+              class="w-full h-[480px] object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Layout Grid -->
+      <div class="mt-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Text Content Column -->
+        <div class="lg:col-span-6 space-y-16 text-brand-brown">
+          
+          <!-- Section 1 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Custom Birthday Cakes in Orange, NJ
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              A birthday deserves a unique cake that reflects the personality of the one celebrating. At El Trigal, we adapt the colors, themes, flavors, and decorative details of your cake according to your needs.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              We can recreate a design you already have in mind or work from reference images. Our process allows you to specify the event date, portion size, theme, and preferred flavors to provide a fast and personalized quote.
+            </p>
+            <p class="text-sm font-semibold text-brand-brown/90 bg-brand-gold/10 p-3 rounded-lg border border-brand-gold/20">
+              🎂 <strong>We create cakes for:</strong> Kids' birthdays, adult parties, quinceañeras, anniversaries, graduations, baby showers, baptisms, and special family reunions.
+            </p>
+            <div class="pt-4">
+              <a
+                href="#quote"
+                class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all"
+              >
+                Request Quote
+              </a>
+            </div>
+          </div>
+
+          <!-- Section 2 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Tres Leches Cake in Orange, New Jersey
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              The <strong>tres leches cake</strong> is one of the signature recipes of our pastry kitchen and the absolute favorite of the community. It stands out for its perfectly moist consistency, softness, and balanced sweetness.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              We prepare traditional tres leches cakes decorated with fresh fruit, light whipped chantilly, or meringue. You can also customize yours by selecting special fillings to turn this classic dessert into the highlight of your celebration table.
+            </p>
+          </div>
+
+          <!-- Section 3 -->
+          <div class="space-y-6">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Choose the Flavor of Your Cake
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              The sponge is the foundation of every great cake. Combine our flavors according to your preferences:
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Tres Leches</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">Moist, traditional, and extremely soft. Decorated with fresh fruits or meringue.</p>
+              </div>
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Passion Fruit</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">An exotic and refreshing option with the unique citrus flavor of passion fruit.</p>
+              </div>
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Chocolate</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">Rich, moist, and chocolatey, ideal for chocolate lovers and children's celebrations.</p>
+              </div>
+              <div class="p-4 bg-brand-cream-dark/50 rounded-xl border border-brand-gold/20">
+                <h3 class="font-serif font-bold text-lg text-brand-brown">Vanilla</h3>
+                <p class="text-xs text-brand-brown/80 mt-1">The classic sponge cake, versatile and soft, which pairs with any type of filling and decoration.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Choose the Filling You Like Best
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              The flavor inside defines the experience of each bite. Combine your cake sponge with our creams and fillings:
+            </p>
+            <ul class="space-y-3 text-sm text-brand-brown/85 pb-2">
+              <li class="flex items-start space-x-2">
+                <span class="text-brand-gold mt-0.5">✓</span>
+                <span><strong>Manjar or dulce de leche:</strong> The traditional Latin caramel filling par excellence, sweet and creamy.</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-brand-gold mt-0.5">✓</span>
+                <span><strong>Mixed berries:</strong> A delicious fruit compote that adds freshness and a perfect touch of acidity to the cake.</span>
+              </li>
+              <li class="flex items-start space-x-2">
+                <span class="text-brand-gold mt-0.5">✓</span>
+                <span><strong>Diplomat cream:</strong> A light, soft, and refined cream for the most delicate palates.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Section 5 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Custom Cake Designs
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              The appearance of your cake is the centerpiece of the dessert table. At El Trigal, we decorate your cake using **fondant** to achieve clean shapes and structured themes, or **Italian meringue** for traditional and classic finishes.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              You can send us reference images, color themes, or party ideas so that our pastry team can bring your vision to life with complete fidelity.
+            </p>
+          </div>
+
+          <!-- Section 6 -->
+          <div class="space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-brand-brown border-b-2 border-brand-gold/30 pb-2">
+              Cakes for Weddings and Special Celebrations
+            </h2>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              For formal events that require an impeccable presentation, we craft tiered wedding cakes, cakes for baptisms, quinceañeras, and special corporate anniversaries.
+            </p>
+            <p class="text-base text-brand-brown/85 leading-relaxed">
+              We recommend starting your consultation and reserving your date well in advance. Share the theme, approximate guest count, and flavors you prefer, and we will help you design a cake worthy of your big day.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Pinterest Masonry Layout Column -->
+        <div class="lg:col-span-6 flex gap-4 items-start lg:sticky lg:top-24">
+          
+          <!-- Column 1 - Tall & Medium images -->
+          <div class="flex-1 space-y-4">
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-cumpleanos-infantil-multinivel-personalizado.jpg"
+                alt="Multi-tiered kids birthday cake in Orange NJ"
+                width={300}
+                height={500}
+                class="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/porciones-pasteles-postres-gourmet-el-trigal.jpg"
+                alt="Slice portions of gourmet cakes at El Trigal Orange NJ"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+          
+          <!-- Column 2 - Small images stacked -->
+          <div class="flex-1 space-y-4">
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-cumpleanos-personalizado-dibujos-orange-nj.jpg"
+                alt="Pink themed cartoon custom birthday cake in Orange NJ"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-tres-leches-personalizado-cumpleanos-orange.jpg"
+                alt="Custom blue themed tres leches birthday cake in Orange NJ"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="rounded-2xl overflow-hidden border-2 border-brand-gold/30 shadow-md">
+              <CloudinaryImage
+                src="/images/pastel-personalizado-messi-argentina-butterflies.jpg"
+                alt="Soccer themed Argentina Messi custom birthday cake"
+                width={300}
+                height={220}
+                class="w-full h-40 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Section 7: Process Steps -->
+      <div id="quote" class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 shadow-xl relative overflow-hidden">
+        <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+          <span class="text-xs font-bold text-brand-gold uppercase tracking-wider">Simple Steps</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">How to Order your Custom Cake?</h2>
+          <p class="text-brand-cream/80 text-sm sm:text-base">Our quote process is quick and straightforward:</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-brand-cream/10 p-6 rounded-2xl border border-brand-gold/20 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xl font-bold font-serif">1</div>
+            <h3 class="font-serif font-bold text-lg text-brand-gold">Choose the Date & Portion Count</h3>
+            <p class="text-xs text-brand-cream/80 leading-relaxed">
+              Define the date of your event and the guest count to estimate the ideal portions for your cake.
+            </p>
+          </div>
+          <div class="bg-brand-cream/10 p-6 rounded-2xl border border-brand-gold/20 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xl font-bold font-serif">2</div>
+            <h3 class="font-serif font-bold text-lg text-brand-gold">Select Sponge, Filling & Design</h3>
+            <p class="text-xs text-brand-cream/80 leading-relaxed">
+              Choose your favorite combination of cake sponge and filling, and share your ideas or reference photos.
+            </p>
+          </div>
+          <div class="bg-brand-cream/10 p-6 rounded-2xl border border-brand-gold/20 space-y-3">
+            <div class="w-12 h-12 rounded-full bg-brand-gold text-brand-brown flex items-center justify-center text-xl font-bold font-serif">3</div>
+            <h3 class="font-serif font-bold text-lg text-brand-gold">Receive your Quote</h3>
+            <p class="text-xs text-brand-cream/80 leading-relaxed">
+              We review the design details and contact you to confirm the pricing and schedule your order.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <a
+            href="/en/contact"
+            class="inline-flex items-center justify-center px-8 py-4 sm:px-12 rounded-full bg-brand-gold text-brand-brown font-bold text-sm sm:text-base hover:bg-brand-gold-secondary shadow-lg transition-all text-center w-full sm:w-auto max-w-full"
+          >
+            Start My Quote →
+          </a>
+        </div>
+      </div>
+
+      <!-- Section 8: Local SEO Cerca de ti -->
+      <div class="mt-28 bg-brand-cream-dark/50 rounded-3xl p-8 lg:p-12 border border-brand-gold/25 text-brand-brown grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-8 space-y-6">
+          <h2 class="font-serif text-3xl font-bold text-brand-brown">Looking for Custom Cakes Near You?</h2>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            We offer custom design services and cake delivery in the areas of <strong>Orange, East Orange, West Orange, South Orange</strong>, and neighboring communities in Essex County, New Jersey.
+          </p>
+          <p class="text-base text-brand-brown/85 leading-relaxed">
+            Our bakery is conveniently located in downtown Orange. You can visit us to talk with our cake designers, plan decorations for weddings or quinceañeras, or try our fresh Ecuadorian baking specialties.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <a
+              href={SITE_CONFIG.address.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full border-2 border-brand-brown text-brand-brown font-bold text-sm hover:bg-brand-brown hover:text-brand-gold transition-all text-center w-full sm:w-auto"
+            >
+              📍 Get Directions
+            </a>
+            <a
+              href="#quote"
+              class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+            >
+              Quote Cake
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-4 p-6 bg-brand-brown text-brand-cream rounded-2xl border-2 border-brand-gold/30 text-center space-y-4">
+          <h3 class="font-serif font-bold text-lg text-brand-gold">Our Location</h3>
+          <address class="not-italic text-sm space-y-2 text-brand-cream/90 leading-relaxed">
+            <p class="font-bold">El Trigal Bakery and Pastry Shop</p>
+            <p>23 S Essex Ave</p>
+            <p>Orange, NJ 07050</p>
+          </address>
+          <p class="text-xs text-brand-gold">Visit us to talk about your design!</p>
+        </div>
+      </div>
+
+      <!-- Section 9: FAQ -->
+      <div class="mt-28 space-y-8">
+        <div class="text-center max-w-3xl mx-auto space-y-2">
+          <span class="text-xs font-bold text-brand-gold-secondary uppercase tracking-widest">Quick Answers</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-brown">Frequently Asked Questions about Cakes in Orange, NJ</h2>
+          <div class="w-16 h-1 bg-brand-gold mx-auto rounded-full mt-2"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-6">
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Where can I order a custom cake in Orange, NJ?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              You can order your custom cake directly at our shop located at <strong>23 S Essex Ave, Orange, NJ 07050</strong>, or start the quote process online by specifying date, portions, and design theme.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Does El Trigal make birthday cakes?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Yes. We craft themed birthday cakes for kids and adults, customized to any design or theme you prefer.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Can I order a tres leches cake?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Yes. Our traditional tres leches sponge cake can be used as the base for custom cakes and decorated to match your event theme.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">What cake flavors do you have?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              We offer cake sponge bases in **tres leches, passionfruit, chocolate, and classic vanilla**.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">What fillings can I choose?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              We have fillings of **manjar (dulce de leche), artisanal mixed berry compote, and light diplomat cream**.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Can I send a photo of the cake I want?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Yes. You can send us any reference image from Pinterest, social media, or internet to base your cake design on.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">Do you make wedding cakes?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              Yes. We design and bake elegant cakes for weddings, baptisms, first communions, and special anniversaries.
+            </p>
+          </div>
+
+          <div class="p-6 bg-brand-cream border border-brand-gold/20 rounded-2xl shadow-sm space-y-2">
+            <h3 class="font-serif font-bold text-lg text-brand-brown">How far in advance should I order?</h3>
+            <p class="text-sm text-brand-brown/85 leading-relaxed">
+              For simple custom cakes, we recommend 3 to 5 days. For large tiered wedding cakes, we advise ordering at least 2 weeks in advance to secure date availability.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 10: Final CTA -->
+      <div class="mt-28 bg-brand-brown text-brand-cream rounded-3xl p-8 lg:p-12 border-2 border-brand-gold/40 text-center space-y-6 relative overflow-hidden">
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-gold">Your Next Celebration Deserves a Special Cake</h2>
+        <p class="text-base sm:text-lg text-brand-cream/90 max-w-3xl mx-auto leading-relaxed">
+          Birthdays, weddings, baptisms, anniversaries, and family gatherings turn into memories that stay for years. We want your cake to be part of those memories. At <strong>El Trigal</strong>, we combine premium ingredients and unique designs to create a delicious work of art tailored to your event.
+        </p>
+        <p class="text-sm text-brand-gold font-semibold">📍 23 S Essex Ave, Orange, NJ 07050</p>
+        <p class="text-base font-bold text-brand-cream">
+          Tell us your idea, send us a reference photo, and start quoting your custom cake today.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 pt-4">
+          <a
+            href="/en/catalog"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-full border border-brand-gold text-brand-gold font-bold text-sm hover:bg-brand-gold hover:text-brand-brown transition-all text-center w-full sm:w-auto"
+          >
+            View Catalog
+          </a>
+          <a
+            href="#quote"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-gold text-brand-brown font-bold text-sm hover:bg-brand-gold-secondary shadow-md transition-all text-center w-full sm:w-auto"
+          >
+            Quote My Cake
+          </a>
+          <a
+            href={SITE_CONFIG.address.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-brand-cream-dark/10 border border-brand-cream/35 text-brand-cream font-bold text-sm hover:bg-brand-cream/20 transition-all text-center w-full sm:w-auto"
+          >
+            📍 Get Directions
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

@@ -21,6 +21,12 @@ export const ROUTE_MAP: Record<string, { es: string; en: string }> = {
   'contact': { es: '/es/contacto', en: '/en/contact' },
   'privacy': { es: '/es/privacidad', en: '/en/privacy' },
   'terms': { es: '/es/terminos', en: '/en/terms' },
+  'orange-nj-bakery': { es: '/es/orange-nj/panaderia-ecuatoriana/', en: '/en/orange-nj/ecuadorian-bakery/' },
+  'orange-nj-bakery-raw': { es: '/es/orange-nj/panaderia-ecuatoriana', en: '/en/orange-nj/ecuadorian-bakery' },
+  'orange-nj-cakes': { es: '/es/orange-nj/pasteles-personalizados/', en: '/en/orange-nj/custom-cakes/' },
+  'orange-nj-cakes-raw': { es: '/es/orange-nj/pasteles-personalizados', en: '/en/orange-nj/custom-cakes' },
+  'orange-nj-hub': { es: '/es/orange-nj/', en: '/en/orange-nj/' },
+  'orange-nj-hub-raw': { es: '/es/orange-nj', en: '/en/orange-nj' },
 };
 
 export const UI_STRINGS = {

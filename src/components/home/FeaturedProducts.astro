@@ -52,12 +52,7 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
 </section>
 
 <script>
-  function formatPriceCents(cents: any, locale: any) {
-    return new Intl.NumberFormat(locale === 'es' ? 'es-US' : 'en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(cents / 100);
-  }
+
 
   async function loadImportedProducts() {
     const grid = document.getElementById('featured-products-pinterest-grid');
@@ -96,11 +91,7 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
           ? `/es/productos/${prodSlug}`
           : `/en/products/${prodSlug}`;
 
-        const formattedPrice = product.priceLabel?.[locale]
-          ? product.priceLabel[locale]
-          : product.basePriceCents
-          ? formatPriceCents(product.basePriceCents, locale)
-          : null;
+
 
         const catName = product.primaryCategory?.name?.[locale] || product.primaryCategory?.name?.es || '';
         const desc = product.shortDescription?.[locale] || product.shortDescription?.es || product.description?.[locale] || '';
@@ -126,12 +117,7 @@ const apiUrl = import.meta.env.PUBLIC_API_BASE_URL || 'https://el-trigal-backend
                 <p class="text-xs sm:text-sm text-brand-brown/75 leading-relaxed text-left">${desc}</p>
               </div>
             </div>
-            <div class="pt-3 mt-4 flex items-center justify-between border-t border-brand-gold/20 flex-wrap gap-2">
-              ${formattedPrice ? `
-                <span class="font-serif font-extrabold text-lg text-brand-brown">${formattedPrice}</span>
-              ` : `
-                <span class="text-xs text-brand-brown/50 italic">${locale === 'es' ? 'Consultar precio' : 'Ask for price'}</span>
-              `}
+            <div class="pt-3 mt-4 flex items-center justify-end border-t border-brand-gold/20 flex-wrap gap-2">
               <a href="${productUrl}" class="text-xs font-bold text-brand-brown-light hover:text-brand-brown flex items-center gap-1">
                 <span>${locale === 'es' ? 'Ver más' : 'View'}</span>
                 <span>→</span>

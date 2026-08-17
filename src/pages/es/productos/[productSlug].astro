@@ -4,7 +4,6 @@ import Breadcrumbs from '../../../components/ui/Breadcrumbs.astro';
 import CloudinaryImage from '../../../components/ui/CloudinaryImage.astro';
 import ProductCard from '../../../components/products/ProductCard.astro';
 import { getProducts, getProductBySlug, getRelatedProducts } from '../../../services/api/publicApi';
-import { formatPriceCents } from '../../../utils/formatters';
 import { getBreadcrumbJsonLd, getProductJsonLd } from '../../../utils/jsonld';
 import { useTranslations } from '../../../i18n/utils';
 import { SITE_CONFIG } from '../../../config/site';
@@ -40,11 +39,7 @@ if (product.slug.es && productSlug !== product.slug.es) {
 const relatedProducts = await getRelatedProducts(product.slug.es || productSlug || '', locale, 3);
 const primaryImage = product.media.find((m) => m.isPrimary) || product.media[0];
 
-const formattedBasePrice = product.priceLabel?.[locale]
-  ? product.priceLabel[locale]
-  : product.basePriceCents
-  ? formatPriceCents(product.basePriceCents, locale)
-  : '';
+
 
 const breadcrumbs = [
   { name: t('nav.home'), url: '/es/' },
@@ -135,11 +130,7 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
           <h1 class="font-serif text-3xl sm:text-4xl font-extrabold text-brand-brown leading-tight">
             {product.name[locale]}
           </h1>
-          <div class="mt-3 flex items-baseline space-x-3">
-            <span class="font-serif text-3xl font-extrabold text-brand-brown">
-              {formattedBasePrice}
-            </span>
-          </div>
+
         </div>
 
         <!-- Description -->
@@ -187,9 +178,8 @@ const hasDeliveryLinks = !!(SITE_CONFIG.ordering?.doordashUrl || SITE_CONFIG.ord
               <span class="block text-xs font-bold text-brand-brown uppercase tracking-wider">Variantes Disponibles:</span>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {product.variants.map((variant) => (
-                  <div class="p-3 rounded-xl border border-brand-gold/40 bg-brand-cream-dark/50 flex justify-between items-center text-sm">
+                  <div class="p-3 rounded-xl border border-brand-gold/40 bg-brand-cream-dark/50 flex items-center justify-center text-sm">
                     <span class="font-semibold text-brand-brown">{variant.name[locale]}</span>
-                    <span class="font-bold text-brand-brown">{formatPriceCents(variant.priceCents, locale)}</span>
                   </div>
                 ))}
               </div>

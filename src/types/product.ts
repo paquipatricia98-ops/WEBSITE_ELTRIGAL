@@ -6,8 +6,6 @@ export interface ProductVariant {
   id: string;
   sku: string | null;
   name: LocalizedText;
-  priceCents: number;
-  compareAtPriceCents: number | null;
   servings?: number;
   available: boolean;
 }
@@ -15,7 +13,6 @@ export interface ProductVariant {
 export interface ProductOptionValue {
   id: string;
   name: LocalizedText;
-  additionalPriceCents: number;
 }
 
 export interface ProductOption {
@@ -82,10 +79,7 @@ export interface Product {
     slug: LocalizedText;
   }>;
   productType: ProductType;
-  basePriceCents: number | null;
-  compareAtPriceCents: number | null;
-  currency: 'USD';
-  priceLabel: LocalizedText | null;
+
   variants: ProductVariant[];
   options: ProductOption[];
   media: MediaAsset[];
