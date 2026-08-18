@@ -132,7 +132,7 @@ const enRoute = alternateEnRoute || getEquivalentRoute(currentPath, 'en');
         <div class="text-center text-sm text-brand-brown/90 space-y-4 pt-2">
           <div class="font-medium leading-relaxed">
             📍 {SITE_CONFIG.address.fullFormatted}<br />
-            📞 Llamadas: {SITE_CONFIG.phone.businessDisplay}<br />
+            📞 {locale === 'es' ? 'Llamadas:' : 'Calls:'} {SITE_CONFIG.phone.businessDisplay}<br />
             💬 WhatsApp: {SITE_CONFIG.phone.whatsappDisplay}
           </div>
           <div class="flex justify-center pt-2">

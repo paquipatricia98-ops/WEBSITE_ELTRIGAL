@@ -105,7 +105,7 @@ const footerNav = [
           <div class="flex items-center space-x-2">
             <span class="text-brand-gold shrink-0">📞</span>
             <a href={SITE_CONFIG.phone.businessTel} class="hover:text-brand-gold transition-colors">
-              Llamadas: {SITE_CONFIG.phone.businessDisplay}
+              {locale === 'es' ? 'Llamadas:' : 'Calls:'} {SITE_CONFIG.phone.businessDisplay}
             </a>
           </div>
           <div class="flex items-center space-x-2">

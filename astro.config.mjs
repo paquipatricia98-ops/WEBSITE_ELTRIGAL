@@ -34,7 +34,7 @@ export default defineConfig({
     server: {
       proxy: {
         '/api/v1': {
-          target: 'http://localhost:3001',
+          target: 'https://el-trigal-backend-nun9.onrender.com',
           changeOrigin: true,
           secure: false,
         },

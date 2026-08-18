@@ -52,7 +52,7 @@ const t = useTranslations(locale);
               class="inline-flex items-center space-x-2 font-extrabold text-brand-gold hover:text-brand-cream transition-colors text-sm"
             >
               <span>📞</span>
-              <span>Llamadas: {SITE_CONFIG.phone.businessDisplay}</span>
+              <span>{locale === 'es' ? 'Llamadas:' : 'Calls:'} {SITE_CONFIG.phone.businessDisplay}</span>
             </a>
           </div>
 
